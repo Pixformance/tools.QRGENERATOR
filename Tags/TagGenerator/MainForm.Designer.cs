@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.stepWizardControl1 = new AeroWizard.StepWizardControl();
+            this.page_welcome = new AeroWizard.WizardPage();
+            this.page_done = new AeroWizard.WizardPage();
             ((System.ComponentModel.ISupportInitialize)(this.stepWizardControl1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -36,8 +38,25 @@
             // 
             this.stepWizardControl1.Location = new System.Drawing.Point(0, 0);
             this.stepWizardControl1.Name = "stepWizardControl1";
+            this.stepWizardControl1.Pages.Add(this.page_welcome);
+            this.stepWizardControl1.Pages.Add(this.page_done);
             this.stepWizardControl1.Size = new System.Drawing.Size(781, 407);
             this.stepWizardControl1.TabIndex = 0;
+            // 
+            // page_welcome
+            // 
+            this.page_welcome.Name = "page_welcome";
+            this.page_welcome.Size = new System.Drawing.Size(583, 252);
+            this.page_welcome.TabIndex = 2;
+            this.page_welcome.Text = "Welcome";
+            // 
+            // page_done
+            // 
+            this.page_done.IsFinishPage = true;
+            this.page_done.Name = "page_done";
+            this.page_done.Size = new System.Drawing.Size(583, 252);
+            this.page_done.TabIndex = 3;
+            this.page_done.Text = "Done";
             // 
             // MainForm
             // 
@@ -55,6 +74,8 @@
         #endregion
 
         private AeroWizard.StepWizardControl stepWizardControl1;
+        private AeroWizard.WizardPage page_welcome;
+        private AeroWizard.WizardPage page_done;
     }
 }
 
