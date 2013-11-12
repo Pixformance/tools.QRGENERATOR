@@ -8,4 +8,11 @@ Plus the published 1.3.0.0 does not contain the fix for windows 8.
 
 move to a NuGet release when the library is fixed.
 
-2)
+2) Zxing for C#
+
+https://zxingnet.codeplex.com/
+https://zxingnet.codeplex.com/downloads/get/732796
+
+Removed compiled dlls for other platforms and left only the .net 4.5 one
+
+
