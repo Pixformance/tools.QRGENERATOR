@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagGenerator", "TagGenerato
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AeroWizard", "AeroWizard\AeroWizard.csproj", "{199C12C4-3EEF-4D08-BAC3-F2A62BCF969C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC1_QRGen", "POC1_QRGen\POC1_QRGen.csproj", "{FFFA4A8C-663B-42CA-A25D-1B6A9D85D5DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "POCs", "POCs", "{F738E825-C872-4B80-BD56-061FF4B449EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,8 +23,15 @@ Global
 		{199C12C4-3EEF-4D08-BAC3-F2A62BCF969C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{199C12C4-3EEF-4D08-BAC3-F2A62BCF969C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{199C12C4-3EEF-4D08-BAC3-F2A62BCF969C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFFA4A8C-663B-42CA-A25D-1B6A9D85D5DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFFA4A8C-663B-42CA-A25D-1B6A9D85D5DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFFA4A8C-663B-42CA-A25D-1B6A9D85D5DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFFA4A8C-663B-42CA-A25D-1B6A9D85D5DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FFFA4A8C-663B-42CA-A25D-1B6A9D85D5DF} = {F738E825-C872-4B80-BD56-061FF4B449EB}
 	EndGlobalSection
 EndGlobal
