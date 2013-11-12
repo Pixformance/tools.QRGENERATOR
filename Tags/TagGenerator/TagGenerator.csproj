@@ -77,6 +77,12 @@
   <ItemGroup>
     <Content Include="howto.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AeroWizard\AeroWizard.csproj">
+      <Project>{199c12c4-3eef-4d08-bac3-f2a62bcf969c}</Project>
+      <Name>AeroWizard</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
