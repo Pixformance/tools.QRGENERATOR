@@ -1,8 +1,0 @@
-X:\tools.QRGENERATOR\Tags\TagGenerator\bin\Debug\TagGenerator.exe.config
-X:\tools.QRGENERATOR\Tags\TagGenerator\bin\Debug\TagGenerator.exe
-X:\tools.QRGENERATOR\Tags\TagGenerator\bin\Debug\TagGenerator.pdb
-X:\tools.QRGENERATOR\Tags\TagGenerator\obj\Debug\TagGenerator.csprojResolveAssemblyReference.cache
-X:\tools.QRGENERATOR\Tags\TagGenerator\obj\Debug\TagGenerator.Properties.Resources.resources
-X:\tools.QRGENERATOR\Tags\TagGenerator\obj\Debug\TagGenerator.csproj.GenerateResource.Cache
-X:\tools.QRGENERATOR\Tags\TagGenerator\obj\Debug\TagGenerator.exe
-X:\tools.QRGENERATOR\Tags\TagGenerator\obj\Debug\TagGenerator.pdb
