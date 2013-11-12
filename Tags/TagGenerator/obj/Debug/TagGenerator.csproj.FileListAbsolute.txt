@@ -6,5 +6,3 @@ X:\tools.QRGENERATOR\Tags\TagGenerator\obj\Debug\TagGenerator.Properties.Resourc
 X:\tools.QRGENERATOR\Tags\TagGenerator\obj\Debug\TagGenerator.csproj.GenerateResource.Cache
 X:\tools.QRGENERATOR\Tags\TagGenerator\obj\Debug\TagGenerator.exe
 X:\tools.QRGENERATOR\Tags\TagGenerator\obj\Debug\TagGenerator.pdb
-X:\tools.QRGENERATOR\Tags\TagGenerator\bin\Debug\AeroWizard.dll
-X:\tools.QRGENERATOR\Tags\TagGenerator\bin\Debug\AeroWizard.xml
