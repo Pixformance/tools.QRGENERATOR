@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC1_QRGen", "POC1_QRGen\PO
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "POCs", "POCs", "{F738E825-C872-4B80-BD56-061FF4B449EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC2_PDF_iTextSharp", "POC2_PDF_iTextSharp\POC2_PDF_iTextSharp.csproj", "{6212CCFF-6BD5-41D5-8B71-FCE5ABB64307}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,11 +29,16 @@ Global
 		{FFFA4A8C-663B-42CA-A25D-1B6A9D85D5DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFFA4A8C-663B-42CA-A25D-1B6A9D85D5DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFFA4A8C-663B-42CA-A25D-1B6A9D85D5DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6212CCFF-6BD5-41D5-8B71-FCE5ABB64307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6212CCFF-6BD5-41D5-8B71-FCE5ABB64307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6212CCFF-6BD5-41D5-8B71-FCE5ABB64307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6212CCFF-6BD5-41D5-8B71-FCE5ABB64307}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FFFA4A8C-663B-42CA-A25D-1B6A9D85D5DF} = {F738E825-C872-4B80-BD56-061FF4B449EB}
+		{6212CCFF-6BD5-41D5-8B71-FCE5ABB64307} = {F738E825-C872-4B80-BD56-061FF4B449EB}
 	EndGlobalSection
 EndGlobal
