@@ -33,6 +33,9 @@ namespace POC1_QRGen
                     },
                     Renderer = (IBarcodeRenderer<Bitmap>)Activator.CreateInstance(typeof(BitmapRenderer))
                 };
+
+                writer.Options.Hints.Add(EncodeHintType.ERROR_CORRECTION, ZXing.QrCode.Internal.ErrorCorrectionLevel.H);
+
                 pictureBox1.Image = writer.Write(textBox1.Text);
             }
             catch (Exception exc)
