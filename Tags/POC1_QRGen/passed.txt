@@ -1,0 +1,14 @@
+﻿Review of the source code of the ZXing lib for C# confirms hat for up to 17 digits,
+a code of the Class 1 is being generated.
+The error correction was set to H.
+
+Focused on the source of:
+https://zxingnet.codeplex.com/SourceControl/latest#trunk/Source/lib/qrcode/QRCodeWriter.cs
+and
+https://zxingnet.codeplex.com/SourceControl/latest#trunk/Source/lib/qrcode/encoder/Encoder.cs
+
+valid QR codes were generated.
+
+This POC was passed.
+ZXing lib for C# can be used for the TagGenerator
+.
