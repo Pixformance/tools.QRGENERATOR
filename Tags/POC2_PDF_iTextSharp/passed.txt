@@ -1,0 +1,11 @@
+﻿POC2: creating PDF documents with iTextSharp ..... passed
+
+succeded on creating a pdf with a column layout (table might be easier to layout).
+managed to add images from memory.
+
+used good tutorial from
+http://www.mikesdotnetting.com/Article/89/iTextSharp-Page-Layout-with-Columns
+
+iTextSharp can be used to generate PDFs in the TagGenerator
+
+.
