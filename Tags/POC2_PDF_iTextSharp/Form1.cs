@@ -52,12 +52,24 @@ namespace POC2_PDF_iTextSharp
             MultiColumnText columns = new MultiColumnText();
             //float left, float right, float gutterwidth, int numcolumns
             columns.AddRegularColumns(36f, doc.PageSize.Width - 36f, 24f, 10);
+            
+            
             Paragraph para = new Paragraph("qr code", times);
             para.SpacingAfter = 9f;
             para.Alignment = Element.ALIGN_JUSTIFIED;
+
+
+            iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(pictureBox1.Image, iTextSharp.text.Color.RED);
+            jpg.ScaleToFit(30f, 30f);
+            jpg.SpacingAfter = 12f;
+            jpg.SpacingBefore = 12f;
+
+
             for (int i = 0; i < 40; i++)
             {
+                columns.AddElement(jpg);
                 columns.AddElement(para);
+
             }
 
             doc.Add(columns);
