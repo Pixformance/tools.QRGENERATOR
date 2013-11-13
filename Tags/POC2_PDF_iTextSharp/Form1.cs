@@ -49,10 +49,6 @@ namespace POC2_PDF_iTextSharp
             heading.SpacingAfter = 18f;
             doc.Add(heading);
 
-            MultiColumnText columns = new MultiColumnText();
-            //float left, float right, float gutterwidth, int numcolumns
-            columns.AddRegularColumns(36f, doc.PageSize.Width - 36f, 24f, 10);
-            
             
             Paragraph para = new Paragraph("qr code", times);
             para.SpacingAfter = 9f;
@@ -65,6 +61,63 @@ namespace POC2_PDF_iTextSharp
             jpg.SpacingBefore = 12f;
 
 
+            PdfPTable table = new PdfPTable(10);
+            table.TotalWidth = doc.PageSize.Width;
+            table.LockedWidth = true;
+            
+
+            PdfPCell cell = new PdfPCell(new Phrase("Header spanning over all columns"));
+            cell.Colspan = table.NumberOfColumns;
+            cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+            cell.FixedHeight = 30.0f;
+            table.AddCell(cell);
+
+            Phrase phr = new Phrase();
+            phr.Add(new Chunk(jpg, 0, 0));
+            phr.Add(new Chunk("test", times));
+
+
+            table.AddCell(phr);
+            table.AddCell("Col 1 Row 1");
+            table.AddCell("Col 1 Row 1");
+            table.AddCell("Col 1 Row 1");
+            table.AddCell("Col 1 Row 1");
+            table.AddCell("Col 1 Row 1");
+            table.AddCell("Col 1 Row 1");
+            table.AddCell("Col 1 Row 1");
+            table.AddCell("Col 1 Row 1");
+            table.AddCell("Col 1 Row 1");
+
+            table.AddCell(jpg);
+            table.AddCell(jpg);
+            table.AddCell(jpg);
+            table.AddCell(jpg);
+            table.AddCell(jpg);
+            table.AddCell(jpg);
+            table.AddCell(jpg);
+            table.AddCell(jpg);
+            table.AddCell(jpg);
+            table.AddCell(jpg);
+
+            table.AddCell(new Phrase("SA DE 34", times));
+            table.AddCell(new Phrase("SA DE 34", times));
+            table.AddCell(new Phrase("SA DE 34", times));
+            table.AddCell(new Phrase("SA DE 34", times));
+            table.AddCell(new Phrase("SA DE 34", times));
+            table.AddCell(new Phrase("SA DE 34", times));
+            table.AddCell(new Phrase("SA DE 34", times));
+            table.AddCell(new Phrase("SA DE 34", times));
+            table.AddCell(new Phrase("SA DE 34", times));
+            table.AddCell(new Phrase("SA DE 34", times));
+ 
+            doc.Add(table);
+
+
+
+            MultiColumnText columns = new MultiColumnText();
+            //float left, float right, float gutterwidth, int numcolumns
+            columns.AddRegularColumns(36f, doc.PageSize.Width - 36f, 24f, 10);
+            
             for (int i = 0; i < 40; i++)
             {
                 columns.AddElement(jpg);
@@ -73,6 +126,9 @@ namespace POC2_PDF_iTextSharp
             }
 
             doc.Add(columns);
+
+
+
 
             doc.Close();
 
