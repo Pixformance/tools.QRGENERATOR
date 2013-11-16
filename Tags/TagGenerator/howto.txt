@@ -16,7 +16,30 @@ Tasks:
 
     Goals:
     - find the max qr code number generated
+        --  this is simple because those are only numbers, so it's just important
+            to find the max int
     - make sure, the same serial number isn't used during the generation.
+        --  we weren't sure that the serial numbers are collision free
+            then a query each time would be required. this is ok with small
+            number of serial numbers, but with a large number of 100k and more
+            this might be a difficult and costly procedure.
+
+            In this version we'll avoid it. If we wanted to have work with a query,
+            the following approach could be used:
+                1.  import the file into the SQL Compact Edition database
+                    (SQL CE is a in-process database)
+                2.  use the SQL CE database to execute the queries
+
+            In this version we'll do something different: we'll use
+            serial numbers that do quarantee that there are no collisions,
+            as a result, no check is required so the only information that
+            has to be extracted is the maximum qr code used plus the maximum
+            page number used (for whole-page activations of codes)
+
+            index,qr_code_value,qr_code_serial_number,page_number,software_version,
+            1,1,11,1,1.0.0.0
+            2,2,22,1,2.0.0.0
+            ...
 
 2.  Generate a batch of QR codes for a page of a PDF file, e.g. 70 codes 
     plus their serial numbers

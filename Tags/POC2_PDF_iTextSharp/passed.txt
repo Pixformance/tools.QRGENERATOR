@@ -1,4 +1,7 @@
-﻿POC2: creating PDF documents with iTextSharp ..... passed
+﻿iTextSharp 4.1.6 because it's the last one with the LGPL license.
+(the newer ones are AGPL, to it might be risky for us in the future).
+
+POC2: creating PDF documents with iTextSharp ..... passed
 
 succeded on creating a pdf with a column layout (table might be easier to layout).
 managed to add images from memory.
