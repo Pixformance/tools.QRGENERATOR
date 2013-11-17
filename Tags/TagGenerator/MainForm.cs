@@ -96,7 +96,6 @@ namespace TagGenerator
             {
                 if (worker.IsBusy)
                 {
-                    worker.CancelAsync();
                     e.Cancel = true;
                 }
             };
