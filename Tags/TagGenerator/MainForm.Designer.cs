@@ -38,7 +38,7 @@
             this.import_panel_import = new System.Windows.Forms.Panel();
             this.import_lbl_report = new System.Windows.Forms.Label();
             this.import_lbl_file = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.import_lbl_3 = new System.Windows.Forms.Label();
             this.import_btn_import = new System.Windows.Forms.Button();
             this.import_lbl_1 = new System.Windows.Forms.Label();
             this.import_btn_select_csv = new System.Windows.Forms.Button();
@@ -47,26 +47,26 @@
             this.import_rb_dontimport = new System.Windows.Forms.RadioButton();
             this.import_rb_import = new System.Windows.Forms.RadioButton();
             this.page_configure = new AeroWizard.WizardPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.config_btn = new System.Windows.Forms.Button();
+            this.config_lbl_output_dir = new System.Windows.Forms.Label();
+            this.config_lbl_3 = new System.Windows.Forms.Label();
+            this.config_lbl_2 = new System.Windows.Forms.Label();
             this.config_lbl_num_qr_per_page = new System.Windows.Forms.Label();
             this.config_lbl_1 = new System.Windows.Forms.Label();
             this.config_lbl_intro = new System.Windows.Forms.Label();
             this.config_pagescount = new System.Windows.Forms.NumericUpDown();
             this.page_generate = new AeroWizard.WizardPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.gen_tb_msg = new System.Windows.Forms.TextBox();
+            this.gen_lbl_3 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.gen_lbl_2 = new System.Windows.Forms.Label();
+            this.gen_lbl_1 = new System.Windows.Forms.Label();
             this.page_summary = new AeroWizard.WizardPage();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.done_tb_msg = new System.Windows.Forms.TextBox();
             this.page_export = new AeroWizard.WizardPage();
             this.done_lbl_dummy_label_to_get_focus = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.export_lbl_intro = new System.Windows.Forms.Label();
+            this.export_btn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.stepWizardControl1)).BeginInit();
             this.page_welcome.SuspendLayout();
             this.page_import.SuspendLayout();
@@ -138,7 +138,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.import_panel_import.Controls.Add(this.import_lbl_report);
             this.import_panel_import.Controls.Add(this.import_lbl_file);
-            this.import_panel_import.Controls.Add(this.label1);
+            this.import_panel_import.Controls.Add(this.import_lbl_3);
             this.import_panel_import.Controls.Add(this.import_btn_import);
             this.import_panel_import.Controls.Add(this.import_lbl_1);
             this.import_panel_import.Controls.Add(this.import_btn_select_csv);
@@ -171,15 +171,15 @@
             this.import_lbl_file.TabIndex = 8;
             this.import_lbl_file.Text = "<no file>";
             // 
-            // label1
+            // import_lbl_3
             // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label1.Location = new System.Drawing.Point(19, 66);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 15);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Selected file:";
+            this.import_lbl_3.AutoSize = true;
+            this.import_lbl_3.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.import_lbl_3.Location = new System.Drawing.Point(19, 66);
+            this.import_lbl_3.Name = "import_lbl_3";
+            this.import_lbl_3.Size = new System.Drawing.Size(73, 15);
+            this.import_lbl_3.TabIndex = 7;
+            this.import_lbl_3.Text = "Selected file:";
             // 
             // import_btn_import
             // 
@@ -259,10 +259,10 @@
             // 
             // page_configure
             // 
-            this.page_configure.Controls.Add(this.button1);
-            this.page_configure.Controls.Add(this.label4);
-            this.page_configure.Controls.Add(this.label3);
-            this.page_configure.Controls.Add(this.label2);
+            this.page_configure.Controls.Add(this.config_btn);
+            this.page_configure.Controls.Add(this.config_lbl_output_dir);
+            this.page_configure.Controls.Add(this.config_lbl_3);
+            this.page_configure.Controls.Add(this.config_lbl_2);
             this.page_configure.Controls.Add(this.config_lbl_num_qr_per_page);
             this.page_configure.Controls.Add(this.config_lbl_1);
             this.page_configure.Controls.Add(this.config_lbl_intro);
@@ -272,45 +272,45 @@
             this.page_configure.TabIndex = 5;
             this.page_configure.Text = "Configure";
             // 
-            // button1
+            // config_btn
             // 
-            this.button1.AutoSize = true;
-            this.button1.Location = new System.Drawing.Point(16, 296);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(166, 25);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Select the output directory...";
-            this.button1.UseVisualStyleBackColor = true;
+            this.config_btn.AutoSize = true;
+            this.config_btn.Location = new System.Drawing.Point(16, 296);
+            this.config_btn.Name = "config_btn";
+            this.config_btn.Size = new System.Drawing.Size(166, 25);
+            this.config_btn.TabIndex = 7;
+            this.config_btn.Text = "Select the output directory...";
+            this.config_btn.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // config_lbl_output_dir
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.config_lbl_output_dir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label4.Location = new System.Drawing.Point(118, 334);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(461, 47);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "<no directory>";
+            this.config_lbl_output_dir.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.config_lbl_output_dir.Location = new System.Drawing.Point(118, 334);
+            this.config_lbl_output_dir.Name = "config_lbl_output_dir";
+            this.config_lbl_output_dir.Size = new System.Drawing.Size(461, 47);
+            this.config_lbl_output_dir.TabIndex = 6;
+            this.config_lbl_output_dir.Text = "<no directory>";
             // 
-            // label3
+            // config_lbl_3
             // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label3.Location = new System.Drawing.Point(13, 334);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(98, 15);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Output directory:";
+            this.config_lbl_3.AutoSize = true;
+            this.config_lbl_3.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.config_lbl_3.Location = new System.Drawing.Point(13, 334);
+            this.config_lbl_3.Name = "config_lbl_3";
+            this.config_lbl_3.Size = new System.Drawing.Size(98, 15);
+            this.config_lbl_3.TabIndex = 5;
+            this.config_lbl_3.Text = "Output directory:";
             // 
-            // label2
+            // config_lbl_2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 110);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(215, 15);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Number of QR Code pages to generate:";
+            this.config_lbl_2.AutoSize = true;
+            this.config_lbl_2.Location = new System.Drawing.Point(13, 110);
+            this.config_lbl_2.Name = "config_lbl_2";
+            this.config_lbl_2.Size = new System.Drawing.Size(215, 15);
+            this.config_lbl_2.TabIndex = 4;
+            this.config_lbl_2.Text = "Number of QR Code pages to generate:";
             // 
             // config_lbl_num_qr_per_page
             // 
@@ -356,38 +356,37 @@
             // 
             // page_generate
             // 
-            this.page_generate.Controls.Add(this.textBox1);
-            this.page_generate.Controls.Add(this.label7);
+            this.page_generate.Controls.Add(this.gen_tb_msg);
+            this.page_generate.Controls.Add(this.gen_lbl_3);
             this.page_generate.Controls.Add(this.progressBar1);
-            this.page_generate.Controls.Add(this.label6);
-            this.page_generate.Controls.Add(this.label5);
+            this.page_generate.Controls.Add(this.gen_lbl_2);
+            this.page_generate.Controls.Add(this.gen_lbl_1);
             this.page_generate.Name = "page_generate";
             this.page_generate.Size = new System.Drawing.Size(586, 406);
             this.page_generate.TabIndex = 6;
             this.page_generate.Text = "Generate";
             // 
-            // textBox1
+            // gen_tb_msg
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.textBox1.Location = new System.Drawing.Point(16, 161);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(558, 242);
-            this.textBox1.TabIndex = 4;
-            this.textBox1.Text = "sfqsdfsadf asd fasd f";
+            this.gen_tb_msg.BackColor = System.Drawing.SystemColors.Window;
+            this.gen_tb_msg.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gen_tb_msg.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.gen_tb_msg.Location = new System.Drawing.Point(13, 161);
+            this.gen_tb_msg.Multiline = true;
+            this.gen_tb_msg.Name = "gen_tb_msg";
+            this.gen_tb_msg.ReadOnly = true;
+            this.gen_tb_msg.Size = new System.Drawing.Size(558, 242);
+            this.gen_tb_msg.TabIndex = 4;
             // 
-            // label7
+            // gen_lbl_3
             // 
-            this.label7.AutoSize = true;
-            this.label7.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label7.Location = new System.Drawing.Point(13, 143);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(61, 15);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "Messages:";
+            this.gen_lbl_3.AutoSize = true;
+            this.gen_lbl_3.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.gen_lbl_3.Location = new System.Drawing.Point(13, 143);
+            this.gen_lbl_3.Name = "gen_lbl_3";
+            this.gen_lbl_3.Size = new System.Drawing.Size(61, 15);
+            this.gen_lbl_3.TabIndex = 3;
+            this.gen_lbl_3.Text = "Messages:";
             // 
             // progressBar1
             // 
@@ -396,55 +395,55 @@
             this.progressBar1.Size = new System.Drawing.Size(548, 14);
             this.progressBar1.TabIndex = 2;
             // 
-            // label6
+            // gen_lbl_2
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 67);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(122, 15);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Generated PDF pages:";
+            this.gen_lbl_2.AutoSize = true;
+            this.gen_lbl_2.Location = new System.Drawing.Point(13, 67);
+            this.gen_lbl_2.Name = "gen_lbl_2";
+            this.gen_lbl_2.Size = new System.Drawing.Size(122, 15);
+            this.gen_lbl_2.TabIndex = 1;
+            this.gen_lbl_2.Text = "Generated PDF pages:";
             // 
-            // label5
+            // gen_lbl_1
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 30);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(119, 15);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Generated QR Codes:";
+            this.gen_lbl_1.AutoSize = true;
+            this.gen_lbl_1.Location = new System.Drawing.Point(13, 30);
+            this.gen_lbl_1.Name = "gen_lbl_1";
+            this.gen_lbl_1.Size = new System.Drawing.Size(119, 15);
+            this.gen_lbl_1.TabIndex = 0;
+            this.gen_lbl_1.Text = "Generated QR Codes:";
             // 
             // page_summary
             // 
             this.page_summary.Controls.Add(this.done_lbl_dummy_label_to_get_focus);
-            this.page_summary.Controls.Add(this.textBox2);
+            this.page_summary.Controls.Add(this.done_tb_msg);
             this.page_summary.IsFinishPage = true;
             this.page_summary.Name = "page_summary";
             this.page_summary.Size = new System.Drawing.Size(586, 406);
             this.page_summary.TabIndex = 3;
             this.page_summary.Text = "Done";
             // 
-            // textBox2
+            // done_tb_msg
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.done_tb_msg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.BackColor = System.Drawing.SystemColors.Window;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.textBox2.Location = new System.Drawing.Point(13, 3);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(573, 403);
-            this.textBox2.TabIndex = 100;
-            this.textBox2.TabStop = false;
-            this.textBox2.Text = "Report:";
+            this.done_tb_msg.BackColor = System.Drawing.SystemColors.Window;
+            this.done_tb_msg.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.done_tb_msg.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.done_tb_msg.Location = new System.Drawing.Point(13, 3);
+            this.done_tb_msg.Multiline = true;
+            this.done_tb_msg.Name = "done_tb_msg";
+            this.done_tb_msg.ReadOnly = true;
+            this.done_tb_msg.Size = new System.Drawing.Size(573, 403);
+            this.done_tb_msg.TabIndex = 100;
+            this.done_tb_msg.TabStop = false;
+            this.done_tb_msg.Text = "Report:";
             // 
             // page_export
             // 
-            this.page_export.Controls.Add(this.button2);
-            this.page_export.Controls.Add(this.label8);
+            this.page_export.Controls.Add(this.export_btn);
+            this.page_export.Controls.Add(this.export_lbl_intro);
             this.page_export.Name = "page_export";
             this.page_export.Size = new System.Drawing.Size(586, 406);
             this.page_export.TabIndex = 7;
@@ -458,27 +457,27 @@
             this.done_lbl_dummy_label_to_get_focus.Size = new System.Drawing.Size(0, 15);
             this.done_lbl_dummy_label_to_get_focus.TabIndex = 0;
             // 
-            // label8
+            // export_lbl_intro
             // 
-            this.label8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label8.Location = new System.Drawing.Point(0, 0);
-            this.label8.Name = "label8";
-            this.label8.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.label8.Size = new System.Drawing.Size(586, 62);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "You should export the generated QR Codes to a file and keep track of them in orde" +
+            this.export_lbl_intro.Dock = System.Windows.Forms.DockStyle.Top;
+            this.export_lbl_intro.Location = new System.Drawing.Point(0, 0);
+            this.export_lbl_intro.Name = "export_lbl_intro";
+            this.export_lbl_intro.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.export_lbl_intro.Size = new System.Drawing.Size(586, 62);
+            this.export_lbl_intro.TabIndex = 0;
+            this.export_lbl_intro.Text = "You should export the generated QR Codes to a file and keep track of them in orde" +
     "r to avoid name collisions in the future. You should also make this file availab" +
     "le to the Platform Team.";
             // 
-            // button2
+            // export_btn
             // 
-            this.button2.AutoSize = true;
-            this.button2.Location = new System.Drawing.Point(14, 66);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(212, 25);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Export generated QR Codes to a file...";
-            this.button2.UseVisualStyleBackColor = true;
+            this.export_btn.AutoSize = true;
+            this.export_btn.Location = new System.Drawing.Point(14, 66);
+            this.export_btn.Name = "export_btn";
+            this.export_btn.Size = new System.Drawing.Size(212, 25);
+            this.export_btn.TabIndex = 1;
+            this.export_btn.Text = "Export generated QR Codes to a file...";
+            this.export_btn.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -528,26 +527,26 @@
         private System.Windows.Forms.Label import_lbl_1;
         private System.Windows.Forms.Button import_btn_import;
         private System.Windows.Forms.Label import_lbl_file;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label import_lbl_3;
         private System.Windows.Forms.Label import_lbl_report;
         private System.Windows.Forms.Label config_lbl_num_qr_per_page;
         private System.Windows.Forms.Label config_lbl_1;
         private System.Windows.Forms.Label config_lbl_intro;
         private System.Windows.Forms.NumericUpDown config_pagescount;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label config_lbl_2;
+        private System.Windows.Forms.Button config_btn;
+        private System.Windows.Forms.Label config_lbl_output_dir;
+        private System.Windows.Forms.Label config_lbl_3;
+        private System.Windows.Forms.TextBox gen_tb_msg;
+        private System.Windows.Forms.Label gen_lbl_3;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label gen_lbl_2;
+        private System.Windows.Forms.Label gen_lbl_1;
+        private System.Windows.Forms.TextBox done_tb_msg;
         private AeroWizard.WizardPage page_export;
         private System.Windows.Forms.Label done_lbl_dummy_label_to_get_focus;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button export_btn;
+        private System.Windows.Forms.Label export_lbl_intro;
     }
 }
 
