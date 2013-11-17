@@ -85,6 +85,7 @@ namespace TagGenerator
                 delegate(object sender, AeroWizard.WizardPageInitEventArgs e)
                 {
                     worker.RunWorkerAsync();
+                    gen_btn_abort.Enabled = true;
                 };
 
             page_generate.Rollback += delegate(object sender, AeroWizard.WizardPageConfirmEventArgs e)
@@ -100,262 +101,8 @@ namespace TagGenerator
 
 
 
-        public class GenerateProgressReport
-        {
-            public bool UpdateGeneratedCodes { get; set; }
-            public bool UpdateGeneratedPages { get; set; }
-
-            public int GeneratedCodes { get; set; }
-            public int GeneratedPages { get; set; }
-
-            public bool UpdateMsg { get; set; }
-            public string Msg { get; set; }
-
-            public bool UpdateProgress { get; set; }
-            public int Progress { get; set; }
-        }
-
-        void ReportProgressForwarder(GenerateProgressReport action)
-        {
-            worker.ReportProgress(0, action);
-        }
-
-        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (null != e.Error)
-            {
-                gen_tb_msg.AppendText("Error:" + System.Environment.NewLine);
-                gen_tb_msg.AppendText(e.Error.Message);
-                return;
-            }
-
-            page_generate.AllowNext = true;
-        }
-
-        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            GenerateProgressReport report = e.UserState as GenerateProgressReport;
-
-            if (null == report)
-                return;
-
-            if (report.UpdateMsg)
-            {
-                gen_tb_msg.AppendText(report.Msg + System.Environment.NewLine);
-            }
-
-            if (report.UpdateProgress)
-            {
-                gen_pb.Value = report.Progress;
-            }
-
-            if (report.UpdateGeneratedCodes)
-            {
-                gen_lbl_generatedQR.Text = String.Format(
-                    "{0} of {1}",
-                    report.GeneratedCodes,
-                    _requested_qr_count);
-            }
-
-            if (report.UpdateGeneratedPages)
-            {
-                gen_lbl_generatedPages.Text = String.Format(
-                    "{0} of {1}",
-                    report.GeneratedPages,
-                    _requested_pages_count);
-            }
-        }
-
-        void worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker w = sender as BackgroundWorker;
-            if (null == w)
-                return;
-
-            Action<GenerateProgressReport> reportProgressDelegate = new Action<GenerateProgressReport>(ReportProgressForwarder);
-
-           reportProgressDelegate(new GenerateProgressReport()
-            {
-                UpdateProgress = true, Progress = 0,
-                UpdateGeneratedPages = true, GeneratedPages = 0,
-                UpdateGeneratedCodes = true, GeneratedCodes = 0
-            });
-
-            for (int page_count = 0; page_count < _requested_pages_count; page_count++)
-            {
-                // this is important, from now on this is where we're tracking the generated qr codes and pages!
-                int page_generating = _max_page_number_used + 1; // the number of page being generated
-                int max_qr_generated = _max_qr_used; // this is the max of the qr codes generated during this page creation
-                                                     // it will be committed (copied to _max_qr_used) after the page was written
-
-                List<Tuple<int, int>> tmp_generated_codes = new List<Tuple<int, int>>(_QR_PER_PAGE);
-
-                try
-                {
-                    // build filename
-                    string filename = null;
-                    int filename_create_attempts = 0;
-                    do 
-                    {
-                        filename = Path.Combine(
-                            _output_dir,
-                            String.Format("pix_qr_{0}{1}.pdf",
-                            page_generating,
-                            filename_create_attempts > 0 ? "(" + filename_create_attempts + ")" : "") // if this file exists.
-                            );
-
-                        filename_create_attempts++;
-
-                        // hmm.. just to be safe here that there is no bug 
-                        if (filename_create_attempts > 1000)
-                        {
-                            throw new Exception("Failed to generate a filename for the output file.");
-                        }
-                    } while (File.Exists(filename));
-
-                    reportProgressDelegate(new GenerateProgressReport()
-                    {
-                        UpdateMsg = true,
-                        Msg = String.Format("Creating file {0}", Path.GetFileName(filename))
-                    });
-
-                    //// create the PDF:
-                    // first the basics
-
-                    iTextSharp.text.pdf.BaseFont bf = iTextSharp.text.pdf.BaseFont.CreateFont(
-                        iTextSharp.text.pdf.BaseFont.HELVETICA,
-                        iTextSharp.text.pdf.BaseFont.CP1252, true);
-
-                    iTextSharp.text.Font font_title = new iTextSharp.text.Font(
-                        bf,
-                        11,
-                        iTextSharp.text.Font.BOLD + iTextSharp.text.Font.UNDERLINE,
-                        iTextSharp.text.Color.DARK_GRAY);
-
-                    iTextSharp.text.Font font_description = new iTextSharp.text.Font(
-                                    bf,
-                                    11,
-                                    iTextSharp.text.Font.NORMAL,
-                                    iTextSharp.text.Color.DARK_GRAY);
-
-                    iTextSharp.text.Font font_meta = new iTextSharp.text.Font(
-                                    bf,
-                                    8,
-                                    iTextSharp.text.Font.NORMAL,
-                                    iTextSharp.text.Color.DARK_GRAY);
-
-                    iTextSharp.text.Font font_sn = new iTextSharp.text.Font(
-                                    bf,
-                                    8,
-                                    iTextSharp.text.Font.NORMAL,
-                                    iTextSharp.text.Color.DARK_GRAY);
-
-
-                    iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4);
-
-                    // and now let's build it
-                    iTextSharp.text.pdf.PdfWriter.GetInstance(doc, new FileStream(filename, FileMode.Create));
-                    doc.Open();
-
-                    doc.SetMargins(30.0f, 30.0f, 0.0f, 0.0f);
-
-                    iTextSharp.text.Paragraph header = new iTextSharp.text.Paragraph();
-                    header.SpacingBefore = 0.0f;
-                    header.SpacingAfter = 0.0f;
-                    header.Add(new iTextSharp.text.Chunk("Pixformance Membership Tags", font_title));
-                    header.Add(iTextSharp.text.Chunk.NEWLINE);
-                    header.Add(new iTextSharp.text.Chunk("Bitte vor der ersten Benutzung aktivieren.", font_description));
-                    doc.Add(header);
-
-                    iTextSharp.text.Paragraph meta = new iTextSharp.text.Paragraph();
-                    meta.SpacingBefore = 0.0f;
-                    meta.SetAlignment("Right");
-                    meta.Add(new iTextSharp.text.Chunk(
-                        String.Format(
-                            "{0} Tags | {1} | Version {2}",
-                            _QR_PER_PAGE, page_generating, Application.ProductVersion),
-                        font_meta));
-                    doc.Add(meta);
-
-                    iTextSharp.text.pdf.PdfPTable qr_table = new iTextSharp.text.pdf.PdfPTable(7);
-                    qr_table.TotalWidth = 7.0f * 72.0f;
-                    qr_table.SpacingBefore = 72.0f;
-                    qr_table.LockedWidth = true;
-
-
-                    for (int qr_count = 0; qr_count < _QR_PER_PAGE; qr_count++)
-                    {
-                        int qr_code_generating = max_qr_generated + 1; // the value of a qr code being generated
-                        tmp_generated_codes.Add(new Tuple<int, int>(qr_code_generating, page_generating));
-
-                        System.Drawing.Image qr_code = QRProvider.Generate(qr_code_generating.ToString(), reportProgressDelegate);
-
-                        if (null == qr_code)
-                        {
-                            throw new Exception("QR Code generation failed. Page would be incomplete. Aborting this page.");
-                        }
-
-                        string serial_number = SerialNumber.Generate(qr_code_generating);
-
-                        iTextSharp.text.Image qr_image = iTextSharp.text.Image.GetInstance(
-                            qr_code,
-                            iTextSharp.text.Color.WHITE);
-                        qr_image.ScaleAbsolute(50f, 50f);
-
-                        iTextSharp.text.Phrase phr = new iTextSharp.text.Phrase();
-                        phr.Add(new iTextSharp.text.Chunk(qr_image, 0, 0));
-                        phr.Add(iTextSharp.text.Chunk.NEWLINE);
-                        phr.Add(new iTextSharp.text.Chunk(serial_number, font_sn));
-
-                        iTextSharp.text.pdf.PdfPCell cell = new iTextSharp.text.pdf.PdfPCell(phr);
-                        cell.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
-                        cell.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
-                        cell.MinimumHeight = 72.0f;
-                        cell.BorderWidth = 0.0f;
-
-                        qr_table.AddCell(cell);
-
-                        w.ReportProgress(0, new GenerateProgressReport()
-                        {
-                            UpdateGeneratedCodes = true,
-                            GeneratedCodes = (_QR_PER_PAGE * page_count) + qr_count + 1
-                        });
-
-                        max_qr_generated = qr_code_generating;
-                    }
-
-                    doc.Add(qr_table);
-
-                    doc.Close();
-
-                    w.ReportProgress(0, new GenerateProgressReport()
-                    {
-                        UpdateGeneratedPages = true,
-                        GeneratedPages = page_count + 1,
-                        UpdateProgress = true,
-                        Progress = (100 * (page_count + 1) / _requested_pages_count)
-                    });
-
-                    // all worked, so let's commit in memory here
-                    _max_page_number_used = page_generating;
-                    _max_qr_used = max_qr_generated;
-
-                    _generated_codes.AddRange(tmp_generated_codes);
-                }
-                catch (Exception ex)
-                {
-                    w.ReportProgress(0, new GenerateProgressReport()
-                    {
-                        UpdateMsg = true,
-                        Msg = String.Format("Error during PDF creation: {0}", ex.Message)
-                    });
-                }
-            }
-        }
-
-
         #region IMPORT PAGE
-        
+
 
         // IMPORT PAGE
         // what to do when radio buttons change their values:
@@ -532,6 +279,339 @@ namespace TagGenerator
 
         #endregion
 
+        #region GENERATE PAGE
+
+
+        public class GenerateProgressReport
+        {
+            public bool UpdateGeneratedCodes { get; set; }
+            public bool UpdateGeneratedPages { get; set; }
+
+            public int GeneratedCodes { get; set; }
+            public int GeneratedPages { get; set; }
+
+            public bool UpdateMsg { get; set; }
+            public string Msg { get; set; }
+
+            public bool UpdateProgress { get; set; }
+            public int Progress { get; set; }
+        }
+
+        void ReportProgressForwarder(GenerateProgressReport action)
+        {
+            worker.ReportProgress(0, action);
+        }
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (null != e.Error)
+            {
+                gen_tb_msg.AppendText("Error:" + System.Environment.NewLine);
+                gen_tb_msg.AppendText(e.Error.Message);
+                return;
+            }
+
+            page_generate.AllowNext = true;
+        }
+
+        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            GenerateProgressReport report = e.UserState as GenerateProgressReport;
+
+            if (null == report)
+                return;
+
+            if (report.UpdateMsg)
+            {
+                gen_tb_msg.AppendText(report.Msg + System.Environment.NewLine);
+            }
+
+            if (report.UpdateProgress)
+            {
+                gen_pb.Value = report.Progress;
+            }
+
+            if (report.UpdateGeneratedCodes)
+            {
+                gen_lbl_generatedQR.Text = String.Format(
+                    "{0} of {1}",
+                    report.GeneratedCodes,
+                    _requested_qr_count);
+            }
+
+            if (report.UpdateGeneratedPages)
+            {
+                gen_lbl_generatedPages.Text = String.Format(
+                    "{0} of {1}",
+                    report.GeneratedPages,
+                    _requested_pages_count);
+            }
+        }
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker w = sender as BackgroundWorker;
+            if (null == w)
+                return;
+
+            Action<GenerateProgressReport> reportProgressDelegate = new Action<GenerateProgressReport>(ReportProgressForwarder);
+
+            reportProgressDelegate(new GenerateProgressReport()
+            {
+                UpdateProgress = true,
+                Progress = 0,
+                UpdateGeneratedPages = true,
+                GeneratedPages = 0,
+                UpdateGeneratedCodes = true,
+                GeneratedCodes = 0
+            });
+
+            for (int page_count = 0; page_count < _requested_pages_count; page_count++)
+            {
+                if (w.CancellationPending)
+                {
+                    reportProgressDelegate(new GenerateProgressReport()
+                    {
+                        UpdateMsg = true
+                    });
+                    reportProgressDelegate(new GenerateProgressReport()
+                    {
+                        UpdateMsg = true,
+                        Msg = "The process was aborted by the user."
+                    });
+                    return;
+                }
+                // this is important, from now on this is where we're tracking the generated qr codes and pages!
+                int page_generating = _max_page_number_used + 1; // the number of page being generated
+                int max_qr_generated = _max_qr_used; // this is the max of the qr codes generated during this page creation
+                // it will be committed (copied to _max_qr_used) after the page was written
+
+                List<Tuple<int, int>> tmp_generated_codes = new List<Tuple<int, int>>(_QR_PER_PAGE);
+
+                try
+                {
+                    // build filename
+                    string filename = null;
+                    int filename_create_attempts = 0;
+                    do
+                    {
+                        filename = Path.Combine(
+                            _output_dir,
+                            String.Format("pix_qr_{0}{1}.pdf",
+                            page_generating,
+                            filename_create_attempts > 0 ? "(" + filename_create_attempts + ")" : "") // if this file exists.
+                            );
+
+                        filename_create_attempts++;
+
+                        // hmm.. just to be safe here that there is no bug 
+                        if (filename_create_attempts > 1000)
+                        {
+                            throw new Exception("Failed to generate a filename for the output file.");
+                        }
+                    } while (File.Exists(filename));
+
+                    reportProgressDelegate(new GenerateProgressReport()
+                    {
+                        UpdateMsg = true,
+                        Msg = String.Format("Creating file {0}", Path.GetFileName(filename))
+                    });
+
+                    //// create the PDF:
+                    // first the basics
+
+                    iTextSharp.text.pdf.BaseFont bf = iTextSharp.text.pdf.BaseFont.CreateFont(
+                        iTextSharp.text.pdf.BaseFont.HELVETICA,
+                        iTextSharp.text.pdf.BaseFont.CP1252, true);
+
+                    iTextSharp.text.Font font_title = new iTextSharp.text.Font(
+                        bf,
+                        11,
+                        iTextSharp.text.Font.BOLD + iTextSharp.text.Font.UNDERLINE,
+                        iTextSharp.text.Color.DARK_GRAY);
+
+                    iTextSharp.text.Font font_description = new iTextSharp.text.Font(
+                                    bf,
+                                    11,
+                                    iTextSharp.text.Font.NORMAL,
+                                    iTextSharp.text.Color.DARK_GRAY);
+
+                    iTextSharp.text.Font font_meta = new iTextSharp.text.Font(
+                                    bf,
+                                    8,
+                                    iTextSharp.text.Font.NORMAL,
+                                    iTextSharp.text.Color.DARK_GRAY);
+
+                    iTextSharp.text.Font font_sn = new iTextSharp.text.Font(
+                                    bf,
+                                    8,
+                                    iTextSharp.text.Font.NORMAL,
+                                    iTextSharp.text.Color.DARK_GRAY);
+
+
+                    iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4);
+
+                    // and now let's build it
+                    iTextSharp.text.pdf.PdfWriter.GetInstance(doc, new FileStream(filename, FileMode.Create));
+                    doc.Open();
+
+                    doc.SetMargins(30.0f, 30.0f, 0.0f, 0.0f);
+
+                    iTextSharp.text.Paragraph header = new iTextSharp.text.Paragraph();
+                    header.SpacingBefore = 0.0f;
+                    header.SpacingAfter = 0.0f;
+                    header.Add(new iTextSharp.text.Chunk("Pixformance Membership Tags", font_title));
+                    header.Add(iTextSharp.text.Chunk.NEWLINE);
+                    header.Add(new iTextSharp.text.Chunk("Bitte vor der ersten Benutzung aktivieren.", font_description));
+                    doc.Add(header);
+
+                    iTextSharp.text.Paragraph meta = new iTextSharp.text.Paragraph();
+                    meta.SpacingBefore = 0.0f;
+                    meta.SetAlignment("Right");
+                    meta.Add(new iTextSharp.text.Chunk(
+                        String.Format(
+                            "{0} Tags | {1} | Version {2}",
+                            _QR_PER_PAGE, page_generating, Application.ProductVersion),
+                        font_meta));
+                    doc.Add(meta);
+
+                    iTextSharp.text.pdf.PdfPTable qr_table = new iTextSharp.text.pdf.PdfPTable(7);
+                    qr_table.TotalWidth = 7.0f * 72.0f;
+                    qr_table.SpacingBefore = 72.0f;
+                    qr_table.LockedWidth = true;
+
+
+                    for (int qr_count = 0; qr_count < _QR_PER_PAGE; qr_count++)
+                    {
+                        int qr_code_generating = max_qr_generated + 1; // the value of a qr code being generated
+                        tmp_generated_codes.Add(new Tuple<int, int>(qr_code_generating, page_generating));
+
+                        System.Drawing.Image qr_code = QRProvider.Generate(qr_code_generating.ToString(), reportProgressDelegate);
+
+                        if (null == qr_code)
+                        {
+                            throw new Exception("QR Code generation failed. Page would be incomplete. Aborting this page.");
+                        }
+
+                        string serial_number = SerialNumber.Generate(qr_code_generating);
+
+                        iTextSharp.text.Image qr_image = iTextSharp.text.Image.GetInstance(
+                            qr_code,
+                            iTextSharp.text.Color.WHITE);
+                        qr_image.ScaleAbsolute(50f, 50f);
+
+                        iTextSharp.text.Phrase phr = new iTextSharp.text.Phrase();
+                        phr.Add(new iTextSharp.text.Chunk(qr_image, 0, 0));
+                        phr.Add(iTextSharp.text.Chunk.NEWLINE);
+                        phr.Add(new iTextSharp.text.Chunk(serial_number, font_sn));
+
+                        iTextSharp.text.pdf.PdfPCell cell = new iTextSharp.text.pdf.PdfPCell(phr);
+                        cell.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
+                        cell.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
+                        cell.MinimumHeight = 72.0f;
+                        cell.BorderWidth = 0.0f;
+
+                        qr_table.AddCell(cell);
+
+                        w.ReportProgress(0, new GenerateProgressReport()
+                        {
+                            UpdateGeneratedCodes = true,
+                            GeneratedCodes = (_QR_PER_PAGE * page_count) + qr_count + 1
+                        });
+
+                        max_qr_generated = qr_code_generating;
+                    }
+
+                    doc.Add(qr_table);
+
+                    doc.Close();
+
+                    w.ReportProgress(0, new GenerateProgressReport()
+                    {
+                        UpdateGeneratedPages = true,
+                        GeneratedPages = page_count + 1,
+                        UpdateProgress = true,
+                        Progress = (100 * (page_count + 1) / _requested_pages_count)
+                    });
+
+                    // all worked, so let's commit in memory here
+                    _max_page_number_used = page_generating;
+                    _max_qr_used = max_qr_generated;
+
+                    _generated_codes.AddRange(tmp_generated_codes);
+                }
+                catch (Exception ex)
+                {
+                    w.ReportProgress(0, new GenerateProgressReport()
+                    {
+                        UpdateMsg = true,
+                        Msg = String.Format("Error during PDF creation: {0}", ex.Message)
+                    });
+                }
+            }
+        }
+        #endregion
+
+        #region EXPORT PAGE
+        private void export_btn_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "CSV files|*.csv|All files|*.*";
+            dialog.Title = "Export generated QR Codes (CSV file)";
+            dialog.DefaultExt = "csv";
+
+            DialogResult dr = dialog.ShowDialog();
+
+            if (DialogResult.OK != dr)
+                return;
+
+            string source_old_codes = null;
+            if (!String.IsNullOrEmpty(_csv_filename))
+            {
+                // often users will overwrite the old file, so let's already work like it's the regular case
+                string temp_file = Path.GetTempFileName();
+                if (File.Exists(temp_file))
+                    File.Delete(temp_file);
+                File.Copy(_csv_filename, temp_file);
+                source_old_codes = temp_file;
+            }
+            if (File.Exists(dialog.FileName))
+                File.Delete(dialog.FileName);
+
+            using (System.IO.StreamWriter output_file = new System.IO.StreamWriter(dialog.FileName))
+            {
+                // handle the old codes
+                if (String.IsNullOrEmpty(source_old_codes))
+                {
+                    // no old codes, write the header of the file:
+                    output_file.WriteLine("//qr_code,serial_number,page_number,software_version,generation_timestamp");
+                }
+                else
+                {
+                    // we have old codes, copy them
+                    foreach (string line in File.ReadLines(source_old_codes))
+                    {
+                        output_file.WriteLine(line);
+                    }
+                }
+
+                // and now, handle the new codes:
+                foreach (var item in _generated_codes)
+                {
+                    output_file.WriteLine(
+                            String.Format("{0},{1},{2},{3},{4}",
+                                item.Item1,
+                                SerialNumber.Generate(item.Item1),
+                                item.Item2,
+                                Application.ProductVersion,
+                                DateTime.Now.ToLocalTime()
+                            )
+                        );                    
+                }
+            }
+        }
+        #endregion
+
         private void stepWizardControl1_Cancelling(object sender, CancelEventArgs e)
         {
             if (worker.IsBusy)
@@ -544,5 +624,15 @@ namespace TagGenerator
                 Application.Exit();
             }
         }
+
+        private void gen_btn_abort_Click(object sender, EventArgs e)
+        {
+            if (worker.IsBusy)
+            {
+                worker.CancelAsync();
+                gen_btn_abort.Enabled = false;
+            }
+        }
+
     }
 }
