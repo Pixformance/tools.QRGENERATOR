@@ -47,7 +47,7 @@ namespace TagGenerator
                 
                 _csv_filename = dlg_open_csv.FileName; 
                 
-                lbl_file_csv.Text = _csv_filename;
+                import_lbl_file.Text = _csv_filename;
                 
             }
         }
@@ -110,6 +110,35 @@ namespace TagGenerator
         private void bg_csv_analyse_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessageBox.Show(e.Result.ToString());
+        }
+
+        private void import_rb_dontimport_CheckedChanged(object sender, EventArgs e)
+        {
+            // the don't import rb was checked or unchecked.
+            // if checked, then allow 'next' on this wizard because the user is not importing any data
+            if (import_rb_dontimport.Checked)
+                page_import.AllowNext = true;
+        }
+
+        private void import_rb_import_CheckedChanged(object sender, EventArgs e)
+        {
+            // the import rb was changed
+            // if checked, then disable the next button (because there are more steps to execute)
+            //              and show the config panel
+            // if unchecked, then hide the config panel, don't care for the next button, this is handled
+            //              in the other rb code
+            //              
+            if (import_rb_import.Checked)
+            {
+                import_panel_import.Visible = true;
+                import_panel_import.Enabled = true;
+                page_import.AllowNext = false;
+            }
+            else
+            {
+                import_panel_import.Visible = false;
+                import_panel_import.Enabled = false;
+            }
         }
     }
 }

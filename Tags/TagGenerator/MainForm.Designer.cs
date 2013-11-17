@@ -35,8 +35,8 @@
             this.page_welcome = new AeroWizard.WizardPage();
             this.lbl_welcome_welcome = new System.Windows.Forms.Label();
             this.page_import = new AeroWizard.WizardPage();
-            this.lbl_file_csv = new System.Windows.Forms.Label();
-            this.btn_select_csv = new System.Windows.Forms.Button();
+            this.import_lbl_2 = new System.Windows.Forms.Label();
+            this.import_btn_select_csv = new System.Windows.Forms.Button();
             this.page_summary = new AeroWizard.WizardPage();
             this.page_configure = new AeroWizard.WizardPage();
             this.page_generate = new AeroWizard.WizardPage();
@@ -44,9 +44,16 @@
             this.import_rb_import = new System.Windows.Forms.RadioButton();
             this.import_rb_dontimport = new System.Windows.Forms.RadioButton();
             this.import_lb_intro = new System.Windows.Forms.Label();
+            this.import_panel_import = new System.Windows.Forms.Panel();
+            this.import_lbl_1 = new System.Windows.Forms.Label();
+            this.import_btn_import = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.import_lbl_file = new System.Windows.Forms.Label();
+            this.import_lbl_report = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.stepWizardControl1)).BeginInit();
             this.page_welcome.SuspendLayout();
             this.page_import.SuspendLayout();
+            this.import_panel_import.SuspendLayout();
             this.SuspendLayout();
             // 
             // dlg_open_csv
@@ -93,34 +100,35 @@
             // page_import
             // 
             this.page_import.AllowNext = false;
+            this.page_import.Controls.Add(this.import_panel_import);
             this.page_import.Controls.Add(this.import_lb_intro);
             this.page_import.Controls.Add(this.import_rb_dontimport);
             this.page_import.Controls.Add(this.import_rb_import);
-            this.page_import.Controls.Add(this.lbl_file_csv);
-            this.page_import.Controls.Add(this.btn_select_csv);
             this.page_import.Name = "page_import";
             this.page_import.Size = new System.Drawing.Size(586, 406);
             this.page_import.TabIndex = 4;
             this.page_import.Text = "Import";
             // 
-            // lbl_file_csv
+            // import_lbl_2
             // 
-            this.lbl_file_csv.AutoSize = true;
-            this.lbl_file_csv.Location = new System.Drawing.Point(31, 352);
-            this.lbl_file_csv.Name = "lbl_file_csv";
-            this.lbl_file_csv.Size = new System.Drawing.Size(38, 15);
-            this.lbl_file_csv.TabIndex = 1;
-            this.lbl_file_csv.Text = "label2";
+            this.import_lbl_2.AutoSize = true;
+            this.import_lbl_2.Location = new System.Drawing.Point(3, 120);
+            this.import_lbl_2.Name = "import_lbl_2";
+            this.import_lbl_2.Size = new System.Drawing.Size(243, 15);
+            this.import_lbl_2.TabIndex = 1;
+            this.import_lbl_2.Text = "2. Import the previously generated QR Codes";
             // 
-            // btn_select_csv
+            // import_btn_select_csv
             // 
-            this.btn_select_csv.Location = new System.Drawing.Point(117, 286);
-            this.btn_select_csv.Name = "btn_select_csv";
-            this.btn_select_csv.Size = new System.Drawing.Size(121, 91);
-            this.btn_select_csv.TabIndex = 1;
-            this.btn_select_csv.Text = "button1";
-            this.btn_select_csv.UseVisualStyleBackColor = true;
-            this.btn_select_csv.Click += new System.EventHandler(this.btn_select_csv_Click);
+            this.import_btn_select_csv.AutoSize = true;
+            this.import_btn_select_csv.Location = new System.Drawing.Point(22, 30);
+            this.import_btn_select_csv.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.import_btn_select_csv.Name = "import_btn_select_csv";
+            this.import_btn_select_csv.Size = new System.Drawing.Size(149, 25);
+            this.import_btn_select_csv.TabIndex = 4;
+            this.import_btn_select_csv.Text = "Select the file to import...";
+            this.import_btn_select_csv.UseVisualStyleBackColor = true;
+            this.import_btn_select_csv.Click += new System.EventHandler(this.btn_select_csv_Click);
             // 
             // page_summary
             // 
@@ -154,35 +162,104 @@
             // import_rb_import
             // 
             this.import_rb_import.AutoSize = true;
-            this.import_rb_import.Location = new System.Drawing.Point(4, 79);
+            this.import_rb_import.Location = new System.Drawing.Point(14, 60);
             this.import_rb_import.Name = "import_rb_import";
             this.import_rb_import.Size = new System.Drawing.Size(172, 19);
             this.import_rb_import.TabIndex = 2;
             this.import_rb_import.TabStop = true;
             this.import_rb_import.Text = "Import generated QR Codes";
             this.import_rb_import.UseVisualStyleBackColor = true;
+            this.import_rb_import.CheckedChanged += new System.EventHandler(this.import_rb_import_CheckedChanged);
             // 
             // import_rb_dontimport
             // 
             this.import_rb_dontimport.AutoSize = true;
-            this.import_rb_dontimport.Location = new System.Drawing.Point(4, 192);
+            this.import_rb_dontimport.Location = new System.Drawing.Point(14, 384);
             this.import_rb_dontimport.Name = "import_rb_dontimport";
             this.import_rb_dontimport.Size = new System.Drawing.Size(204, 19);
             this.import_rb_dontimport.TabIndex = 3;
             this.import_rb_dontimport.TabStop = true;
             this.import_rb_dontimport.Text = "Don\'t import generated QR Codes";
             this.import_rb_dontimport.UseVisualStyleBackColor = true;
+            this.import_rb_dontimport.CheckedChanged += new System.EventHandler(this.import_rb_dontimport_CheckedChanged);
             // 
             // import_lb_intro
             // 
             this.import_lb_intro.Dock = System.Windows.Forms.DockStyle.Top;
             this.import_lb_intro.Location = new System.Drawing.Point(0, 0);
+            this.import_lb_intro.Margin = new System.Windows.Forms.Padding(10, 10, 3, 0);
             this.import_lb_intro.Name = "import_lb_intro";
-            this.import_lb_intro.Size = new System.Drawing.Size(586, 48);
-            this.import_lb_intro.TabIndex = 4;
+            this.import_lb_intro.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.import_lb_intro.Size = new System.Drawing.Size(586, 55);
+            this.import_lb_intro.TabIndex = 1;
             this.import_lb_intro.Text = "You have the option of importing a file with a list of QR Codes generated in the " +
     "past. Please keep track fo the generated QR Codes in order to avoid collisions i" +
     "n the future.\r\n";
+            // 
+            // import_panel_import
+            // 
+            this.import_panel_import.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.import_panel_import.Controls.Add(this.import_lbl_report);
+            this.import_panel_import.Controls.Add(this.import_lbl_file);
+            this.import_panel_import.Controls.Add(this.label1);
+            this.import_panel_import.Controls.Add(this.import_btn_import);
+            this.import_panel_import.Controls.Add(this.import_lbl_1);
+            this.import_panel_import.Controls.Add(this.import_btn_select_csv);
+            this.import_panel_import.Controls.Add(this.import_lbl_2);
+            this.import_panel_import.Enabled = false;
+            this.import_panel_import.Location = new System.Drawing.Point(26, 90);
+            this.import_panel_import.Name = "import_panel_import";
+            this.import_panel_import.Size = new System.Drawing.Size(557, 242);
+            this.import_panel_import.TabIndex = 5;
+            this.import_panel_import.Visible = false;
+            // 
+            // import_lbl_1
+            // 
+            this.import_lbl_1.AutoSize = true;
+            this.import_lbl_1.Location = new System.Drawing.Point(3, 0);
+            this.import_lbl_1.Name = "import_lbl_1";
+            this.import_lbl_1.Size = new System.Drawing.Size(317, 15);
+            this.import_lbl_1.TabIndex = 5;
+            this.import_lbl_1.Text = "1. Select the file containing previously generated QR Codes";
+            // 
+            // import_btn_import
+            // 
+            this.import_btn_import.Location = new System.Drawing.Point(22, 150);
+            this.import_btn_import.Name = "import_btn_import";
+            this.import_btn_import.Size = new System.Drawing.Size(149, 23);
+            this.import_btn_import.TabIndex = 6;
+            this.import_btn_import.Text = "Import";
+            this.import_btn_import.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(19, 66);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 15);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Selected file:";
+            // 
+            // import_lbl_file
+            // 
+            this.import_lbl_file.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.import_lbl_file.Location = new System.Drawing.Point(98, 66);
+            this.import_lbl_file.Name = "import_lbl_file";
+            this.import_lbl_file.Size = new System.Drawing.Size(452, 52);
+            this.import_lbl_file.TabIndex = 8;
+            this.import_lbl_file.Text = "<no file>";
+            // 
+            // import_lbl_report
+            // 
+            this.import_lbl_report.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.import_lbl_report.Location = new System.Drawing.Point(22, 180);
+            this.import_lbl_report.Name = "import_lbl_report";
+            this.import_lbl_report.Size = new System.Drawing.Size(532, 53);
+            this.import_lbl_report.TabIndex = 9;
             // 
             // MainForm
             // 
@@ -197,6 +274,8 @@
             this.page_welcome.ResumeLayout(false);
             this.page_import.ResumeLayout(false);
             this.page_import.PerformLayout();
+            this.import_panel_import.ResumeLayout(false);
+            this.import_panel_import.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -208,8 +287,8 @@
         private AeroWizard.WizardPage page_summary;
         private System.Windows.Forms.Label lbl_welcome_welcome;
         private AeroWizard.WizardPage page_import;
-        private System.Windows.Forms.Label lbl_file_csv;
-        private System.Windows.Forms.Button btn_select_csv;
+        private System.Windows.Forms.Label import_lbl_2;
+        private System.Windows.Forms.Button import_btn_select_csv;
         private System.Windows.Forms.OpenFileDialog dlg_open_csv;
         private System.ComponentModel.BackgroundWorker bg_csv_analyse;
         private AeroWizard.WizardPage page_configure;
@@ -218,6 +297,12 @@
         private System.Windows.Forms.RadioButton import_rb_dontimport;
         private System.Windows.Forms.RadioButton import_rb_import;
         private System.Windows.Forms.Label import_lb_intro;
+        private System.Windows.Forms.Panel import_panel_import;
+        private System.Windows.Forms.Label import_lbl_1;
+        private System.Windows.Forms.Button import_btn_import;
+        private System.Windows.Forms.Label import_lbl_file;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label import_lbl_report;
     }
 }
 
