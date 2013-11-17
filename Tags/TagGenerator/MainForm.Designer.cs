@@ -67,6 +67,8 @@
             this.done_lbl_dummy_label_to_get_focus = new System.Windows.Forms.Label();
             this.export_lbl_intro = new System.Windows.Forms.Label();
             this.export_btn = new System.Windows.Forms.Button();
+            this.gen_lbl_generatedQR = new System.Windows.Forms.Label();
+            this.gen_lbl_generatedPages = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.stepWizardControl1)).BeginInit();
             this.page_welcome.SuspendLayout();
             this.page_import.SuspendLayout();
@@ -356,6 +358,8 @@
             // 
             // page_generate
             // 
+            this.page_generate.Controls.Add(this.gen_lbl_generatedPages);
+            this.page_generate.Controls.Add(this.gen_lbl_generatedQR);
             this.page_generate.Controls.Add(this.gen_tb_msg);
             this.page_generate.Controls.Add(this.gen_lbl_3);
             this.page_generate.Controls.Add(this.progressBar1);
@@ -479,6 +483,24 @@
             this.export_btn.Text = "Export generated QR Codes to a file...";
             this.export_btn.UseVisualStyleBackColor = true;
             // 
+            // gen_lbl_generatedQR
+            // 
+            this.gen_lbl_generatedQR.AutoSize = true;
+            this.gen_lbl_generatedQR.Location = new System.Drawing.Point(145, 30);
+            this.gen_lbl_generatedQR.Name = "gen_lbl_generatedQR";
+            this.gen_lbl_generatedQR.Size = new System.Drawing.Size(13, 15);
+            this.gen_lbl_generatedQR.TabIndex = 5;
+            this.gen_lbl_generatedQR.Text = "0";
+            // 
+            // gen_lbl_generatedPages
+            // 
+            this.gen_lbl_generatedPages.AutoSize = true;
+            this.gen_lbl_generatedPages.Location = new System.Drawing.Point(145, 67);
+            this.gen_lbl_generatedPages.Name = "gen_lbl_generatedPages";
+            this.gen_lbl_generatedPages.Size = new System.Drawing.Size(13, 15);
+            this.gen_lbl_generatedPages.TabIndex = 6;
+            this.gen_lbl_generatedPages.Text = "0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -547,6 +569,8 @@
         private System.Windows.Forms.Label done_lbl_dummy_label_to_get_focus;
         private System.Windows.Forms.Button export_btn;
         private System.Windows.Forms.Label export_lbl_intro;
+        private System.Windows.Forms.Label gen_lbl_generatedPages;
+        private System.Windows.Forms.Label gen_lbl_generatedQR;
     }
 }
 
