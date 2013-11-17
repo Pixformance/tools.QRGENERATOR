@@ -52,7 +52,6 @@
             this.config_lbl_intro = new System.Windows.Forms.Label();
             this.config_pagescount = new System.Windows.Forms.NumericUpDown();
             this.page_generate = new AeroWizard.WizardPage();
-            this.page_export = new AeroWizard.WizardPage();
             this.page_summary = new AeroWizard.WizardPage();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -63,6 +62,7 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.stepWizardControl1)).BeginInit();
             this.page_welcome.SuspendLayout();
             this.page_import.SuspendLayout();
@@ -70,6 +70,7 @@
             this.page_configure.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.config_pagescount)).BeginInit();
             this.page_generate.SuspendLayout();
+            this.page_summary.SuspendLayout();
             this.SuspendLayout();
             // 
             // dlg_open_csv
@@ -91,7 +92,6 @@
             this.stepWizardControl1.Pages.Add(this.page_import);
             this.stepWizardControl1.Pages.Add(this.page_configure);
             this.stepWizardControl1.Pages.Add(this.page_generate);
-            this.stepWizardControl1.Pages.Add(this.page_export);
             this.stepWizardControl1.Pages.Add(this.page_summary);
             this.stepWizardControl1.Size = new System.Drawing.Size(784, 561);
             this.stepWizardControl1.TabIndex = 0;
@@ -319,18 +319,12 @@
             this.page_generate.TabIndex = 6;
             this.page_generate.Text = "Generate";
             // 
-            // page_export
-            // 
-            this.page_export.Name = "page_export";
-            this.page_export.Size = new System.Drawing.Size(586, 406);
-            this.page_export.TabIndex = 7;
-            this.page_export.Text = "Export";
-            // 
             // page_summary
             // 
+            this.page_summary.Controls.Add(this.textBox2);
             this.page_summary.IsFinishPage = true;
             this.page_summary.Name = "page_summary";
-            this.page_summary.Size = new System.Drawing.Size(586, 405);
+            this.page_summary.Size = new System.Drawing.Size(586, 406);
             this.page_summary.TabIndex = 3;
             this.page_summary.Text = "Done";
             // 
@@ -422,6 +416,20 @@
             this.textBox1.TabIndex = 4;
             this.textBox1.Text = "sfqsdfsadf asd fasd f";
             // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.SystemColors.Window;
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox2.Location = new System.Drawing.Point(0, 0);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(13, 3, 3, 3);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(586, 406);
+            this.textBox2.TabIndex = 0;
+            this.textBox2.Text = "Report:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -442,6 +450,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.config_pagescount)).EndInit();
             this.page_generate.ResumeLayout(false);
             this.page_generate.PerformLayout();
+            this.page_summary.ResumeLayout(false);
+            this.page_summary.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -459,7 +469,6 @@
         private System.ComponentModel.BackgroundWorker bg_csv_analyse;
         private AeroWizard.WizardPage page_configure;
         private AeroWizard.WizardPage page_generate;
-        private AeroWizard.WizardPage page_export;
         private System.Windows.Forms.RadioButton import_rb_dontimport;
         private System.Windows.Forms.RadioButton import_rb_import;
         private System.Windows.Forms.Label import_lb_intro;
@@ -482,6 +491,7 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 
