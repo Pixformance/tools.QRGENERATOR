@@ -58,12 +58,18 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.stepWizardControl1)).BeginInit();
             this.page_welcome.SuspendLayout();
             this.page_import.SuspendLayout();
             this.import_panel_import.SuspendLayout();
             this.page_configure.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.config_pagescount)).BeginInit();
+            this.page_generate.SuspendLayout();
             this.SuspendLayout();
             // 
             // dlg_open_csv
@@ -303,6 +309,11 @@
             // 
             // page_generate
             // 
+            this.page_generate.Controls.Add(this.textBox1);
+            this.page_generate.Controls.Add(this.label7);
+            this.page_generate.Controls.Add(this.progressBar1);
+            this.page_generate.Controls.Add(this.label6);
+            this.page_generate.Controls.Add(this.label5);
             this.page_generate.Name = "page_generate";
             this.page_generate.Size = new System.Drawing.Size(586, 406);
             this.page_generate.TabIndex = 6;
@@ -311,7 +322,7 @@
             // page_export
             // 
             this.page_export.Name = "page_export";
-            this.page_export.Size = new System.Drawing.Size(401, 258);
+            this.page_export.Size = new System.Drawing.Size(586, 406);
             this.page_export.TabIndex = 7;
             this.page_export.Text = "Export";
             // 
@@ -363,6 +374,54 @@
             this.button1.Text = "Select the output directory...";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(18, 30);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(119, 15);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Generated QR Codes:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(18, 68);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(122, 15);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Generated PDF pages:";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(21, 106);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(548, 14);
+            this.progressBar1.TabIndex = 2;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label7.Location = new System.Drawing.Point(21, 143);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(61, 15);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Messages:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.textBox1.Location = new System.Drawing.Point(24, 161);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(559, 242);
+            this.textBox1.TabIndex = 4;
+            this.textBox1.Text = "sfqsdfsadf asd fasd f";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -381,6 +440,8 @@
             this.page_configure.ResumeLayout(false);
             this.page_configure.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.config_pagescount)).EndInit();
+            this.page_generate.ResumeLayout(false);
+            this.page_generate.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -416,6 +477,11 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
     }
 }
 
