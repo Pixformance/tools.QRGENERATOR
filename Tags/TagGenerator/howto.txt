@@ -51,18 +51,17 @@ Tasks:
     keep the results in memory
     - reason: steps should be separate / easier to replace, update
 
+    the serial number will be generated using the function below
+    but with reduced digit-set that will avoid confusion, e.g. 0 and O were removed.
+    this is the selected set:
+    123456789ABCDEFHKLMNPRSTWXY
+
 3.  Generate a PDF with the QR codes and serial numbers from memory
     to a temp file, make sure the file was generated (exists)
 
 4.  Update the CSV file with the new QR codes and serial numbers
 
 5.  Move the temp file to the output.
-
-
-
-
-
-
 
 
 

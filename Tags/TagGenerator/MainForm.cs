@@ -84,8 +84,12 @@ namespace TagGenerator
             page_generate.Initialize +=
                 delegate(object sender, AeroWizard.WizardPageInitEventArgs e)
                 {
-                    worker.RunWorkerAsync();
-                    gen_btn_abort.Enabled = true;
+                    // don't generate if somebody just goes back through that page
+                    if (e.PreviousPage == page_configure)
+                    {
+                        worker.RunWorkerAsync();
+                        gen_btn_abort.Enabled = true;
+                    }
                 };
 
             page_generate.Rollback += delegate(object sender, AeroWizard.WizardPageConfirmEventArgs e)

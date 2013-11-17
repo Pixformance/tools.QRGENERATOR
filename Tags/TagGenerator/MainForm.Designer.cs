@@ -92,6 +92,7 @@
             this.stepWizardControl1.Pages.Add(this.page_summary);
             this.stepWizardControl1.Size = new System.Drawing.Size(784, 561);
             this.stepWizardControl1.TabIndex = 0;
+            this.stepWizardControl1.Title = "Pixformance Membership Tag Generator";
             this.stepWizardControl1.Cancelling += new System.ComponentModel.CancelEventHandler(this.stepWizardControl1_Cancelling);
             this.stepWizardControl1.Finished += new System.EventHandler(this.stepWizardControl1_Finished);
             // 
