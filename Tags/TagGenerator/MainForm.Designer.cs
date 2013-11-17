@@ -68,6 +68,7 @@
             this.done_lbl_dummy_label_to_get_focus = new System.Windows.Forms.Label();
             this.done_tb_msg = new System.Windows.Forms.TextBox();
             this.gen_btn_abort = new System.Windows.Forms.Button();
+            this.export_lbl_report = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.stepWizardControl1)).BeginInit();
             this.page_welcome.SuspendLayout();
             this.page_import.SuspendLayout();
@@ -92,12 +93,13 @@
             this.stepWizardControl1.Size = new System.Drawing.Size(784, 561);
             this.stepWizardControl1.TabIndex = 0;
             this.stepWizardControl1.Cancelling += new System.ComponentModel.CancelEventHandler(this.stepWizardControl1_Cancelling);
+            this.stepWizardControl1.Finished += new System.EventHandler(this.stepWizardControl1_Finished);
             // 
             // page_welcome
             // 
             this.page_welcome.Controls.Add(this.lbl_welcome_welcome);
             this.page_welcome.Name = "page_welcome";
-            this.page_welcome.Size = new System.Drawing.Size(586, 405);
+            this.page_welcome.Size = new System.Drawing.Size(586, 406);
             this.page_welcome.TabIndex = 2;
             this.page_welcome.Text = "Welcome";
             // 
@@ -107,7 +109,7 @@
             this.lbl_welcome_welcome.Location = new System.Drawing.Point(0, 0);
             this.lbl_welcome_welcome.Name = "lbl_welcome_welcome";
             this.lbl_welcome_welcome.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.lbl_welcome_welcome.Size = new System.Drawing.Size(586, 405);
+            this.lbl_welcome_welcome.Size = new System.Drawing.Size(586, 406);
             this.lbl_welcome_welcome.TabIndex = 0;
             this.lbl_welcome_welcome.Text = resources.GetString("lbl_welcome_welcome.Text");
             // 
@@ -443,6 +445,7 @@
             // 
             // page_export
             // 
+            this.page_export.Controls.Add(this.export_lbl_report);
             this.page_export.Controls.Add(this.export_btn);
             this.page_export.Controls.Add(this.export_lbl_intro);
             this.page_export.Name = "page_export";
@@ -519,6 +522,16 @@
             this.gen_btn_abort.UseVisualStyleBackColor = true;
             this.gen_btn_abort.Click += new System.EventHandler(this.gen_btn_abort_Click);
             // 
+            // export_lbl_report
+            // 
+            this.export_lbl_report.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.export_lbl_report.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.export_lbl_report.Location = new System.Drawing.Point(14, 108);
+            this.export_lbl_report.Name = "export_lbl_report";
+            this.export_lbl_report.Size = new System.Drawing.Size(569, 62);
+            this.export_lbl_report.TabIndex = 2;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -588,6 +601,7 @@
         private System.Windows.Forms.Label gen_lbl_generatedPages;
         private System.Windows.Forms.Label gen_lbl_generatedQR;
         private System.Windows.Forms.Button gen_btn_abort;
+        private System.Windows.Forms.Label export_lbl_report;
     }
 }
 

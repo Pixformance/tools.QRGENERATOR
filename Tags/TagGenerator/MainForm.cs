@@ -578,6 +578,10 @@ namespace TagGenerator
             if (File.Exists(dialog.FileName))
                 File.Delete(dialog.FileName);
 
+            int linesWritten = 0;
+            int linesOld = 0; // lines from old file
+            int linesNew = 0; // lines added from this generation process
+
             using (System.IO.StreamWriter output_file = new System.IO.StreamWriter(dialog.FileName))
             {
                 // handle the old codes
@@ -591,6 +595,8 @@ namespace TagGenerator
                     // we have old codes, copy them
                     foreach (string line in File.ReadLines(source_old_codes))
                     {
+                        linesWritten++;
+                        linesOld++;
                         output_file.WriteLine(line);
                     }
                 }
@@ -598,6 +604,8 @@ namespace TagGenerator
                 // and now, handle the new codes:
                 foreach (var item in _generated_codes)
                 {
+                    linesWritten++;
+                    linesNew++;
                     output_file.WriteLine(
                             String.Format("{0},{1},{2},{3},{4}",
                                 item.Item1,
@@ -609,6 +617,15 @@ namespace TagGenerator
                         );                    
                 }
             }
+
+            export_lbl_report.Text =
+                String.Format(
+                    "Written {0} lines, imported {1}, added {2}\n" +
+                    "Max QR Code used: {3}\n" +
+                    "Max page number used: {4}",
+                    linesWritten, linesOld, linesNew,
+                    _max_qr_used,
+                    _max_page_number_used);
         }
         #endregion
 
@@ -632,6 +649,11 @@ namespace TagGenerator
                 worker.CancelAsync();
                 gen_btn_abort.Enabled = false;
             }
+        }
+
+        private void stepWizardControl1_Finished(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
     }
