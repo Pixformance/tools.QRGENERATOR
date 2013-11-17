@@ -36,99 +36,151 @@ namespace POC2_PDF_iTextSharp
                 File.Delete(textBox1.Text);
             }
 
-            BaseFont bfTimes = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, true);
-            iTextSharp.text.Font times = new iTextSharp.text.Font(bfTimes, 8, iTextSharp.text.Font.NORMAL, iTextSharp.text.Color.LIGHT_GRAY);
+            // in general: 72 pixel == 2.54cm
 
+            BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, true);
+
+            iTextSharp.text.Font font_title = new iTextSharp.text.Font(
+                bf,
+                11,
+                iTextSharp.text.Font.BOLD + iTextSharp.text.Font.UNDERLINE,
+                iTextSharp.text.Color.DARK_GRAY);
+
+            iTextSharp.text.Font font_description = new iTextSharp.text.Font(
+                            bf,
+                            11,
+                            iTextSharp.text.Font.NORMAL,
+                            iTextSharp.text.Color.DARK_GRAY);
+
+            iTextSharp.text.Font font_meta = new iTextSharp.text.Font(
+                            bf,
+                            8,
+                            iTextSharp.text.Font.NORMAL,
+                            iTextSharp.text.Color.DARK_GRAY);
+
+            iTextSharp.text.Font font_sn = new iTextSharp.text.Font(
+                            bf,
+                            8,
+                            iTextSharp.text.Font.NORMAL,
+                            iTextSharp.text.Color.DARK_GRAY);
 
             Document doc = new Document(PageSize.A4);
             PdfWriter.GetInstance(doc, new FileStream(textBox1.Text, FileMode.Create));
 
             doc.Open();
 
-            Paragraph heading = new Paragraph("Page Heading", new iTextSharp.text.Font(iTextSharp.text.Font.HELVETICA, 28f, iTextSharp.text.Font.BOLD));
-            heading.SpacingAfter = 18f;
-            doc.Add(heading);
+            doc.SetMargins(30.0f, 30.0f, 0.0f, 0.0f);
 
-            
-            Paragraph para = new Paragraph("qr code", times);
-            para.SpacingAfter = 9f;
-            para.Alignment = Element.ALIGN_JUSTIFIED;
+            Paragraph header = new Paragraph();
+            header.SpacingBefore = 0.0f;
+            header.SpacingAfter = 0.0f;
+            header.Add(new Chunk("Pixformance Membership Tags", font_title));
+            header.Add(Chunk.NEWLINE);
+            header.Add(new Chunk("Bitte vor der ersten Benutzung aktivieren.", font_description));
+            doc.Add(header);
+
+            Paragraph meta = new Paragraph();
+            meta.SpacingBefore = 0.0f;
+            meta.SetAlignment("Right");
+            meta.Add(new Chunk("70 Tags | 32 | 213404 - 213473 | Version 234", font_meta));
+            doc.Add(meta);
+
+            iTextSharp.text.Image qr_image = iTextSharp.text.Image.GetInstance(pictureBox1.Image, iTextSharp.text.Color.RED);
+            qr_image.ScaleAbsolute(50f, 50f);
+            //jpg.SpacingAfter = 12f;
+            //jpg.SpacingBefore = 12f;
 
 
-            iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(pictureBox1.Image, iTextSharp.text.Color.RED);
-            jpg.ScaleToFit(30f, 30f);
-            jpg.SpacingAfter = 12f;
-            jpg.SpacingBefore = 12f;
-
-
-            PdfPTable table = new PdfPTable(10);
-            table.TotalWidth = doc.PageSize.Width;
-            table.LockedWidth = true;
-            
-
-            PdfPCell cell = new PdfPCell(new Phrase("Header spanning over all columns"));
-            cell.Colspan = table.NumberOfColumns;
-            cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-            cell.FixedHeight = 30.0f;
-            table.AddCell(cell);
+            PdfPTable qr_table = new PdfPTable(7);
+            qr_table.TotalWidth = 7.0f * 72.0f;
+            qr_table.SpacingBefore = 72.0f;
+            qr_table.LockedWidth = true;
 
             Phrase phr = new Phrase();
-            phr.Add(new Chunk(jpg, 0, 0));
-            phr.Add(new Chunk("test", times));
+            phr.Add(new Chunk(qr_image, 0, 0));
+            phr.Add(Chunk.NEWLINE);
+            phr.Add(new Chunk("test", font_sn));
 
+            PdfPCell cell = new PdfPCell(phr);
+            cell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+            cell.VerticalAlignment = PdfPCell.ALIGN_MIDDLE;
+            cell.MinimumHeight = 72.0f;
+            cell.BorderWidth = 0.0f;
 
-            table.AddCell(phr);
-            table.AddCell("Col 1 Row 1");
-            table.AddCell("Col 1 Row 1");
-            table.AddCell("Col 1 Row 1");
-            table.AddCell("Col 1 Row 1");
-            table.AddCell("Col 1 Row 1");
-            table.AddCell("Col 1 Row 1");
-            table.AddCell("Col 1 Row 1");
-            table.AddCell("Col 1 Row 1");
-            table.AddCell("Col 1 Row 1");
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
 
-            table.AddCell(jpg);
-            table.AddCell(jpg);
-            table.AddCell(jpg);
-            table.AddCell(jpg);
-            table.AddCell(jpg);
-            table.AddCell(jpg);
-            table.AddCell(jpg);
-            table.AddCell(jpg);
-            table.AddCell(jpg);
-            table.AddCell(jpg);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
 
-            table.AddCell(new Phrase("SA DE 34", times));
-            table.AddCell(new Phrase("SA DE 34", times));
-            table.AddCell(new Phrase("SA DE 34", times));
-            table.AddCell(new Phrase("SA DE 34", times));
-            table.AddCell(new Phrase("SA DE 34", times));
-            table.AddCell(new Phrase("SA DE 34", times));
-            table.AddCell(new Phrase("SA DE 34", times));
-            table.AddCell(new Phrase("SA DE 34", times));
-            table.AddCell(new Phrase("SA DE 34", times));
-            table.AddCell(new Phrase("SA DE 34", times));
- 
-            doc.Add(table);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
 
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
 
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
 
-            MultiColumnText columns = new MultiColumnText();
-            //float left, float right, float gutterwidth, int numcolumns
-            columns.AddRegularColumns(36f, doc.PageSize.Width - 36f, 24f, 10);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+            qr_table.AddCell(cell);
+
             
-            for (int i = 0; i < 40; i++)
-            {
-                columns.AddElement(jpg);
-                columns.AddElement(para);
-
-            }
-
-            doc.Add(columns);
-
-
-
+            doc.Add(qr_table);
 
             doc.Close();
 
