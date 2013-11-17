@@ -58,7 +58,7 @@
             this.gen_lbl_generatedQR = new System.Windows.Forms.Label();
             this.gen_tb_msg = new System.Windows.Forms.TextBox();
             this.gen_lbl_3 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.gen_pb = new System.Windows.Forms.ProgressBar();
             this.gen_lbl_2 = new System.Windows.Forms.Label();
             this.gen_lbl_1 = new System.Windows.Forms.Label();
             this.page_export = new AeroWizard.WizardPage();
@@ -360,15 +360,16 @@
             // 
             // page_generate
             // 
+            this.page_generate.AllowNext = false;
             this.page_generate.Controls.Add(this.gen_lbl_generatedPages);
             this.page_generate.Controls.Add(this.gen_lbl_generatedQR);
             this.page_generate.Controls.Add(this.gen_tb_msg);
             this.page_generate.Controls.Add(this.gen_lbl_3);
-            this.page_generate.Controls.Add(this.progressBar1);
+            this.page_generate.Controls.Add(this.gen_pb);
             this.page_generate.Controls.Add(this.gen_lbl_2);
             this.page_generate.Controls.Add(this.gen_lbl_1);
             this.page_generate.Name = "page_generate";
-            this.page_generate.Size = new System.Drawing.Size(401, 258);
+            this.page_generate.Size = new System.Drawing.Size(586, 406);
             this.page_generate.TabIndex = 6;
             this.page_generate.Text = "Generate";
             // 
@@ -412,12 +413,12 @@
             this.gen_lbl_3.TabIndex = 3;
             this.gen_lbl_3.Text = "Messages:";
             // 
-            // progressBar1
+            // gen_pb
             // 
-            this.progressBar1.Location = new System.Drawing.Point(16, 103);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(548, 14);
-            this.progressBar1.TabIndex = 2;
+            this.gen_pb.Location = new System.Drawing.Point(16, 103);
+            this.gen_pb.Name = "gen_pb";
+            this.gen_pb.Size = new System.Drawing.Size(548, 14);
+            this.gen_pb.TabIndex = 2;
             // 
             // gen_lbl_2
             // 
@@ -561,7 +562,7 @@
         private System.Windows.Forms.Label config_lbl_3;
         private System.Windows.Forms.TextBox gen_tb_msg;
         private System.Windows.Forms.Label gen_lbl_3;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar gen_pb;
         private System.Windows.Forms.Label gen_lbl_2;
         private System.Windows.Forms.Label gen_lbl_1;
         private System.Windows.Forms.TextBox done_tb_msg;

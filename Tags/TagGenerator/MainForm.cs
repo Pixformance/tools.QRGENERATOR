@@ -24,6 +24,10 @@ namespace TagGenerator
         // configured during "configure" page
         string _output_dir;
         int _requested_pages_count = 1;
+        int _requested_qr_count = _QR_PER_PAGE;
+
+        // used within the "Generate" page
+        BackgroundWorker worker;
 
         public MainForm()
         {
@@ -60,9 +64,120 @@ namespace TagGenerator
                 delegate(object sender, AeroWizard.WizardPageConfirmEventArgs e)
                 {
                     _requested_pages_count = Convert.ToInt32(config_pagescount.Value);
+                    _requested_qr_count = _requested_pages_count * _QR_PER_PAGE;
                 };
             
+            // 4. Generate
+            worker = new BackgroundWorker();
 
+            worker.WorkerSupportsCancellation = true;
+            worker.WorkerReportsProgress = true;
+
+            worker.DoWork += worker_DoWork;
+            worker.ProgressChanged += worker_ProgressChanged;
+            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+
+            page_generate.Initialize +=
+                delegate(object sender, AeroWizard.WizardPageInitEventArgs e)
+                {
+                    worker.RunWorkerAsync();
+                };
+        }
+
+
+        class GenerateProgressReport
+        {
+            public bool UpdateGeneratedCodes { get; set; }
+            public bool UpdateGeneratedPages { get; set; }
+
+            public int GeneratedCodes { get; set; }
+            public int GeneratedPages { get; set; }
+
+            public bool UpdateMsg { get; set; }
+            public string Msg { get; set; }
+
+            public bool UpdateProgress { get; set; }
+            public int Progress { get; set; }
+        }
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (null != e.Error)
+            {
+                gen_tb_msg.AppendText("Error:" + System.Environment.NewLine);
+                gen_tb_msg.AppendText(e.Error.Message);
+                return;
+            }
+
+            page_generate.AllowNext = true;
+        }
+
+        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            GenerateProgressReport report = e.UserState as GenerateProgressReport;
+
+            if (null == report)
+                return;
+
+            if (report.UpdateMsg)
+            {
+                gen_tb_msg.AppendText(report.Msg + System.Environment.NewLine);
+            }
+
+            if (report.UpdateProgress)
+            {
+                gen_pb.Value = report.Progress;
+            }
+
+            if (report.UpdateGeneratedCodes)
+            {
+                gen_lbl_generatedQR.Text = String.Format(
+                    "{0} of {1}",
+                    report.GeneratedCodes,
+                    _requested_qr_count);
+            }
+
+            if (report.UpdateGeneratedPages)
+            {
+                gen_lbl_generatedPages.Text = String.Format(
+                    "{0} of {1}",
+                    report.GeneratedPages,
+                    _requested_pages_count);
+            }
+        }
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker w = sender as BackgroundWorker;
+            if (null == w)
+                return;
+
+            w.ReportProgress(0, new GenerateProgressReport()
+            {
+                UpdateProgress = true, Progress = 0,
+                UpdateGeneratedPages = true, GeneratedPages = 0,
+                UpdateGeneratedCodes = true, GeneratedCodes = 0
+            });
+
+            // okay, so now the serious stuff has to happen...
+
+            for (int page_count = 0; page_count < _requested_pages_count; page_count++)
+            {
+                // 1. Generate QR codes for this page and their serial numbers
+                
+
+                // 2. Create the PDF
+
+                w.ReportProgress(0, new GenerateProgressReport()
+                {
+                    UpdateProgress = true,
+                    Progress = 0,
+                    UpdateGeneratedPages = true,
+                    GeneratedPages = page_count + 1,
+                    UpdateGeneratedCodes = true,
+                    GeneratedCodes = (page_count + 1) * _QR_PER_PAGE
+                });
+            }
         }
 
 
