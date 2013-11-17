@@ -14,9 +14,16 @@ namespace TagGenerator
 {
     public partial class MainForm : Form
     {
+        static readonly int _QR_PER_PAGE = 20; // this is tied to the PDF layout so don't change this without touching the layout 
+
+        // configured during "import" page
         string _csv_filename;               // set when the user selects a file to import the QR codes
         int _max_qr_used;                   // read from the imported CSV file or set to 0 when no file was used
         int _max_page_number_used;          // read from the imported CSV file or set to 0 when no file was used
+
+        // configured during "configure" page
+        string _output_dir;
+        int _requested_pages_count = 1;
 
         public MainForm()
         {
@@ -44,9 +51,18 @@ namespace TagGenerator
                     }
                     // the other case is already handled during the input and the variables are set
                 };
-                 
-            //page_analyse_csv.Initialize += delegate(object sender, AeroWizard.WizardPageInitEventArgs e)
-            //                               { bg_csv_analyse.RunWorkerAsync(); }; 
+
+            // 3. Configure
+
+            config_lbl_num_qr_per_page.Text = _QR_PER_PAGE.ToString();
+
+            page_configure.Commit +=
+                delegate(object sender, AeroWizard.WizardPageConfirmEventArgs e)
+                {
+                    _requested_pages_count = Convert.ToInt32(config_pagescount.Value);
+                };
+            
+
         }
 
 
@@ -209,5 +225,24 @@ namespace TagGenerator
             page_import.AllowNext = true;
         }
         #endregion
+
+        #region CONFIG PAGE
+
+
+        private void config_btn_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                config_lbl_output_dir.Text = dialog.SelectedPath;
+                _output_dir = dialog.SelectedPath;
+
+                page_configure.AllowNext = true;
+            }
+        }
+
+        #endregion
+
     }
 }

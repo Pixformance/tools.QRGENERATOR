@@ -54,19 +54,19 @@
             this.config_lbl_intro = new System.Windows.Forms.Label();
             this.config_pagescount = new System.Windows.Forms.NumericUpDown();
             this.page_generate = new AeroWizard.WizardPage();
+            this.gen_lbl_generatedPages = new System.Windows.Forms.Label();
+            this.gen_lbl_generatedQR = new System.Windows.Forms.Label();
             this.gen_tb_msg = new System.Windows.Forms.TextBox();
             this.gen_lbl_3 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.gen_lbl_2 = new System.Windows.Forms.Label();
             this.gen_lbl_1 = new System.Windows.Forms.Label();
-            this.page_summary = new AeroWizard.WizardPage();
-            this.done_tb_msg = new System.Windows.Forms.TextBox();
             this.page_export = new AeroWizard.WizardPage();
-            this.done_lbl_dummy_label_to_get_focus = new System.Windows.Forms.Label();
-            this.export_lbl_intro = new System.Windows.Forms.Label();
             this.export_btn = new System.Windows.Forms.Button();
-            this.gen_lbl_generatedQR = new System.Windows.Forms.Label();
-            this.gen_lbl_generatedPages = new System.Windows.Forms.Label();
+            this.export_lbl_intro = new System.Windows.Forms.Label();
+            this.page_summary = new AeroWizard.WizardPage();
+            this.done_lbl_dummy_label_to_get_focus = new System.Windows.Forms.Label();
+            this.done_tb_msg = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.stepWizardControl1)).BeginInit();
             this.page_welcome.SuspendLayout();
             this.page_import.SuspendLayout();
@@ -74,8 +74,8 @@
             this.page_configure.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.config_pagescount)).BeginInit();
             this.page_generate.SuspendLayout();
-            this.page_summary.SuspendLayout();
             this.page_export.SuspendLayout();
+            this.page_summary.SuspendLayout();
             this.SuspendLayout();
             // 
             // stepWizardControl1
@@ -251,6 +251,7 @@
             // 
             // page_configure
             // 
+            this.page_configure.AllowNext = false;
             this.page_configure.Controls.Add(this.config_btn);
             this.page_configure.Controls.Add(this.config_lbl_output_dir);
             this.page_configure.Controls.Add(this.config_lbl_3);
@@ -273,6 +274,7 @@
             this.config_btn.TabIndex = 7;
             this.config_btn.Text = "Select the output directory...";
             this.config_btn.UseVisualStyleBackColor = true;
+            this.config_btn.Click += new System.EventHandler(this.config_btn_Click);
             // 
             // config_lbl_output_dir
             // 
@@ -342,9 +344,19 @@
             0,
             0,
             0});
+            this.config_pagescount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.config_pagescount.Name = "config_pagescount";
             this.config_pagescount.Size = new System.Drawing.Size(120, 23);
             this.config_pagescount.TabIndex = 0;
+            this.config_pagescount.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // page_generate
             // 
@@ -356,9 +368,27 @@
             this.page_generate.Controls.Add(this.gen_lbl_2);
             this.page_generate.Controls.Add(this.gen_lbl_1);
             this.page_generate.Name = "page_generate";
-            this.page_generate.Size = new System.Drawing.Size(586, 406);
+            this.page_generate.Size = new System.Drawing.Size(401, 258);
             this.page_generate.TabIndex = 6;
             this.page_generate.Text = "Generate";
+            // 
+            // gen_lbl_generatedPages
+            // 
+            this.gen_lbl_generatedPages.AutoSize = true;
+            this.gen_lbl_generatedPages.Location = new System.Drawing.Point(145, 67);
+            this.gen_lbl_generatedPages.Name = "gen_lbl_generatedPages";
+            this.gen_lbl_generatedPages.Size = new System.Drawing.Size(13, 15);
+            this.gen_lbl_generatedPages.TabIndex = 6;
+            this.gen_lbl_generatedPages.Text = "0";
+            // 
+            // gen_lbl_generatedQR
+            // 
+            this.gen_lbl_generatedQR.AutoSize = true;
+            this.gen_lbl_generatedQR.Location = new System.Drawing.Point(145, 30);
+            this.gen_lbl_generatedQR.Name = "gen_lbl_generatedQR";
+            this.gen_lbl_generatedQR.Size = new System.Drawing.Size(13, 15);
+            this.gen_lbl_generatedQR.TabIndex = 5;
+            this.gen_lbl_generatedQR.Text = "0";
             // 
             // gen_tb_msg
             // 
@@ -407,15 +437,54 @@
             this.gen_lbl_1.TabIndex = 0;
             this.gen_lbl_1.Text = "Generated QR Codes:";
             // 
+            // page_export
+            // 
+            this.page_export.Controls.Add(this.export_btn);
+            this.page_export.Controls.Add(this.export_lbl_intro);
+            this.page_export.Name = "page_export";
+            this.page_export.Size = new System.Drawing.Size(401, 258);
+            this.page_export.TabIndex = 7;
+            this.page_export.Text = "Export";
+            // 
+            // export_btn
+            // 
+            this.export_btn.AutoSize = true;
+            this.export_btn.Location = new System.Drawing.Point(14, 66);
+            this.export_btn.Name = "export_btn";
+            this.export_btn.Size = new System.Drawing.Size(212, 25);
+            this.export_btn.TabIndex = 1;
+            this.export_btn.Text = "Export generated QR Codes to a file...";
+            this.export_btn.UseVisualStyleBackColor = true;
+            // 
+            // export_lbl_intro
+            // 
+            this.export_lbl_intro.Dock = System.Windows.Forms.DockStyle.Top;
+            this.export_lbl_intro.Location = new System.Drawing.Point(0, 0);
+            this.export_lbl_intro.Name = "export_lbl_intro";
+            this.export_lbl_intro.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.export_lbl_intro.Size = new System.Drawing.Size(401, 62);
+            this.export_lbl_intro.TabIndex = 0;
+            this.export_lbl_intro.Text = "You should export the generated QR Codes to a file and keep track of them in orde" +
+    "r to avoid name collisions in the future. You should also make this file availab" +
+    "le to the Platform Team.";
+            // 
             // page_summary
             // 
             this.page_summary.Controls.Add(this.done_lbl_dummy_label_to_get_focus);
             this.page_summary.Controls.Add(this.done_tb_msg);
             this.page_summary.IsFinishPage = true;
             this.page_summary.Name = "page_summary";
-            this.page_summary.Size = new System.Drawing.Size(586, 406);
+            this.page_summary.Size = new System.Drawing.Size(586, 405);
             this.page_summary.TabIndex = 3;
             this.page_summary.Text = "Done";
+            // 
+            // done_lbl_dummy_label_to_get_focus
+            // 
+            this.done_lbl_dummy_label_to_get_focus.AutoSize = true;
+            this.done_lbl_dummy_label_to_get_focus.Location = new System.Drawing.Point(4, 4);
+            this.done_lbl_dummy_label_to_get_focus.Name = "done_lbl_dummy_label_to_get_focus";
+            this.done_lbl_dummy_label_to_get_focus.Size = new System.Drawing.Size(0, 15);
+            this.done_lbl_dummy_label_to_get_focus.TabIndex = 0;
             // 
             // done_tb_msg
             // 
@@ -429,67 +498,10 @@
             this.done_tb_msg.Multiline = true;
             this.done_tb_msg.Name = "done_tb_msg";
             this.done_tb_msg.ReadOnly = true;
-            this.done_tb_msg.Size = new System.Drawing.Size(573, 403);
+            this.done_tb_msg.Size = new System.Drawing.Size(563, 402);
             this.done_tb_msg.TabIndex = 100;
             this.done_tb_msg.TabStop = false;
             this.done_tb_msg.Text = "Report:";
-            // 
-            // page_export
-            // 
-            this.page_export.Controls.Add(this.export_btn);
-            this.page_export.Controls.Add(this.export_lbl_intro);
-            this.page_export.Name = "page_export";
-            this.page_export.Size = new System.Drawing.Size(586, 406);
-            this.page_export.TabIndex = 7;
-            this.page_export.Text = "Export";
-            // 
-            // done_lbl_dummy_label_to_get_focus
-            // 
-            this.done_lbl_dummy_label_to_get_focus.AutoSize = true;
-            this.done_lbl_dummy_label_to_get_focus.Location = new System.Drawing.Point(4, 4);
-            this.done_lbl_dummy_label_to_get_focus.Name = "done_lbl_dummy_label_to_get_focus";
-            this.done_lbl_dummy_label_to_get_focus.Size = new System.Drawing.Size(0, 15);
-            this.done_lbl_dummy_label_to_get_focus.TabIndex = 0;
-            // 
-            // export_lbl_intro
-            // 
-            this.export_lbl_intro.Dock = System.Windows.Forms.DockStyle.Top;
-            this.export_lbl_intro.Location = new System.Drawing.Point(0, 0);
-            this.export_lbl_intro.Name = "export_lbl_intro";
-            this.export_lbl_intro.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.export_lbl_intro.Size = new System.Drawing.Size(586, 62);
-            this.export_lbl_intro.TabIndex = 0;
-            this.export_lbl_intro.Text = "You should export the generated QR Codes to a file and keep track of them in orde" +
-    "r to avoid name collisions in the future. You should also make this file availab" +
-    "le to the Platform Team.";
-            // 
-            // export_btn
-            // 
-            this.export_btn.AutoSize = true;
-            this.export_btn.Location = new System.Drawing.Point(14, 66);
-            this.export_btn.Name = "export_btn";
-            this.export_btn.Size = new System.Drawing.Size(212, 25);
-            this.export_btn.TabIndex = 1;
-            this.export_btn.Text = "Export generated QR Codes to a file...";
-            this.export_btn.UseVisualStyleBackColor = true;
-            // 
-            // gen_lbl_generatedQR
-            // 
-            this.gen_lbl_generatedQR.AutoSize = true;
-            this.gen_lbl_generatedQR.Location = new System.Drawing.Point(145, 30);
-            this.gen_lbl_generatedQR.Name = "gen_lbl_generatedQR";
-            this.gen_lbl_generatedQR.Size = new System.Drawing.Size(13, 15);
-            this.gen_lbl_generatedQR.TabIndex = 5;
-            this.gen_lbl_generatedQR.Text = "0";
-            // 
-            // gen_lbl_generatedPages
-            // 
-            this.gen_lbl_generatedPages.AutoSize = true;
-            this.gen_lbl_generatedPages.Location = new System.Drawing.Point(145, 67);
-            this.gen_lbl_generatedPages.Name = "gen_lbl_generatedPages";
-            this.gen_lbl_generatedPages.Size = new System.Drawing.Size(13, 15);
-            this.gen_lbl_generatedPages.TabIndex = 6;
-            this.gen_lbl_generatedPages.Text = "0";
             // 
             // MainForm
             // 
@@ -511,10 +523,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.config_pagescount)).EndInit();
             this.page_generate.ResumeLayout(false);
             this.page_generate.PerformLayout();
-            this.page_summary.ResumeLayout(false);
-            this.page_summary.PerformLayout();
             this.page_export.ResumeLayout(false);
             this.page_export.PerformLayout();
+            this.page_summary.ResumeLayout(false);
+            this.page_summary.PerformLayout();
             this.ResumeLayout(false);
 
         }
