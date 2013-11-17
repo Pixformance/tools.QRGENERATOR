@@ -36,9 +36,9 @@ Tasks:
             has to be extracted is the maximum qr code used plus the maximum
             page number used (for whole-page activations of codes)
 
-            index,qr_code_value,qr_code_serial_number,page_number,software_version,
-            1,1,11,1,1.0.0.0
-            2,2,22,1,2.0.0.0
+            //qr_code,serial_number,page_number,software_version,generation_timestamp
+            1,11,1,1.0.0.0,timestamp
+            2,22,1,2.0.0.0,timestamp
             ...
 
 2.  Generate a batch of QR codes for a page of a PDF file, e.g. 70 codes 

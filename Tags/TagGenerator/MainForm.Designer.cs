@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.dlg_open_csv = new System.Windows.Forms.OpenFileDialog();
-            this.bg_csv_analyse = new System.ComponentModel.BackgroundWorker();
             this.stepWizardControl1 = new AeroWizard.StepWizardControl();
             this.page_welcome = new AeroWizard.WizardPage();
             this.lbl_welcome_welcome = new System.Windows.Forms.Label();
@@ -79,17 +77,6 @@
             this.page_summary.SuspendLayout();
             this.page_export.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // dlg_open_csv
-            // 
-            this.dlg_open_csv.Filter = "CSV files|*.csv|All files|*.*";
-            // 
-            // bg_csv_analyse
-            // 
-            this.bg_csv_analyse.WorkerReportsProgress = true;
-            this.bg_csv_analyse.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bg_csv_analyse_DoWork);
-            this.bg_csv_analyse.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bg_csv_analyse_ProgressChanged);
-            this.bg_csv_analyse.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bg_csv_analyse_RunWorkerCompleted);
             // 
             // stepWizardControl1
             // 
@@ -157,6 +144,8 @@
             this.import_lbl_report.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.import_lbl_report.BackColor = System.Drawing.SystemColors.Window;
+            this.import_lbl_report.ForeColor = System.Drawing.SystemColors.GrayText;
             this.import_lbl_report.Location = new System.Drawing.Point(22, 180);
             this.import_lbl_report.Name = "import_lbl_report";
             this.import_lbl_report.Size = new System.Drawing.Size(532, 53);
@@ -191,6 +180,7 @@
             this.import_btn_import.TabIndex = 6;
             this.import_btn_import.Text = "Import";
             this.import_btn_import.UseVisualStyleBackColor = true;
+            this.import_btn_import.Click += new System.EventHandler(this.import_btn_import_Click);
             // 
             // import_lbl_1
             // 
@@ -538,8 +528,6 @@
         private AeroWizard.WizardPage page_import;
         private System.Windows.Forms.Label import_lbl_2;
         private System.Windows.Forms.Button import_btn_select_csv;
-        private System.Windows.Forms.OpenFileDialog dlg_open_csv;
-        private System.ComponentModel.BackgroundWorker bg_csv_analyse;
         private AeroWizard.WizardPage page_configure;
         private AeroWizard.WizardPage page_generate;
         private System.Windows.Forms.RadioButton import_rb_dontimport;
