@@ -269,14 +269,15 @@ namespace TagGenerator
 
         private void config_btn_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-
-            if (dialog.ShowDialog() == DialogResult.OK)
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-                config_lbl_output_dir.Text = dialog.SelectedPath;
-                _output_dir = dialog.SelectedPath;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    config_lbl_output_dir.Text = dialog.SelectedPath;
+                    _output_dir = dialog.SelectedPath;
 
-                page_configure.AllowNext = true;
+                    page_configure.AllowNext = true;
+                }
             }
         }
 
@@ -558,6 +559,7 @@ namespace TagGenerator
         #region EXPORT PAGE
         private void export_btn_Click(object sender, EventArgs e)
         {
+            /*
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "CSV files|*.csv|All files|*.*";
             dialog.Title = "Export generated QR Codes (CSV file)";
@@ -567,6 +569,9 @@ namespace TagGenerator
 
             if (DialogResult.OK != dr)
                 return;
+            */
+            //string fname = dialog.FileName;
+            string fname = textBoxExport.Text;
 
             string source_old_codes = null;
             if (!String.IsNullOrEmpty(_csv_filename))
@@ -578,14 +583,14 @@ namespace TagGenerator
                 File.Copy(_csv_filename, temp_file);
                 source_old_codes = temp_file;
             }
-            if (File.Exists(dialog.FileName))
-                File.Delete(dialog.FileName);
+            if (File.Exists(fname))
+                File.Delete(fname);
 
             int linesWritten = 0;
             int linesOld = 0; // lines from old file
             int linesNew = 0; // lines added from this generation process
 
-            using (System.IO.StreamWriter output_file = new System.IO.StreamWriter(dialog.FileName))
+            using (System.IO.StreamWriter output_file = new System.IO.StreamWriter(fname))
             {
                 // handle the old codes
                 if (String.IsNullOrEmpty(source_old_codes))
@@ -657,6 +662,35 @@ namespace TagGenerator
         private void stepWizardControl1_Finished(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            config_lbl_output_dir.Text = textBoxConfigure.Text;
+            _output_dir = textBoxConfigure.Text;
+
+            page_configure.AllowNext = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            _csv_filename = textBoxImport.Text;
+            import_lbl_file.Text = _csv_filename;
+
+            // the file has changed, don't go to the next page yet, first import must happen
+            page_import.AllowNext = false;
+            import_lbl_report.Text = String.Empty;
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxConfigure_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
     }

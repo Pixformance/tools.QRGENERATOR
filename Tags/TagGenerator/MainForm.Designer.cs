@@ -45,6 +45,8 @@
             this.import_rb_dontimport = new System.Windows.Forms.RadioButton();
             this.import_rb_import = new System.Windows.Forms.RadioButton();
             this.page_configure = new AeroWizard.WizardPage();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBoxConfigure = new System.Windows.Forms.TextBox();
             this.config_btn = new System.Windows.Forms.Button();
             this.config_lbl_output_dir = new System.Windows.Forms.Label();
             this.config_lbl_3 = new System.Windows.Forms.Label();
@@ -54,6 +56,7 @@
             this.config_lbl_intro = new System.Windows.Forms.Label();
             this.config_pagescount = new System.Windows.Forms.NumericUpDown();
             this.page_generate = new AeroWizard.WizardPage();
+            this.gen_btn_abort = new System.Windows.Forms.Button();
             this.gen_lbl_generatedPages = new System.Windows.Forms.Label();
             this.gen_lbl_generatedQR = new System.Windows.Forms.Label();
             this.gen_tb_msg = new System.Windows.Forms.TextBox();
@@ -62,13 +65,15 @@
             this.gen_lbl_2 = new System.Windows.Forms.Label();
             this.gen_lbl_1 = new System.Windows.Forms.Label();
             this.page_export = new AeroWizard.WizardPage();
+            this.export_lbl_report = new System.Windows.Forms.Label();
             this.export_btn = new System.Windows.Forms.Button();
             this.export_lbl_intro = new System.Windows.Forms.Label();
             this.page_summary = new AeroWizard.WizardPage();
             this.done_lbl_dummy_label_to_get_focus = new System.Windows.Forms.Label();
             this.done_tb_msg = new System.Windows.Forms.TextBox();
-            this.gen_btn_abort = new System.Windows.Forms.Button();
-            this.export_lbl_report = new System.Windows.Forms.Label();
+            this.textBoxImport = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.textBoxExport = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.stepWizardControl1)).BeginInit();
             this.page_welcome.SuspendLayout();
             this.page_import.SuspendLayout();
@@ -100,7 +105,7 @@
             // 
             this.page_welcome.Controls.Add(this.lbl_welcome_welcome);
             this.page_welcome.Name = "page_welcome";
-            this.page_welcome.Size = new System.Drawing.Size(586, 406);
+            this.page_welcome.Size = new System.Drawing.Size(411, 259);
             this.page_welcome.TabIndex = 2;
             this.page_welcome.Text = "Welcome";
             // 
@@ -110,7 +115,7 @@
             this.lbl_welcome_welcome.Location = new System.Drawing.Point(0, 0);
             this.lbl_welcome_welcome.Name = "lbl_welcome_welcome";
             this.lbl_welcome_welcome.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.lbl_welcome_welcome.Size = new System.Drawing.Size(586, 406);
+            this.lbl_welcome_welcome.Size = new System.Drawing.Size(411, 259);
             this.lbl_welcome_welcome.TabIndex = 0;
             this.lbl_welcome_welcome.Text = resources.GetString("lbl_welcome_welcome.Text");
             // 
@@ -130,6 +135,8 @@
             // 
             this.import_panel_import.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.import_panel_import.Controls.Add(this.button2);
+            this.import_panel_import.Controls.Add(this.textBoxImport);
             this.import_panel_import.Controls.Add(this.import_lbl_report);
             this.import_panel_import.Controls.Add(this.import_lbl_file);
             this.import_panel_import.Controls.Add(this.import_lbl_3);
@@ -206,6 +213,7 @@
             this.import_btn_select_csv.TabIndex = 4;
             this.import_btn_select_csv.Text = "Select the file to import...";
             this.import_btn_select_csv.UseVisualStyleBackColor = true;
+            this.import_btn_select_csv.Visible = false;
             this.import_btn_select_csv.Click += new System.EventHandler(this.btn_select_csv_Click);
             // 
             // import_lbl_2
@@ -257,6 +265,8 @@
             // page_configure
             // 
             this.page_configure.AllowNext = false;
+            this.page_configure.Controls.Add(this.button1);
+            this.page_configure.Controls.Add(this.textBoxConfigure);
             this.page_configure.Controls.Add(this.config_btn);
             this.page_configure.Controls.Add(this.config_lbl_output_dir);
             this.page_configure.Controls.Add(this.config_lbl_3);
@@ -270,6 +280,25 @@
             this.page_configure.TabIndex = 5;
             this.page_configure.Text = "Configure";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(267, 270);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Set";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBoxConfigure
+            // 
+            this.textBoxConfigure.Location = new System.Drawing.Point(16, 270);
+            this.textBoxConfigure.Name = "textBoxConfigure";
+            this.textBoxConfigure.Size = new System.Drawing.Size(235, 23);
+            this.textBoxConfigure.TabIndex = 8;
+            this.textBoxConfigure.Text = "x:\\tools.QRGENERATOR\\QR-DB";
+            this.textBoxConfigure.TextChanged += new System.EventHandler(this.textBoxConfigure_TextChanged);
+            // 
             // config_btn
             // 
             this.config_btn.AutoSize = true;
@@ -279,6 +308,7 @@
             this.config_btn.TabIndex = 7;
             this.config_btn.Text = "Select the output directory...";
             this.config_btn.UseVisualStyleBackColor = true;
+            this.config_btn.Visible = false;
             this.config_btn.Click += new System.EventHandler(this.config_btn_Click);
             // 
             // config_lbl_output_dir
@@ -379,6 +409,17 @@
             this.page_generate.TabIndex = 6;
             this.page_generate.Text = "Generate";
             // 
+            // gen_btn_abort
+            // 
+            this.gen_btn_abort.AutoSize = true;
+            this.gen_btn_abort.Location = new System.Drawing.Point(16, 380);
+            this.gen_btn_abort.Name = "gen_btn_abort";
+            this.gen_btn_abort.Size = new System.Drawing.Size(204, 25);
+            this.gen_btn_abort.TabIndex = 7;
+            this.gen_btn_abort.Text = "Abort after the next generated page";
+            this.gen_btn_abort.UseVisualStyleBackColor = true;
+            this.gen_btn_abort.Click += new System.EventHandler(this.gen_btn_abort_Click);
+            // 
             // gen_lbl_generatedPages
             // 
             this.gen_lbl_generatedPages.AutoSize = true;
@@ -446,6 +487,7 @@
             // 
             // page_export
             // 
+            this.page_export.Controls.Add(this.textBoxExport);
             this.page_export.Controls.Add(this.export_lbl_report);
             this.page_export.Controls.Add(this.export_btn);
             this.page_export.Controls.Add(this.export_lbl_intro);
@@ -454,10 +496,20 @@
             this.page_export.TabIndex = 7;
             this.page_export.Text = "Export";
             // 
+            // export_lbl_report
+            // 
+            this.export_lbl_report.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.export_lbl_report.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.export_lbl_report.Location = new System.Drawing.Point(14, 108);
+            this.export_lbl_report.Name = "export_lbl_report";
+            this.export_lbl_report.Size = new System.Drawing.Size(569, 62);
+            this.export_lbl_report.TabIndex = 2;
+            // 
             // export_btn
             // 
             this.export_btn.AutoSize = true;
-            this.export_btn.Location = new System.Drawing.Point(14, 66);
+            this.export_btn.Location = new System.Drawing.Point(357, 37);
             this.export_btn.Name = "export_btn";
             this.export_btn.Size = new System.Drawing.Size(212, 25);
             this.export_btn.TabIndex = 1;
@@ -507,31 +559,37 @@
             this.done_tb_msg.Multiline = true;
             this.done_tb_msg.Name = "done_tb_msg";
             this.done_tb_msg.ReadOnly = true;
-            this.done_tb_msg.Size = new System.Drawing.Size(570, 400);
+            this.done_tb_msg.Size = new System.Drawing.Size(560, 400);
             this.done_tb_msg.TabIndex = 100;
             this.done_tb_msg.TabStop = false;
             this.done_tb_msg.Text = resources.GetString("done_tb_msg.Text");
             // 
-            // gen_btn_abort
+            // textBoxImport
             // 
-            this.gen_btn_abort.AutoSize = true;
-            this.gen_btn_abort.Location = new System.Drawing.Point(16, 380);
-            this.gen_btn_abort.Name = "gen_btn_abort";
-            this.gen_btn_abort.Size = new System.Drawing.Size(204, 25);
-            this.gen_btn_abort.TabIndex = 7;
-            this.gen_btn_abort.Text = "Abort after the next generated page";
-            this.gen_btn_abort.UseVisualStyleBackColor = true;
-            this.gen_btn_abort.Click += new System.EventHandler(this.gen_btn_abort_Click);
+            this.textBoxImport.Location = new System.Drawing.Point(198, 30);
+            this.textBoxImport.Name = "textBoxImport";
+            this.textBoxImport.Size = new System.Drawing.Size(259, 23);
+            this.textBoxImport.TabIndex = 10;
+            this.textBoxImport.Text = "x:\\tools.QRGENERATOR\\QR-DB\\generated.csv";
             // 
-            // export_lbl_report
+            // button2
             // 
-            this.export_lbl_report.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.export_lbl_report.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.export_lbl_report.Location = new System.Drawing.Point(14, 108);
-            this.export_lbl_report.Name = "export_lbl_report";
-            this.export_lbl_report.Size = new System.Drawing.Size(569, 62);
-            this.export_lbl_report.TabIndex = 2;
+            this.button2.Location = new System.Drawing.Point(463, 29);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 11;
+            this.button2.Text = "Set";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // textBoxExport
+            // 
+            this.textBoxExport.Location = new System.Drawing.Point(17, 37);
+            this.textBoxExport.Name = "textBoxExport";
+            this.textBoxExport.Size = new System.Drawing.Size(334, 23);
+            this.textBoxExport.TabIndex = 3;
+            this.textBoxExport.Text = "x:\\tools.QRGENERATOR\\QR-DB\\generated.csv";
+            this.textBoxExport.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // MainForm
             // 
@@ -603,6 +661,11 @@
         private System.Windows.Forms.Label gen_lbl_generatedQR;
         private System.Windows.Forms.Button gen_btn_abort;
         private System.Windows.Forms.Label export_lbl_report;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBoxConfigure;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox textBoxImport;
+        private System.Windows.Forms.TextBox textBoxExport;
     }
 }
 

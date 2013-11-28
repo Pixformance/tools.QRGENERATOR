@@ -25,7 +25,7 @@ namespace TagGenerator
 
             string checksumEncoded = DecimalToArbitrarySystem(checksum, 27);
 
-            string serial = rawSerial + checksumEncoded;
+            string serial = rawSerial + "-" + checksumEncoded;
 
             // and now add a checksum
             // it's just a sum of all "digits", again encoded with the same function
