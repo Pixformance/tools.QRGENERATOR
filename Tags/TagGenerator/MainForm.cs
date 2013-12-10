@@ -470,13 +470,13 @@ namespace TagGenerator
 
                     iTextSharp.text.Font font_sn = new iTextSharp.text.Font(
                                     bf,
-                                    12,
+                                    10,
                                     iTextSharp.text.Font.NORMAL,
                                     iTextSharp.text.Color.DARK_GRAY);
 
                     iTextSharp.text.Font font_web = new iTextSharp.text.Font(
                                     bf,
-                                    10,
+                                    12,
                                     iTextSharp.text.Font.NORMAL,
                                     iTextSharp.text.Color.DARK_GRAY);
 
@@ -541,7 +541,7 @@ namespace TagGenerator
                         iTextSharp.text.Phrase phrQR = new iTextSharp.text.Phrase();
                         phrQR.Add(new iTextSharp.text.Chunk(qr_image, 0, 0));
                         phrQR.Add(iTextSharp.text.Chunk.NEWLINE);
-                        phrQR.Add(new iTextSharp.text.Chunk("http://my.pixformance.com", font_web));
+                        phrQR.Add(new iTextSharp.text.Chunk(serial_number, font_sn));
 
                         iTextSharp.text.Image pixLogo = iTextSharp.text.Image.GetInstance(
                            Path.GetDirectoryName(Application.ExecutablePath) + "\\logosmall.png"
@@ -562,15 +562,14 @@ namespace TagGenerator
                         cellQR.BorderWidth = 0.0f;
                         oneCard_table.AddCell(cellQR);
 
-                        iTextSharp.text.Phrase phrSerial = new iTextSharp.text.Phrase();
-                        //phrQR.Add(iTextSharp.text.Chunk.NEWLINE);
-                        phrSerial.Add(new iTextSharp.text.Chunk(serial_number, font_sn));
+                        iTextSharp.text.Phrase phrWeb = new iTextSharp.text.Phrase();
+                        phrWeb.Add(new iTextSharp.text.Chunk("http://my.pixformance.com", font_web));
 
-                        iTextSharp.text.pdf.PdfPCell cellSerial = new iTextSharp.text.pdf.PdfPCell(phrSerial);
+                        iTextSharp.text.pdf.PdfPCell cellSerial = new iTextSharp.text.pdf.PdfPCell(phrWeb);
                         cellSerial.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
                         cellSerial.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
                         cellSerial.MinimumHeight = 153.0f;
-                        cellSerial.Rotation = -90;
+                        cellSerial.Rotation = 90;
                         cellSerial.BorderWidth = 0.0f;
                         oneCard_table.AddCell(cellSerial);
 
