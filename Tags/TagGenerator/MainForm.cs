@@ -26,7 +26,8 @@ namespace TagGenerator
         int _requested_pages_count = 1;
         int _requested_qr_count = _QR_PER_PAGE;
 
-        PseudoRandomCodeGenerator generator = new PseudoRandomCodeGenerator();
+        //PseudoRandomCodeGenerator generator = new PseudoRandomCodeGenerator();
+        ModuloCodeGenerator generator = new ModuloCodeGenerator();
 
         // used within the "Generate" page
         BackgroundWorker worker;
@@ -226,6 +227,7 @@ namespace TagGenerator
             }
 
             int linesRead = 0; int linesProcessed = 0;
+            UInt32 current_qr = 0; int current_page;
 
             foreach (string line in fileReader)
             {
@@ -239,11 +241,11 @@ namespace TagGenerator
                 if (parts.Length != 5)
                     continue;
 
-                int current_qr; int current_page;
-
-                if (Int32.TryParse(parts[0], out current_qr) && Int32.TryParse(parts[2], out current_page))
+                if (UInt32.TryParse(parts[0], out current_qr) && Int32.TryParse(parts[2], out current_page))
                 {
                     //max_qr_code = Math.Max(max_qr_code, current_qr);
+                    // Sanity check if using the PseudoRandomCodeGenerator
+                    /*
                     UInt32 qrShouldBe = generator.next();
                     if (current_qr != qrShouldBe)
                     {
@@ -257,24 +259,28 @@ namespace TagGenerator
 
                         return;
                     }
+                    */
 
                     max_page_number = Math.Max(max_page_number, current_page);
                 }
 
                 linesProcessed++;
             }
+            // current_qr should now contain the last generated QR
+            UInt32 last_qr = current_qr;
 
             import_lbl_report.Text =
                 String.Format(
                     "Read {0} lines, ignored {1}, processed {2}\n" +
-                    //"Max QR Code found: {3}\n" +
-                    "Max page number found: {3}",
+                    "Last QR Code found: {3}\n" +
+                    "Max page number found: {4}",
                     linesRead, linesRead - linesProcessed, linesProcessed,
-                    //max_qr_code,
+                    last_qr,
                     max_page_number);
 
             _max_page_number_used = max_page_number;
             //_max_qr_used = max_qr_code;
+            generator.setCurrent(last_qr);
 
             page_import.AllowNext = true;
         }
@@ -418,7 +424,7 @@ namespace TagGenerator
                         filename = Path.Combine(
                             _output_dir,
                             String.Format("pix_qr_{0}{1}.pdf",
-                            page_generating,
+                            page_generating.ToString("D7"),
                             filename_create_attempts > 0 ? "(" + filename_create_attempts + ")" : "") // if this file exists.
                             );
 
@@ -537,7 +543,9 @@ namespace TagGenerator
                         phrQR.Add(iTextSharp.text.Chunk.NEWLINE);
                         phrQR.Add(new iTextSharp.text.Chunk("http://my.pixformance.com", font_web));
 
-                        iTextSharp.text.Image pixLogo = iTextSharp.text.Image.GetInstance("x:\\tools.QRGENERATOR\\logosmall.png");
+                        iTextSharp.text.Image pixLogo = iTextSharp.text.Image.GetInstance(
+                           Path.GetDirectoryName(Application.ExecutablePath) + "\\logosmall.png"
+                       );
                         pixLogo.ScalePercent(55f, 55f);
                         iTextSharp.text.pdf.PdfPCell cellLogo = new iTextSharp.text.pdf.PdfPCell(pixLogo);
                         cellLogo.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
