@@ -9,29 +9,47 @@ namespace TagGenerator
     public class SerialNumber
     {
         /// <summary>
-        /// Produces a unique serian number for the given number
+        /// Produces a unique serial number for the given number
         /// </summary>
         /// <param name="qr_code"></param>
         /// <returns></returns>
-        public static string Generate(int qr_code)
+        public static string Generate(UInt32 qr_code)
         {
             string rawSerial = DecimalToArbitrarySystem(qr_code, 27);
+            int luhnChecksum = luhn_getControlDigit(qr_code);
 
-            int checksum = 0;
-            foreach (var c in rawSerial)
-            {
-                checksum += (int) ArbitraryToDecimalSystem(c.ToString(), 27);
-            }
-
-            string checksumEncoded = DecimalToArbitrarySystem(checksum, 27);
-
-            string serial = rawSerial + "-" + checksumEncoded;
-
-            // and now add a checksum
-            // it's just a sum of all "digits", again encoded with the same function
-            // 
+            string serial = "v1-" + rawSerial + luhnChecksum.ToString();
 
             return serial;
+        }
+
+
+        // Implementation followint Wikipedia's description
+        // We use it for UInt32, but because we add a digit we multiply by 10, so the argument is UInt64
+        public static int luhn_checksum(UInt64 number)
+        {
+            int[] luhnEvenValues = new int[] { 0, 2, 4, 6, 8, 1, 3, 5, 7, 9 };
+            char[] digitChars = number.ToString().ToCharArray();
+            int[] digits = new int[digitChars.Length];
+            for (int i = 0; i < digitChars.Length; ++i)
+                digits[i] = (int) Char.GetNumericValue(digitChars[i]);
+
+            int checksum = 0;
+            for (int posFromEnd=1; posFromEnd <= digits.Length; ++posFromEnd)
+            {
+                if ((posFromEnd % 2) == 0)
+                    checksum += luhnEvenValues[digits[digits.Length - posFromEnd]];
+                else
+                    checksum += digits[digits.Length - posFromEnd];
+            }
+
+            return checksum % 10;
+        }
+
+        public static int luhn_getControlDigit(UInt32 number)
+        {
+            int check_digit = luhn_checksum(10 * (UInt64) number);
+            return (check_digit == 0) ? 0 : 10 - check_digit;
         }
 
         private const string Digits = "123456789ABCDEFHKLMNPRSTWXYZ";

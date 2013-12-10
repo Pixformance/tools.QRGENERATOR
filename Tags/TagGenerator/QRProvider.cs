@@ -21,7 +21,8 @@ namespace TagGenerator
                     Options = new ZXing.Common.EncodingOptions
                     {
                         Height = 300,
-                        Width = 300
+                        Width = 300,
+                        Margin = 0
                     },
                     Renderer = (ZXing.Rendering.IBarcodeRenderer<Bitmap>)
                                Activator.CreateInstance(typeof(ZXing.Rendering.BitmapRenderer))

@@ -14,11 +14,11 @@ namespace TagGenerator
 {
     public partial class MainForm : Form
     {
-        static readonly int _QR_PER_PAGE = 7*9; // this is tied to the PDF layout so don't change this without touching the layout 
+        static readonly int _QR_PER_PAGE = 2*4; // this is tied to the PDF layout so don't change this without touching the layout 
 
         // configured during "import" page
         string _csv_filename;               // set when the user selects a file to import the QR codes
-        int _max_qr_used;                   // read from the imported CSV file or set to 0 when no file was used
+        //UInt32 _max_qr_used;                   // read from the imported CSV file or set to 0 when no file was used
         int _max_page_number_used;          // read from the imported CSV file or set to 0 when no file was used
 
         // configured during "configure" page
@@ -26,9 +26,11 @@ namespace TagGenerator
         int _requested_pages_count = 1;
         int _requested_qr_count = _QR_PER_PAGE;
 
+        PseudoRandomCodeGenerator generator = new PseudoRandomCodeGenerator();
+
         // used within the "Generate" page
         BackgroundWorker worker;
-        List<Tuple<int, int>> _generated_codes = new List<Tuple<int, int>>(); // keeps all generated codes in memory
+        List<Tuple<UInt32, int>> _generated_codes = new List<Tuple<UInt32, int>>(); // keeps all generated codes in memory
                                                                                  // they will be written out to a file later
                                                                                  // content: qr as int and the page number
                                                                                  //          the serial number will be generated
@@ -54,7 +56,7 @@ namespace TagGenerator
                     }
                     if (import_rb_dontimport.Checked)
                     {
-                        _max_qr_used = 0;
+                        //_max_qr_used = 0;
                         _max_page_number_used = 0;
                     }
                     // the other case is already handled during the input and the variables are set
@@ -191,7 +193,7 @@ namespace TagGenerator
             }
 
             // we'll find the max qr code used and the max page number used
-            int max_qr_code = 0;
+            //UInt32 max_qr_code = 0;
             int max_page_number = 0;
 
             char[] separators = new char[] { ',' };
@@ -241,7 +243,21 @@ namespace TagGenerator
 
                 if (Int32.TryParse(parts[0], out current_qr) && Int32.TryParse(parts[2], out current_page))
                 {
-                    max_qr_code = Math.Max(max_qr_code, current_qr);
+                    //max_qr_code = Math.Max(max_qr_code, current_qr);
+                    UInt32 qrShouldBe = generator.next();
+                    if (current_qr != qrShouldBe)
+                    {
+                        MessageBox.Show(
+                            String.Format("QR Code '{0}' is not in the right order", current_qr) +
+                            System.Environment.NewLine +
+                            String.Format("Should be {0}", qrShouldBe),
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+
+                        return;
+                    }
+
                     max_page_number = Math.Max(max_page_number, current_page);
                 }
 
@@ -251,14 +267,14 @@ namespace TagGenerator
             import_lbl_report.Text =
                 String.Format(
                     "Read {0} lines, ignored {1}, processed {2}\n" +
-                    "Max QR Code found: {3}\n" +
-                    "Max page number found: {4}",
+                    //"Max QR Code found: {3}\n" +
+                    "Max page number found: {3}",
                     linesRead, linesRead - linesProcessed, linesProcessed,
-                    max_qr_code,
+                    //max_qr_code,
                     max_page_number);
 
             _max_page_number_used = max_page_number;
-            _max_qr_used = max_qr_code;
+            //_max_qr_used = max_qr_code;
 
             page_import.AllowNext = true;
         }
@@ -387,10 +403,10 @@ namespace TagGenerator
                 }
                 // this is important, from now on this is where we're tracking the generated qr codes and pages!
                 int page_generating = _max_page_number_used + 1; // the number of page being generated
-                int max_qr_generated = _max_qr_used; // this is the max of the qr codes generated during this page creation
+                //UInt32 max_qr_generated = _max_qr_used; // this is the max of the qr codes generated during this page creation
                 // it will be committed (copied to _max_qr_used) after the page was written
 
-                List<Tuple<int, int>> tmp_generated_codes = new List<Tuple<int, int>>(_QR_PER_PAGE);
+                List<Tuple<UInt32, int>> tmp_generated_codes = new List<Tuple<UInt32, int>>(_QR_PER_PAGE);
 
                 try
                 {
@@ -448,7 +464,13 @@ namespace TagGenerator
 
                     iTextSharp.text.Font font_sn = new iTextSharp.text.Font(
                                     bf,
-                                    8,
+                                    12,
+                                    iTextSharp.text.Font.NORMAL,
+                                    iTextSharp.text.Color.DARK_GRAY);
+
+                    iTextSharp.text.Font font_web = new iTextSharp.text.Font(
+                                    bf,
+                                    10,
                                     iTextSharp.text.Font.NORMAL,
                                     iTextSharp.text.Color.DARK_GRAY);
 
@@ -456,7 +478,7 @@ namespace TagGenerator
                     iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4);
 
                     // and now let's build it
-                    iTextSharp.text.pdf.PdfWriter.GetInstance(doc, new FileStream(filename, FileMode.Create));
+                    iTextSharp.text.pdf.PdfWriter pdfWriter = iTextSharp.text.pdf.PdfWriter.GetInstance(doc, new FileStream(filename, FileMode.Create));
                     doc.Open();
 
                     doc.SetMargins(30.0f, 30.0f, 0.0f, 0.0f);
@@ -479,18 +501,24 @@ namespace TagGenerator
                         font_meta));
                     doc.Add(meta);
 
-                    iTextSharp.text.pdf.PdfPTable qr_table = new iTextSharp.text.pdf.PdfPTable(7);
-                    qr_table.TotalWidth = 7.0f * 72.0f;
+                    iTextSharp.text.pdf.PdfPTable qr_table = new iTextSharp.text.pdf.PdfPTable(2);
+                    qr_table.TotalWidth = 2.0f * 255.0f;
                     qr_table.SpacingBefore = 72.0f;
                     qr_table.LockedWidth = true;
 
-
                     for (int qr_count = 0; qr_count < _QR_PER_PAGE; qr_count++)
                     {
-                        int qr_code_generating = max_qr_generated + 1; // the value of a qr code being generated
-                        tmp_generated_codes.Add(new Tuple<int, int>(qr_code_generating, page_generating));
+                        iTextSharp.text.pdf.PdfPTable oneCard_table = new iTextSharp.text.pdf.PdfPTable(3);
+                        oneCard_table.TotalWidth = 255.0f;
+                        float[] columnWidths = new float[] { 1, 5, 1 };
+                        oneCard_table.SetWidths(columnWidths);
+                        oneCard_table.LockedWidth = true;
 
-                        System.Drawing.Image qr_code = QRProvider.Generate(qr_code_generating.ToString(), reportProgressDelegate);
+                        //int qr_code_generating = max_qr_generated + 1; // the value of a qr code being generated
+                        UInt32 qr_code_generating = generator.next();
+                        tmp_generated_codes.Add(new Tuple<UInt32, int>(qr_code_generating, page_generating));
+
+                        System.Drawing.Image qr_code = QRProvider.Generate("01" + qr_code_generating.ToString(), reportProgressDelegate);
 
                         if (null == qr_code)
                         {
@@ -502,20 +530,48 @@ namespace TagGenerator
                         iTextSharp.text.Image qr_image = iTextSharp.text.Image.GetInstance(
                             qr_code,
                             iTextSharp.text.Color.WHITE);
-                        qr_image.ScaleAbsolute(50f, 50f);
+                        qr_image.ScaleAbsolute(120f, 120f);
 
-                        iTextSharp.text.Phrase phr = new iTextSharp.text.Phrase();
-                        phr.Add(new iTextSharp.text.Chunk(qr_image, 0, 0));
-                        phr.Add(iTextSharp.text.Chunk.NEWLINE);
-                        phr.Add(new iTextSharp.text.Chunk(serial_number, font_sn));
+                        iTextSharp.text.Phrase phrQR = new iTextSharp.text.Phrase();
+                        phrQR.Add(new iTextSharp.text.Chunk(qr_image, 0, 0));
+                        phrQR.Add(iTextSharp.text.Chunk.NEWLINE);
+                        phrQR.Add(new iTextSharp.text.Chunk("http://my.pixformance.com", font_web));
 
-                        iTextSharp.text.pdf.PdfPCell cell = new iTextSharp.text.pdf.PdfPCell(phr);
-                        cell.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
-                        cell.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
-                        cell.MinimumHeight = 72.0f;
-                        cell.BorderWidth = 0.0f;
+                        iTextSharp.text.Image pixLogo = iTextSharp.text.Image.GetInstance("x:\\tools.QRGENERATOR\\logosmall.png");
+                        pixLogo.ScalePercent(55f, 55f);
+                        iTextSharp.text.pdf.PdfPCell cellLogo = new iTextSharp.text.pdf.PdfPCell(pixLogo);
+                        cellLogo.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
+                        cellLogo.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
+                        cellLogo.MinimumHeight = 153.0f;
+                        cellLogo.Rotation = 90;
+                        cellLogo.BorderWidth = 0.0f;
+                        oneCard_table.AddCell(cellLogo);
 
-                        qr_table.AddCell(cell);
+                        iTextSharp.text.pdf.PdfPCell cellQR = new iTextSharp.text.pdf.PdfPCell(phrQR);
+                        cellQR.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
+                        cellQR.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
+                        cellQR.MinimumHeight = 153.0f;
+                        cellQR.BorderWidth = 0.0f;
+                        oneCard_table.AddCell(cellQR);
+
+                        iTextSharp.text.Phrase phrSerial = new iTextSharp.text.Phrase();
+                        //phrQR.Add(iTextSharp.text.Chunk.NEWLINE);
+                        phrSerial.Add(new iTextSharp.text.Chunk(serial_number, font_sn));
+
+                        iTextSharp.text.pdf.PdfPCell cellSerial = new iTextSharp.text.pdf.PdfPCell(phrSerial);
+                        cellSerial.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
+                        cellSerial.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
+                        cellSerial.MinimumHeight = 153.0f;
+                        cellSerial.Rotation = -90;
+                        cellSerial.BorderWidth = 0.0f;
+                        oneCard_table.AddCell(cellSerial);
+
+                        iTextSharp.text.pdf.PdfPCell cellCard = new iTextSharp.text.pdf.PdfPCell(oneCard_table);
+                        cellCard.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
+                        cellCard.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
+                        cellCard.MinimumHeight = 153.0f;
+                        cellCard.BorderWidth = 1.0f;
+                        qr_table.AddCell(cellCard);
 
                         w.ReportProgress(0, new GenerateProgressReport()
                         {
@@ -523,7 +579,7 @@ namespace TagGenerator
                             GeneratedCodes = (_QR_PER_PAGE * page_count) + qr_count + 1
                         });
 
-                        max_qr_generated = qr_code_generating;
+                        //max_qr_generated = qr_code_generating;
                     }
 
                     doc.Add(qr_table);
@@ -540,7 +596,7 @@ namespace TagGenerator
 
                     // all worked, so let's commit in memory here
                     _max_page_number_used = page_generating;
-                    _max_qr_used = max_qr_generated;
+                    //_max_qr_used = max_qr_generated;
 
                     _generated_codes.AddRange(tmp_generated_codes);
                 }
@@ -629,10 +685,10 @@ namespace TagGenerator
             export_lbl_report.Text =
                 String.Format(
                     "Written {0} lines, imported {1}, added {2}\n" +
-                    "Max QR Code used: {3}\n" +
-                    "Max page number used: {4}",
+                    //"Max QR Code used: {3}\n" +
+                    "Max page number used: {3}",
                     linesWritten, linesOld, linesNew,
-                    _max_qr_used,
+                    //_max_qr_used,
                     _max_page_number_used);
         }
         #endregion
