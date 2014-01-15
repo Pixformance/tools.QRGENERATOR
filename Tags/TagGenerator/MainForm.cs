@@ -697,6 +697,8 @@ namespace TagGenerator
                     linesWritten, linesOld, linesNew,
                     //_max_qr_used,
                     _max_page_number_used);
+
+            page_export.AllowNext = true;
         }
         #endregion
 
@@ -754,6 +756,25 @@ namespace TagGenerator
         private void textBoxConfigure_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void export_lbl_report_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            panelDoExport.Visible = true;
+            panelDoExport.Enabled = true;
+            page_export.AllowNext = false; // Do not allow it yet. Wait until we do the export itself
+        }
+
+        private void radioButtonDontExport_CheckedChanged(object sender, EventArgs e)
+        {
+            panelDoExport.Visible = false;
+            panelDoExport.Visible = false;
+            page_export.AllowNext = true;
         }
 
     }

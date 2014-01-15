@@ -127,11 +127,4 @@ You will have the option of importing a file with a list of QR Codes generated i
 
 You also have to specify the output directory where the generated QR Code PDF documents should be saved.</value>
   </data>
-  <data name="done_tb_msg.Text" xml:space="preserve">
-    <value>Report:
-
-here you could implement some nice reporting that provides a summary of generation process, like the input and output file, number of tags and pages generated etc. this report could be then used as a comment when commiting the new qr codes csv file.
-
-(this text can be copied)</value>
-  </data>
 </root>

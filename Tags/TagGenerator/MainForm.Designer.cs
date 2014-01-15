@@ -34,6 +34,8 @@
             this.lbl_welcome_welcome = new System.Windows.Forms.Label();
             this.page_import = new AeroWizard.WizardPage();
             this.import_panel_import = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.textBoxImport = new System.Windows.Forms.TextBox();
             this.import_lbl_report = new System.Windows.Forms.Label();
             this.import_lbl_file = new System.Windows.Forms.Label();
             this.import_lbl_3 = new System.Windows.Forms.Label();
@@ -65,15 +67,16 @@
             this.gen_lbl_2 = new System.Windows.Forms.Label();
             this.gen_lbl_1 = new System.Windows.Forms.Label();
             this.page_export = new AeroWizard.WizardPage();
+            this.radioButtonDontExport = new System.Windows.Forms.RadioButton();
+            this.radioButtonDoExport = new System.Windows.Forms.RadioButton();
+            this.panelDoExport = new System.Windows.Forms.Panel();
+            this.textBoxExport = new System.Windows.Forms.TextBox();
             this.export_lbl_report = new System.Windows.Forms.Label();
             this.export_btn = new System.Windows.Forms.Button();
             this.export_lbl_intro = new System.Windows.Forms.Label();
             this.page_summary = new AeroWizard.WizardPage();
             this.done_lbl_dummy_label_to_get_focus = new System.Windows.Forms.Label();
             this.done_tb_msg = new System.Windows.Forms.TextBox();
-            this.textBoxImport = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBoxExport = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.stepWizardControl1)).BeginInit();
             this.page_welcome.SuspendLayout();
             this.page_import.SuspendLayout();
@@ -82,6 +85,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.config_pagescount)).BeginInit();
             this.page_generate.SuspendLayout();
             this.page_export.SuspendLayout();
+            this.panelDoExport.SuspendLayout();
             this.page_summary.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -105,7 +109,7 @@
             // 
             this.page_welcome.Controls.Add(this.lbl_welcome_welcome);
             this.page_welcome.Name = "page_welcome";
-            this.page_welcome.Size = new System.Drawing.Size(411, 259);
+            this.page_welcome.Size = new System.Drawing.Size(586, 406);
             this.page_welcome.TabIndex = 2;
             this.page_welcome.Text = "Welcome";
             // 
@@ -115,7 +119,7 @@
             this.lbl_welcome_welcome.Location = new System.Drawing.Point(0, 0);
             this.lbl_welcome_welcome.Name = "lbl_welcome_welcome";
             this.lbl_welcome_welcome.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.lbl_welcome_welcome.Size = new System.Drawing.Size(411, 259);
+            this.lbl_welcome_welcome.Size = new System.Drawing.Size(586, 406);
             this.lbl_welcome_welcome.TabIndex = 0;
             this.lbl_welcome_welcome.Text = resources.GetString("lbl_welcome_welcome.Text");
             // 
@@ -127,7 +131,7 @@
             this.page_import.Controls.Add(this.import_rb_dontimport);
             this.page_import.Controls.Add(this.import_rb_import);
             this.page_import.Name = "page_import";
-            this.page_import.Size = new System.Drawing.Size(586, 406);
+            this.page_import.Size = new System.Drawing.Size(401, 258);
             this.page_import.TabIndex = 4;
             this.page_import.Text = "Import";
             // 
@@ -147,9 +151,27 @@
             this.import_panel_import.Enabled = false;
             this.import_panel_import.Location = new System.Drawing.Point(26, 90);
             this.import_panel_import.Name = "import_panel_import";
-            this.import_panel_import.Size = new System.Drawing.Size(557, 242);
+            this.import_panel_import.Size = new System.Drawing.Size(372, 242);
             this.import_panel_import.TabIndex = 5;
             this.import_panel_import.Visible = false;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(463, 29);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 11;
+            this.button2.Text = "Set";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // textBoxImport
+            // 
+            this.textBoxImport.Location = new System.Drawing.Point(198, 30);
+            this.textBoxImport.Name = "textBoxImport";
+            this.textBoxImport.Size = new System.Drawing.Size(259, 23);
+            this.textBoxImport.TabIndex = 10;
+            this.textBoxImport.Text = "x:\\tools.QRGENERATOR\\QR-DB\\generated.csv";
             // 
             // import_lbl_report
             // 
@@ -160,7 +182,7 @@
             this.import_lbl_report.ForeColor = System.Drawing.SystemColors.GrayText;
             this.import_lbl_report.Location = new System.Drawing.Point(22, 180);
             this.import_lbl_report.Name = "import_lbl_report";
-            this.import_lbl_report.Size = new System.Drawing.Size(532, 53);
+            this.import_lbl_report.Size = new System.Drawing.Size(347, 53);
             this.import_lbl_report.TabIndex = 9;
             // 
             // import_lbl_file
@@ -170,7 +192,7 @@
             this.import_lbl_file.ForeColor = System.Drawing.SystemColors.GrayText;
             this.import_lbl_file.Location = new System.Drawing.Point(98, 66);
             this.import_lbl_file.Name = "import_lbl_file";
-            this.import_lbl_file.Size = new System.Drawing.Size(452, 52);
+            this.import_lbl_file.Size = new System.Drawing.Size(267, 52);
             this.import_lbl_file.TabIndex = 8;
             this.import_lbl_file.Text = "<no file>";
             // 
@@ -232,7 +254,7 @@
             this.import_lb_intro.Margin = new System.Windows.Forms.Padding(10, 10, 3, 0);
             this.import_lb_intro.Name = "import_lb_intro";
             this.import_lb_intro.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.import_lb_intro.Size = new System.Drawing.Size(586, 55);
+            this.import_lb_intro.Size = new System.Drawing.Size(401, 55);
             this.import_lb_intro.TabIndex = 1;
             this.import_lb_intro.Text = "You have the option of importing a file with a list of QR Codes generated in the " +
     "past. Please keep track fo the generated QR Codes in order to avoid collisions i" +
@@ -276,7 +298,7 @@
             this.page_configure.Controls.Add(this.config_lbl_intro);
             this.page_configure.Controls.Add(this.config_pagescount);
             this.page_configure.Name = "page_configure";
-            this.page_configure.Size = new System.Drawing.Size(586, 406);
+            this.page_configure.Size = new System.Drawing.Size(401, 258);
             this.page_configure.TabIndex = 5;
             this.page_configure.Text = "Configure";
             // 
@@ -318,7 +340,7 @@
             this.config_lbl_output_dir.ForeColor = System.Drawing.SystemColors.GrayText;
             this.config_lbl_output_dir.Location = new System.Drawing.Point(118, 334);
             this.config_lbl_output_dir.Name = "config_lbl_output_dir";
-            this.config_lbl_output_dir.Size = new System.Drawing.Size(461, 47);
+            this.config_lbl_output_dir.Size = new System.Drawing.Size(276, 47);
             this.config_lbl_output_dir.TabIndex = 6;
             this.config_lbl_output_dir.Text = "<no directory>";
             // 
@@ -367,7 +389,7 @@
             this.config_lbl_intro.Location = new System.Drawing.Point(0, 0);
             this.config_lbl_intro.Name = "config_lbl_intro";
             this.config_lbl_intro.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.config_lbl_intro.Size = new System.Drawing.Size(586, 94);
+            this.config_lbl_intro.Size = new System.Drawing.Size(401, 94);
             this.config_lbl_intro.TabIndex = 1;
             this.config_lbl_intro.Text = resources.GetString("config_lbl_intro.Text");
             // 
@@ -405,7 +427,7 @@
             this.page_generate.Controls.Add(this.gen_lbl_2);
             this.page_generate.Controls.Add(this.gen_lbl_1);
             this.page_generate.Name = "page_generate";
-            this.page_generate.Size = new System.Drawing.Size(586, 406);
+            this.page_generate.Size = new System.Drawing.Size(401, 258);
             this.page_generate.TabIndex = 6;
             this.page_generate.Text = "Generate";
             // 
@@ -487,29 +509,76 @@
             // 
             // page_export
             // 
-            this.page_export.Controls.Add(this.textBoxExport);
-            this.page_export.Controls.Add(this.export_lbl_report);
-            this.page_export.Controls.Add(this.export_btn);
+            this.page_export.AllowNext = false;
+            this.page_export.Controls.Add(this.radioButtonDontExport);
+            this.page_export.Controls.Add(this.radioButtonDoExport);
+            this.page_export.Controls.Add(this.panelDoExport);
             this.page_export.Controls.Add(this.export_lbl_intro);
             this.page_export.Name = "page_export";
-            this.page_export.Size = new System.Drawing.Size(586, 406);
+            this.page_export.Size = new System.Drawing.Size(401, 258);
             this.page_export.TabIndex = 7;
             this.page_export.Text = "Export";
+            // 
+            // radioButtonDontExport
+            // 
+            this.radioButtonDontExport.AutoSize = true;
+            this.radioButtonDontExport.Location = new System.Drawing.Point(13, 268);
+            this.radioButtonDontExport.Name = "radioButtonDontExport";
+            this.radioButtonDontExport.Size = new System.Drawing.Size(97, 19);
+            this.radioButtonDontExport.TabIndex = 2;
+            this.radioButtonDontExport.TabStop = true;
+            this.radioButtonDontExport.Text = "Do not export";
+            this.radioButtonDontExport.UseVisualStyleBackColor = true;
+            this.radioButtonDontExport.CheckedChanged += new System.EventHandler(this.radioButtonDontExport_CheckedChanged);
+            // 
+            // radioButtonDoExport
+            // 
+            this.radioButtonDoExport.AutoSize = true;
+            this.radioButtonDoExport.Location = new System.Drawing.Point(13, 45);
+            this.radioButtonDoExport.Name = "radioButtonDoExport";
+            this.radioButtonDoExport.Size = new System.Drawing.Size(167, 19);
+            this.radioButtonDoExport.TabIndex = 1;
+            this.radioButtonDoExport.TabStop = true;
+            this.radioButtonDoExport.Text = "Export generated QR codes";
+            this.radioButtonDoExport.UseVisualStyleBackColor = true;
+            this.radioButtonDoExport.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // panelDoExport
+            // 
+            this.panelDoExport.Controls.Add(this.textBoxExport);
+            this.panelDoExport.Controls.Add(this.export_lbl_report);
+            this.panelDoExport.Controls.Add(this.export_btn);
+            this.panelDoExport.Enabled = false;
+            this.panelDoExport.Location = new System.Drawing.Point(7, 83);
+            this.panelDoExport.Name = "panelDoExport";
+            this.panelDoExport.Size = new System.Drawing.Size(579, 124);
+            this.panelDoExport.TabIndex = 1;
+            this.panelDoExport.Visible = false;
+            // 
+            // textBoxExport
+            // 
+            this.textBoxExport.Location = new System.Drawing.Point(31, 9);
+            this.textBoxExport.Name = "textBoxExport";
+            this.textBoxExport.Size = new System.Drawing.Size(334, 23);
+            this.textBoxExport.TabIndex = 3;
+            this.textBoxExport.Text = "x:\\tools.QRGENERATOR\\QR-DB\\generated.csv";
+            this.textBoxExport.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // export_lbl_report
             // 
             this.export_lbl_report.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.export_lbl_report.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.export_lbl_report.Location = new System.Drawing.Point(14, 108);
+            this.export_lbl_report.Location = new System.Drawing.Point(3, 50);
             this.export_lbl_report.Name = "export_lbl_report";
             this.export_lbl_report.Size = new System.Drawing.Size(569, 62);
             this.export_lbl_report.TabIndex = 2;
+            this.export_lbl_report.Click += new System.EventHandler(this.export_lbl_report_Click);
             // 
             // export_btn
             // 
             this.export_btn.AutoSize = true;
-            this.export_btn.Location = new System.Drawing.Point(357, 37);
+            this.export_btn.Location = new System.Drawing.Point(360, 7);
             this.export_btn.Name = "export_btn";
             this.export_btn.Size = new System.Drawing.Size(212, 25);
             this.export_btn.TabIndex = 1;
@@ -523,7 +592,7 @@
             this.export_lbl_intro.Location = new System.Drawing.Point(0, 0);
             this.export_lbl_intro.Name = "export_lbl_intro";
             this.export_lbl_intro.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.export_lbl_intro.Size = new System.Drawing.Size(586, 62);
+            this.export_lbl_intro.Size = new System.Drawing.Size(401, 62);
             this.export_lbl_intro.TabIndex = 0;
             this.export_lbl_intro.Text = "You should export the generated QR Codes to a file and keep track of them in orde" +
     "r to avoid name collisions in the future. You should also make this file availab" +
@@ -559,37 +628,10 @@
             this.done_tb_msg.Multiline = true;
             this.done_tb_msg.Name = "done_tb_msg";
             this.done_tb_msg.ReadOnly = true;
-            this.done_tb_msg.Size = new System.Drawing.Size(560, 400);
+            this.done_tb_msg.Size = new System.Drawing.Size(540, 400);
             this.done_tb_msg.TabIndex = 100;
             this.done_tb_msg.TabStop = false;
-            this.done_tb_msg.Text = resources.GetString("done_tb_msg.Text");
-            // 
-            // textBoxImport
-            // 
-            this.textBoxImport.Location = new System.Drawing.Point(198, 30);
-            this.textBoxImport.Name = "textBoxImport";
-            this.textBoxImport.Size = new System.Drawing.Size(259, 23);
-            this.textBoxImport.TabIndex = 10;
-            this.textBoxImport.Text = "x:\\tools.QRGENERATOR\\QR-DB\\generated.csv";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(463, 29);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "Set";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // textBoxExport
-            // 
-            this.textBoxExport.Location = new System.Drawing.Point(17, 37);
-            this.textBoxExport.Name = "textBoxExport";
-            this.textBoxExport.Size = new System.Drawing.Size(334, 23);
-            this.textBoxExport.TabIndex = 3;
-            this.textBoxExport.Text = "x:\\tools.QRGENERATOR\\QR-DB\\generated.csv";
-            this.textBoxExport.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.done_tb_msg.Text = "QR Code generation complete.";
             // 
             // MainForm
             // 
@@ -613,6 +655,8 @@
             this.page_generate.PerformLayout();
             this.page_export.ResumeLayout(false);
             this.page_export.PerformLayout();
+            this.panelDoExport.ResumeLayout(false);
+            this.panelDoExport.PerformLayout();
             this.page_summary.ResumeLayout(false);
             this.page_summary.PerformLayout();
             this.ResumeLayout(false);
@@ -666,6 +710,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBoxImport;
         private System.Windows.Forms.TextBox textBoxExport;
+        private System.Windows.Forms.Panel panelDoExport;
+        private System.Windows.Forms.RadioButton radioButtonDoExport;
+        private System.Windows.Forms.RadioButton radioButtonDontExport;
     }
 }
 
