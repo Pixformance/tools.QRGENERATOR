@@ -117,14 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="lbl_welcome_welcome.Text" xml:space="preserve">
-    <value>This wizard will guide you through the process of generation of QR Codes for the Pixforamnce Membership Tags.
-
-You will have the option of importing a file with a list of QR Codes generated in the past. Please keep track fo the generated QR Codes in order to avoid collisions in the future.</value>
-  </data>
   <data name="config_lbl_intro.Text" xml:space="preserve">
     <value>Specify the number of QR Codes and numper of QR Code cards to generate. Please note that the number of codes per page can't be modified as it's tied to the format that is used for printing.
 
 You also have to specify the output directory where the generated QR Code PDF documents should be saved.</value>
+  </data>
+  <data name="lbl_welcome_welcome.Text" xml:space="preserve">
+    <value>This wizard will guide you through the process of generation of QR Codes for the Pixforamnce Membership Tags.
+
+You will have the option of importing a file with a list of QR Codes generated in the past. Please keep track fo the generated QR Codes in order to avoid collisions in the future.</value>
   </data>
 </root>

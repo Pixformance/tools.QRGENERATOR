@@ -14,7 +14,7 @@ namespace TagGenerator
 {
     public partial class MainForm : Form
     {
-        static readonly int _QR_PER_PAGE = 2*4; // this is tied to the PDF layout so don't change this without touching the layout 
+        //static readonly int _QR_PER_PAGE = 2*4; // this is tied to the PDF layout so don't change this without touching the layout 
 
         // configured during "import" page
         string _csv_filename;               // set when the user selects a file to import the QR codes
@@ -23,8 +23,9 @@ namespace TagGenerator
 
         // configured during "configure" page
         string _output_dir;
+        string _layout_file;
         int _requested_pages_count = 1;
-        int _requested_qr_count = _QR_PER_PAGE;
+        //int _requested_qr_count = _QR_PER_PAGE;
 
         //PseudoRandomCodeGenerator generator = new PseudoRandomCodeGenerator();
         ModuloCodeGenerator generator = new ModuloCodeGenerator();
@@ -65,13 +66,20 @@ namespace TagGenerator
 
             // 3. Configure
 
-            config_lbl_num_qr_per_page.Text = _QR_PER_PAGE.ToString();
+            //config_lbl_num_qr_per_page.Text = _QR_PER_PAGE.ToString();
+
+            // Look for layout files
+            List<string> files = new List<string>(Directory.EnumerateFiles(".", "*.lyt"));
+            foreach (string f in files)
+            {
+                comboBoxLayout.Items.Add(Path.GetFileNameWithoutExtension(f));
+            }
 
             page_configure.Commit +=
                 delegate(object sender, AeroWizard.WizardPageConfirmEventArgs e)
                 {
                     _requested_pages_count = Convert.ToInt32(config_pagescount.Value);
-                    _requested_qr_count = _requested_pages_count * _QR_PER_PAGE;
+                    //_requested_qr_count = _requested_pages_count * _QR_PER_PAGE;
                 };
             
             // 4. Generate
@@ -362,7 +370,8 @@ namespace TagGenerator
                 gen_lbl_generatedQR.Text = String.Format(
                     "{0} of {1}",
                     report.GeneratedCodes,
-                    _requested_qr_count);
+                    "xxx");
+                    //_requested_qr_count);
             }
 
             if (report.UpdateGeneratedPages)
@@ -412,7 +421,7 @@ namespace TagGenerator
                 //UInt32 max_qr_generated = _max_qr_used; // this is the max of the qr codes generated during this page creation
                 // it will be committed (copied to _max_qr_used) after the page was written
 
-                List<Tuple<UInt32, int>> tmp_generated_codes = new List<Tuple<UInt32, int>>(_QR_PER_PAGE);
+                List<Tuple<UInt32, int>> tmp_generated_codes = new List<Tuple<UInt32, int>>();
 
                 try
                 {
@@ -444,12 +453,21 @@ namespace TagGenerator
                     });
 
                     //// create the PDF:
-                    // first the basics
+
+                    // Let's get the settings
+                    DocumentLayout layout = new DocumentLayout();
+                    layout.readFromFile(_layout_file);
+                    // Store some values that we will use several times
+                    int nColumns = layout.getInt("nColumns");
+                    int nRows = layout.getInt("nRows");
+                    float cardWidth = layout.getFloat("cardWidth");
+                    float cardHeight = layout.getFloat("cardHeight");
 
                     iTextSharp.text.pdf.BaseFont bf = iTextSharp.text.pdf.BaseFont.CreateFont(
                         iTextSharp.text.pdf.BaseFont.HELVETICA,
                         iTextSharp.text.pdf.BaseFont.CP1252, true);
 
+                    /*
                     iTextSharp.text.Font font_title = new iTextSharp.text.Font(
                         bf,
                         11,
@@ -467,28 +485,40 @@ namespace TagGenerator
                                     8,
                                     iTextSharp.text.Font.NORMAL,
                                     iTextSharp.text.Color.DARK_GRAY);
+                    */
 
                     iTextSharp.text.Font font_sn = new iTextSharp.text.Font(
                                     bf,
-                                    10,
+                                    layout.getInt("fontSizeSN"),
                                     iTextSharp.text.Font.NORMAL,
                                     iTextSharp.text.Color.DARK_GRAY);
 
                     iTextSharp.text.Font font_web = new iTextSharp.text.Font(
                                     bf,
-                                    12,
+                                    layout.getInt("fontSizeWeb"),
                                     iTextSharp.text.Font.NORMAL,
                                     iTextSharp.text.Color.DARK_GRAY);
 
 
-                    iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4);
+                    iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4,
+                           layout.getFloat("marginLeft"), layout.getFloat("marginRight"),
+                           layout.getFloat("marginTop"), layout.getFloat("marginBottom") 
+                        );
+
 
                     // and now let's build it
                     iTextSharp.text.pdf.PdfWriter pdfWriter = iTextSharp.text.pdf.PdfWriter.GetInstance(doc, new FileStream(filename, FileMode.Create));
                     doc.Open();
 
-                    doc.SetMargins(30.0f, 30.0f, 0.0f, 0.0f);
+                    /*
+                    doc.SetMargins(layout.getFloat("marginLeft"), layout.getFloat("marginRight"),
+                                   layout.getFloat("marginTop"), layout.getFloat("marginBottom")
+                                   );
+                    */
 
+                    /*
+                    // We do not really want headers any more
+                     
                     iTextSharp.text.Paragraph header = new iTextSharp.text.Paragraph();
                     header.SpacingBefore = 0.0f;
                     header.SpacingAfter = 0.0f;
@@ -506,17 +536,20 @@ namespace TagGenerator
                             _QR_PER_PAGE, page_generating, Application.ProductVersion),
                         font_meta));
                     doc.Add(meta);
+                    */
 
-                    iTextSharp.text.pdf.PdfPTable qr_table = new iTextSharp.text.pdf.PdfPTable(2);
-                    qr_table.TotalWidth = 2.0f * 255.0f;
-                    qr_table.SpacingBefore = 72.0f;
+                    iTextSharp.text.pdf.PdfPTable qr_table = new iTextSharp.text.pdf.PdfPTable(nColumns);
+                    qr_table.TotalWidth = nColumns * cardWidth; 
+                    qr_table.SpacingBefore = layout.getFloat("spacingBefore");
                     qr_table.LockedWidth = true;
 
-                    for (int qr_count = 0; qr_count < _QR_PER_PAGE; qr_count++)
+                    for (int qr_count = 0; qr_count < nColumns * nRows; qr_count++)
                     {
                         iTextSharp.text.pdf.PdfPTable oneCard_table = new iTextSharp.text.pdf.PdfPTable(3);
-                        oneCard_table.TotalWidth = 255.0f;
-                        float[] columnWidths = new float[] { 1, 5, 1 };
+                        oneCard_table.TotalWidth = cardWidth;
+                        float[] columnWidths = new float[] { layout.getFloat("logoCW"), 
+                                                             layout.getFloat("QRCW"),
+                                                             layout.getFloat("urlCW") };
                         oneCard_table.SetWidths(columnWidths);
                         oneCard_table.LockedWidth = true;
 
@@ -536,7 +569,8 @@ namespace TagGenerator
                         iTextSharp.text.Image qr_image = iTextSharp.text.Image.GetInstance(
                             qr_code,
                             iTextSharp.text.Color.WHITE);
-                        qr_image.ScaleAbsolute(120f, 120f);
+                        float qrScale = layout.getFloat("qrScale");
+                        qr_image.ScaleAbsolute(qrScale, qrScale);
 
                         iTextSharp.text.Phrase phrQR = new iTextSharp.text.Phrase();
                         phrQR.Add(new iTextSharp.text.Chunk(qr_image, 0, 0));
@@ -545,12 +579,13 @@ namespace TagGenerator
 
                         iTextSharp.text.Image pixLogo = iTextSharp.text.Image.GetInstance(
                            Path.GetDirectoryName(Application.ExecutablePath) + "\\logosmall.png"
-                       );
-                        pixLogo.ScalePercent(55f, 55f);
+                        );
+                        float pixLogoScale = layout.getFloat("pixLogoScale");
+                        pixLogo.ScalePercent(pixLogoScale, pixLogoScale);
                         iTextSharp.text.pdf.PdfPCell cellLogo = new iTextSharp.text.pdf.PdfPCell(pixLogo);
                         cellLogo.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
                         cellLogo.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
-                        cellLogo.MinimumHeight = 153.0f;
+                        cellLogo.MinimumHeight = cardHeight;
                         cellLogo.Rotation = 90;
                         cellLogo.BorderWidth = 0.0f;
                         oneCard_table.AddCell(cellLogo);
@@ -558,7 +593,7 @@ namespace TagGenerator
                         iTextSharp.text.pdf.PdfPCell cellQR = new iTextSharp.text.pdf.PdfPCell(phrQR);
                         cellQR.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
                         cellQR.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
-                        cellQR.MinimumHeight = 153.0f;
+                        cellQR.MinimumHeight = cardHeight;
                         cellQR.BorderWidth = 0.0f;
                         oneCard_table.AddCell(cellQR);
 
@@ -568,7 +603,7 @@ namespace TagGenerator
                         iTextSharp.text.pdf.PdfPCell cellSerial = new iTextSharp.text.pdf.PdfPCell(phrWeb);
                         cellSerial.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
                         cellSerial.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
-                        cellSerial.MinimumHeight = 153.0f;
+                        cellSerial.MinimumHeight = cardHeight;
                         cellSerial.Rotation = 90;
                         cellSerial.BorderWidth = 0.0f;
                         oneCard_table.AddCell(cellSerial);
@@ -576,14 +611,14 @@ namespace TagGenerator
                         iTextSharp.text.pdf.PdfPCell cellCard = new iTextSharp.text.pdf.PdfPCell(oneCard_table);
                         cellCard.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
                         cellCard.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
-                        cellCard.MinimumHeight = 153.0f;
-                        cellCard.BorderWidth = 1.0f;
+                        cellCard.MinimumHeight = cardHeight;
+                        cellCard.BorderWidth = layout.getFloat("borderWidth");
                         qr_table.AddCell(cellCard);
 
                         w.ReportProgress(0, new GenerateProgressReport()
                         {
                             UpdateGeneratedCodes = true,
-                            GeneratedCodes = (_QR_PER_PAGE * page_count) + qr_count + 1
+                            GeneratedCodes = (nColumns * nRows * page_count) + qr_count + 1
                         });
 
                         //max_qr_generated = qr_code_generating;
@@ -775,6 +810,12 @@ namespace TagGenerator
             panelDoExport.Visible = false;
             panelDoExport.Visible = false;
             page_export.AllowNext = true;
+        }
+
+        private void comboBoxLayout_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = comboBoxLayout.SelectedIndex;
+            _layout_file = comboBoxLayout.Items[selectedIndex].ToString() + ".lyt";
         }
 
     }
