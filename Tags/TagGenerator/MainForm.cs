@@ -538,19 +538,42 @@ namespace TagGenerator
                     doc.Add(meta);
                     */
 
-                    iTextSharp.text.pdf.PdfPTable qr_table = new iTextSharp.text.pdf.PdfPTable(nColumns);
-                    qr_table.TotalWidth = nColumns * cardWidth; 
+                    int tableColumns = nColumns;
+                    float tableWidth = nColumns * cardWidth;
+                    int nCells = nColumns * nRows;
+                    float spacingBetweenColumns = layout.getFloat("spacingBetweenColumns");
+                    // If we have spacing between the columns, we add empty cells between the cards
+                    float[] columnWidths = new float[2 * nColumns - 1];
+                    if (spacingBetweenColumns > 0)
+                    {
+                        nCells += nRows * (nColumns - 1);
+                        tableColumns += (nColumns - 1);
+                        tableWidth += (nColumns - 1) * spacingBetweenColumns;
+                        // In this case we have to define the widths here
+                        for (int i = 0; i < nColumns - 1; i++)
+                        {
+                            columnWidths[2*i] = cardWidth;
+                            columnWidths[2*i + 1] = spacingBetweenColumns;
+                        }
+                        columnWidths[2*nColumns - 2] = cardWidth; // indexes start at 0, therefore - 2
+                    }
+
+                    iTextSharp.text.pdf.PdfPTable qr_table = new iTextSharp.text.pdf.PdfPTable(tableColumns);
+                    qr_table.TotalWidth = tableWidth; 
                     qr_table.SpacingBefore = layout.getFloat("spacingBefore");
                     qr_table.LockedWidth = true;
+                    if (spacingBetweenColumns > 0)
+                        qr_table.SetWidths(columnWidths);
+                    // if not, then then SetWidths is not needed
 
                     for (int qr_count = 0; qr_count < nColumns * nRows; qr_count++)
                     {
                         iTextSharp.text.pdf.PdfPTable oneCard_table = new iTextSharp.text.pdf.PdfPTable(3);
                         oneCard_table.TotalWidth = cardWidth;
-                        float[] columnWidths = new float[] { layout.getFloat("logoCW"), 
+                        float[] cardColumnWidths = new float[] { layout.getFloat("logoCW"), 
                                                              layout.getFloat("QRCW"),
                                                              layout.getFloat("urlCW") };
-                        oneCard_table.SetWidths(columnWidths);
+                        oneCard_table.SetWidths(cardColumnWidths);
                         oneCard_table.LockedWidth = true;
 
                         //int qr_code_generating = max_qr_generated + 1; // the value of a qr code being generated
@@ -620,6 +643,15 @@ namespace TagGenerator
                             UpdateGeneratedCodes = true,
                             GeneratedCodes = (nColumns * nRows * page_count) + qr_count + 1
                         });
+
+                        if (spacingBetweenColumns > 0 && (qr_count + 1) % nColumns != 0)
+                        {
+                            iTextSharp.text.Phrase emptyPhrase = new iTextSharp.text.Phrase(" ");
+                            iTextSharp.text.pdf.PdfPCell spacingCell = new iTextSharp.text.pdf.PdfPCell(emptyPhrase);
+                            spacingCell.MinimumHeight = cardHeight;
+                            spacingCell.BorderWidth = 0.0f;
+                            qr_table.AddCell(spacingCell);
+                        }
 
                         //max_qr_generated = qr_code_generating;
                     }
