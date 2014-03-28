@@ -401,7 +401,16 @@ namespace TagGenerator
                 GeneratedCodes = 0
             });
 
-            for (int page_count = 0; page_count < _requested_pages_count; page_count++)
+            List<Tuple<UInt32, int>> tmp_generated_codes = new List<Tuple<UInt32, int>>();
+            UInt32[] qr_code_generated = new UInt32[3];
+            for (int i = 0; i < 3; ++i)
+            {
+                qr_code_generated[i] = generator.next();
+                tmp_generated_codes.Add(new Tuple<UInt32, int>(qr_code_generated[i], _max_page_number_used + 1));
+            }
+            _generated_codes.AddRange(tmp_generated_codes);
+
+            for (int page_count = 0; page_count < 1; page_count++)
             {
                 if (w.CancellationPending)
                 {
@@ -420,8 +429,6 @@ namespace TagGenerator
                 int page_generating = _max_page_number_used + 1; // the number of page being generated
                 //UInt32 max_qr_generated = _max_qr_used; // this is the max of the qr codes generated during this page creation
                 // it will be committed (copied to _max_qr_used) after the page was written
-
-                List<Tuple<UInt32, int>> tmp_generated_codes = new List<Tuple<UInt32, int>>();
 
                 try
                 {
@@ -577,8 +584,11 @@ namespace TagGenerator
                         oneCard_table.LockedWidth = true;
 
                         //int qr_code_generating = max_qr_generated + 1; // the value of a qr code being generated
+                        /*
                         UInt32 qr_code_generating = generator.next();
                         tmp_generated_codes.Add(new Tuple<UInt32, int>(qr_code_generating, page_generating));
+                        */
+                        UInt32 qr_code_generating = qr_code_generated[qr_count % 3];
 
                         System.Drawing.Image qr_code = QRProvider.Generate("01" + qr_code_generating.ToString(), reportProgressDelegate);
 
@@ -672,7 +682,7 @@ namespace TagGenerator
                     _max_page_number_used = page_generating;
                     //_max_qr_used = max_qr_generated;
 
-                    _generated_codes.AddRange(tmp_generated_codes);
+                    //_generated_codes.AddRange(tmp_generated_codes);
                 }
                 catch (Exception ex)
                 {
