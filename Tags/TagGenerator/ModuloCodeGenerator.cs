@@ -52,7 +52,7 @@ namespace TagGenerator
         public UInt32 next()
         {
             UInt32 currentRaw = getRawCurrent();
-            UInt64 x = currentRaw + add;
+            UInt64 x = (UInt64) currentRaw + (UInt64) add;
             UInt32 newRaw = (UInt32)(x % mod);
             setRawCurrent(newRaw);
 

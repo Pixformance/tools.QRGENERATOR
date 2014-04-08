@@ -37,9 +37,13 @@ namespace TagGenerator
                                                                                  // content: qr as int and the page number
                                                                                  //          the serial number will be generated
 
+        UInt32 algorithmVersion;
+
         public MainForm()
         {
             InitializeComponent();
+
+            UInt32.TryParse(Application.ProductVersion.Split('.')[3], out algorithmVersion);
 
             //// configure pages of our wizard
 
@@ -236,6 +240,7 @@ namespace TagGenerator
 
             int linesRead = 0; int linesProcessed = 0;
             UInt32 current_qr = 0; int current_page;
+            bool compatibleQRfound = false; // We may have generated QR codes with other versions
 
             foreach (string line in fileReader)
             {
@@ -249,46 +254,42 @@ namespace TagGenerator
                 if (parts.Length != 5)
                     continue;
 
-                if (UInt32.TryParse(parts[0], out current_qr) && Int32.TryParse(parts[2], out current_page))
-                {
-                    //max_qr_code = Math.Max(max_qr_code, current_qr);
-                    // Sanity check if using the PseudoRandomCodeGenerator
-                    /*
-                    UInt32 qrShouldBe = generator.next();
-                    if (current_qr != qrShouldBe)
-                    {
-                        MessageBox.Show(
-                            String.Format("QR Code '{0}' is not in the right order", current_qr) +
-                            System.Environment.NewLine +
-                            String.Format("Should be {0}", qrShouldBe),
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
-
-                        return;
-                    }
-                    */
-
+                if (Int32.TryParse(parts[2], out current_page))
                     max_page_number = Math.Max(max_page_number, current_page);
-                }
+
+                if (parts[3] == Application.ProductVersion)
+                    compatibleQRfound = UInt32.TryParse(parts[0], out current_qr);
 
                 linesProcessed++;
             }
-            // current_qr should now contain the last generated QR
-            UInt32 last_qr = current_qr;
-
-            import_lbl_report.Text =
-                String.Format(
-                    "Read {0} lines, ignored {1}, processed {2}\n" +
-                    "Last QR Code found: {3}\n" +
-                    "Max page number found: {4}",
-                    linesRead, linesRead - linesProcessed, linesProcessed,
-                    last_qr,
-                    max_page_number);
-
             _max_page_number_used = max_page_number;
-            //_max_qr_used = max_qr_code;
-            generator.setCurrent(last_qr);
+            if (compatibleQRfound)
+            {
+                // current_qr should now contain the last generated QR
+                UInt32 last_qr = current_qr;
+
+                import_lbl_report.Text =
+                    String.Format(
+                        "Read {0} lines, ignored {1}, processed {2}\n" +
+                        "Last QR Code found: {3}\n" +
+                        "Max page number found: {4}",
+                        linesRead, linesRead - linesProcessed, linesProcessed,
+                        last_qr,
+                        max_page_number);
+
+                //_max_qr_used = max_qr_code;
+                generator.setCurrent(last_qr);
+            }
+            else
+            {
+                import_lbl_report.Text =
+                    String.Format(
+                        "Read {0} lines, ignored {1}, processed {2}\n" +
+                        "No compatible QR codes found\n" +
+                        "Max page number found: {3}",
+                        linesRead, linesRead - linesProcessed, linesProcessed,
+                        max_page_number);
+            }
 
             page_import.AllowNext = true;
         }
@@ -580,14 +581,14 @@ namespace TagGenerator
                         UInt32 qr_code_generating = generator.next();
                         tmp_generated_codes.Add(new Tuple<UInt32, int>(qr_code_generating, page_generating));
 
-                        System.Drawing.Image qr_code = QRProvider.Generate("01" + qr_code_generating.ToString(), reportProgressDelegate);
+                        System.Drawing.Image qr_code = QRProvider.Generate(algorithmVersion.ToString("D2") + qr_code_generating.ToString(), reportProgressDelegate);
 
                         if (null == qr_code)
                         {
                             throw new Exception("QR Code generation failed. Page would be incomplete. Aborting this page.");
                         }
 
-                        string serial_number = SerialNumber.Generate(qr_code_generating);
+                        string serial_number = SerialNumber.Generate(qr_code_generating, algorithmVersion);
 
                         iTextSharp.text.Image qr_image = iTextSharp.text.Image.GetInstance(
                             qr_code,
@@ -747,7 +748,7 @@ namespace TagGenerator
                     output_file.WriteLine(
                             String.Format("{0},{1},{2},{3},{4}",
                                 item.Item1,
-                                SerialNumber.Generate(item.Item1),
+                                SerialNumber.Generate(item.Item1, algorithmVersion),
                                 item.Item2,
                                 Application.ProductVersion,
                                 DateTime.Now.ToLocalTime()

@@ -13,12 +13,12 @@ namespace TagGenerator
         /// </summary>
         /// <param name="qr_code"></param>
         /// <returns></returns>
-        public static string Generate(UInt32 qr_code)
+        public static string Generate(UInt32 qr_code, UInt32 algorithmVersion)
         {
             string rawSerial = DecimalToArbitrarySystem(qr_code, 27);
             int luhnChecksum = luhn_getControlDigit(qr_code);
 
-            string serial = "v1-" + rawSerial + luhnChecksum.ToString();
+            string serial = "v" + algorithmVersion.ToString() + "-" + rawSerial + luhnChecksum.ToString();
 
             return serial;
         }
