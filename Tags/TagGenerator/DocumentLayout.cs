@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -53,12 +54,12 @@ namespace TagGenerator
 
         public int getInt(string key)
         {
-            return Convert.ToInt32(dict[key]);
+            return Convert.ToInt32(dict[key], CultureInfo.InvariantCulture);
         }
 
         public float getFloat(string key)
         {
-            return Convert.ToSingle(dict[key]);
+            return Convert.ToSingle(dict[key], CultureInfo.InvariantCulture);
         }
     }
 }
