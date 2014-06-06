@@ -47,16 +47,24 @@
             this.import_rb_dontimport = new System.Windows.Forms.RadioButton();
             this.import_rb_import = new System.Windows.Forms.RadioButton();
             this.page_configure = new AeroWizard.WizardPage();
+            this.groupBoxCSVOptions = new System.Windows.Forms.GroupBox();
+            this.config_qrcount = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.radioButtonGenerateCSV = new System.Windows.Forms.RadioButton();
+            this.groupBoxPDFOptions = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBoxLayout = new System.Windows.Forms.ComboBox();
+            this.config_pagescount = new System.Windows.Forms.NumericUpDown();
+            this.config_lbl_1 = new System.Windows.Forms.Label();
+            this.config_lbl_num_qr_per_page = new System.Windows.Forms.Label();
+            this.config_lbl_2 = new System.Windows.Forms.Label();
+            this.radioButtonGeneratePdf = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
             this.textBoxConfigure = new System.Windows.Forms.TextBox();
             this.config_btn = new System.Windows.Forms.Button();
             this.config_lbl_output_dir = new System.Windows.Forms.Label();
             this.config_lbl_3 = new System.Windows.Forms.Label();
-            this.config_lbl_2 = new System.Windows.Forms.Label();
-            this.config_lbl_num_qr_per_page = new System.Windows.Forms.Label();
-            this.config_lbl_1 = new System.Windows.Forms.Label();
             this.config_lbl_intro = new System.Windows.Forms.Label();
-            this.config_pagescount = new System.Windows.Forms.NumericUpDown();
             this.page_generate = new AeroWizard.WizardPage();
             this.gen_btn_abort = new System.Windows.Forms.Button();
             this.gen_lbl_generatedPages = new System.Windows.Forms.Label();
@@ -77,13 +85,14 @@
             this.page_summary = new AeroWizard.WizardPage();
             this.done_lbl_dummy_label_to_get_focus = new System.Windows.Forms.Label();
             this.done_tb_msg = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBoxLayout = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.stepWizardControl1)).BeginInit();
             this.page_welcome.SuspendLayout();
             this.page_import.SuspendLayout();
             this.import_panel_import.SuspendLayout();
             this.page_configure.SuspendLayout();
+            this.groupBoxCSVOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.config_qrcount)).BeginInit();
+            this.groupBoxPDFOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.config_pagescount)).BeginInit();
             this.page_generate.SuspendLayout();
             this.page_export.SuspendLayout();
@@ -289,117 +298,106 @@
             // page_configure
             // 
             this.page_configure.AllowNext = false;
-            this.page_configure.Controls.Add(this.comboBoxLayout);
-            this.page_configure.Controls.Add(this.label1);
+            this.page_configure.Controls.Add(this.groupBoxCSVOptions);
+            this.page_configure.Controls.Add(this.radioButtonGenerateCSV);
+            this.page_configure.Controls.Add(this.groupBoxPDFOptions);
+            this.page_configure.Controls.Add(this.radioButtonGeneratePdf);
             this.page_configure.Controls.Add(this.button1);
             this.page_configure.Controls.Add(this.textBoxConfigure);
             this.page_configure.Controls.Add(this.config_btn);
             this.page_configure.Controls.Add(this.config_lbl_output_dir);
             this.page_configure.Controls.Add(this.config_lbl_3);
-            this.page_configure.Controls.Add(this.config_lbl_2);
-            this.page_configure.Controls.Add(this.config_lbl_num_qr_per_page);
-            this.page_configure.Controls.Add(this.config_lbl_1);
             this.page_configure.Controls.Add(this.config_lbl_intro);
-            this.page_configure.Controls.Add(this.config_pagescount);
             this.page_configure.Name = "page_configure";
             this.page_configure.Size = new System.Drawing.Size(586, 406);
             this.page_configure.TabIndex = 5;
             this.page_configure.Text = "Configure";
             // 
-            // button1
+            // groupBoxCSVOptions
             // 
-            this.button1.Location = new System.Drawing.Point(267, 270);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Set";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.groupBoxCSVOptions.Controls.Add(this.config_qrcount);
+            this.groupBoxCSVOptions.Controls.Add(this.label2);
+            this.groupBoxCSVOptions.Enabled = false;
+            this.groupBoxCSVOptions.Location = new System.Drawing.Point(293, 112);
+            this.groupBoxCSVOptions.Name = "groupBoxCSVOptions";
+            this.groupBoxCSVOptions.Size = new System.Drawing.Size(265, 168);
+            this.groupBoxCSVOptions.TabIndex = 1;
+            this.groupBoxCSVOptions.TabStop = false;
+            this.groupBoxCSVOptions.Text = "CSV Options";
             // 
-            // textBoxConfigure
+            // config_qrcount
             // 
-            this.textBoxConfigure.Location = new System.Drawing.Point(16, 270);
-            this.textBoxConfigure.Name = "textBoxConfigure";
-            this.textBoxConfigure.Size = new System.Drawing.Size(235, 23);
-            this.textBoxConfigure.TabIndex = 8;
-            this.textBoxConfigure.Text = "x:\\tools.QRGENERATOR\\QR-DB";
-            this.textBoxConfigure.TextChanged += new System.EventHandler(this.textBoxConfigure_TextChanged);
+            this.config_qrcount.Location = new System.Drawing.Point(9, 34);
+            this.config_qrcount.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.config_qrcount.Name = "config_qrcount";
+            this.config_qrcount.Size = new System.Drawing.Size(149, 23);
+            this.config_qrcount.TabIndex = 1;
+            this.config_qrcount.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             // 
-            // config_btn
+            // label2
             // 
-            this.config_btn.AutoSize = true;
-            this.config_btn.Location = new System.Drawing.Point(16, 296);
-            this.config_btn.Name = "config_btn";
-            this.config_btn.Size = new System.Drawing.Size(166, 25);
-            this.config_btn.TabIndex = 7;
-            this.config_btn.Text = "Select the output directory...";
-            this.config_btn.UseVisualStyleBackColor = true;
-            this.config_btn.Visible = false;
-            this.config_btn.Click += new System.EventHandler(this.config_btn_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(162, 15);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Number of codes to generate";
             // 
-            // config_lbl_output_dir
+            // radioButtonGenerateCSV
             // 
-            this.config_lbl_output_dir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.config_lbl_output_dir.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.config_lbl_output_dir.Location = new System.Drawing.Point(118, 334);
-            this.config_lbl_output_dir.Name = "config_lbl_output_dir";
-            this.config_lbl_output_dir.Size = new System.Drawing.Size(461, 47);
-            this.config_lbl_output_dir.TabIndex = 6;
-            this.config_lbl_output_dir.Text = "<no directory>";
+            this.radioButtonGenerateCSV.AutoSize = true;
+            this.radioButtonGenerateCSV.Location = new System.Drawing.Point(293, 89);
+            this.radioButtonGenerateCSV.Name = "radioButtonGenerateCSV";
+            this.radioButtonGenerateCSV.Size = new System.Drawing.Size(96, 19);
+            this.radioButtonGenerateCSV.TabIndex = 1;
+            this.radioButtonGenerateCSV.Text = "Generate CSV";
+            this.radioButtonGenerateCSV.UseVisualStyleBackColor = true;
+            this.radioButtonGenerateCSV.CheckedChanged += new System.EventHandler(this.radioButtonGenerateCSV_CheckedChanged);
             // 
-            // config_lbl_3
+            // groupBoxPDFOptions
             // 
-            this.config_lbl_3.AutoSize = true;
-            this.config_lbl_3.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.config_lbl_3.Location = new System.Drawing.Point(13, 334);
-            this.config_lbl_3.Name = "config_lbl_3";
-            this.config_lbl_3.Size = new System.Drawing.Size(98, 15);
-            this.config_lbl_3.TabIndex = 5;
-            this.config_lbl_3.Text = "Output directory:";
+            this.groupBoxPDFOptions.Controls.Add(this.label1);
+            this.groupBoxPDFOptions.Controls.Add(this.comboBoxLayout);
+            this.groupBoxPDFOptions.Controls.Add(this.config_pagescount);
+            this.groupBoxPDFOptions.Controls.Add(this.config_lbl_1);
+            this.groupBoxPDFOptions.Controls.Add(this.config_lbl_num_qr_per_page);
+            this.groupBoxPDFOptions.Controls.Add(this.config_lbl_2);
+            this.groupBoxPDFOptions.Location = new System.Drawing.Point(16, 112);
+            this.groupBoxPDFOptions.Name = "groupBoxPDFOptions";
+            this.groupBoxPDFOptions.Size = new System.Drawing.Size(257, 168);
+            this.groupBoxPDFOptions.TabIndex = 1;
+            this.groupBoxPDFOptions.TabStop = false;
+            this.groupBoxPDFOptions.Text = "PDF Options";
             // 
-            // config_lbl_2
+            // label1
             // 
-            this.config_lbl_2.AutoSize = true;
-            this.config_lbl_2.Location = new System.Drawing.Point(13, 162);
-            this.config_lbl_2.Name = "config_lbl_2";
-            this.config_lbl_2.Size = new System.Drawing.Size(215, 15);
-            this.config_lbl_2.TabIndex = 4;
-            this.config_lbl_2.Text = "Number of QR Code pages to generate:";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(97, 15);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Select the layout:";
             // 
-            // config_lbl_num_qr_per_page
+            // comboBoxLayout
             // 
-            this.config_lbl_num_qr_per_page.AutoSize = true;
-            this.config_lbl_num_qr_per_page.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.config_lbl_num_qr_per_page.Location = new System.Drawing.Point(192, 219);
-            this.config_lbl_num_qr_per_page.Name = "config_lbl_num_qr_per_page";
-            this.config_lbl_num_qr_per_page.Size = new System.Drawing.Size(59, 15);
-            this.config_lbl_num_qr_per_page.TabIndex = 3;
-            this.config_lbl_num_qr_per_page.Text = "<not set>";
-            // 
-            // config_lbl_1
-            // 
-            this.config_lbl_1.AutoSize = true;
-            this.config_lbl_1.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.config_lbl_1.Location = new System.Drawing.Point(13, 219);
-            this.config_lbl_1.Name = "config_lbl_1";
-            this.config_lbl_1.Size = new System.Drawing.Size(172, 15);
-            this.config_lbl_1.TabIndex = 2;
-            this.config_lbl_1.Text = "Number of QR Codes per page:";
-            // 
-            // config_lbl_intro
-            // 
-            this.config_lbl_intro.Dock = System.Windows.Forms.DockStyle.Top;
-            this.config_lbl_intro.Location = new System.Drawing.Point(0, 0);
-            this.config_lbl_intro.Name = "config_lbl_intro";
-            this.config_lbl_intro.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.config_lbl_intro.Size = new System.Drawing.Size(586, 94);
-            this.config_lbl_intro.TabIndex = 1;
-            this.config_lbl_intro.Text = resources.GetString("config_lbl_intro.Text");
+            this.comboBoxLayout.FormattingEnabled = true;
+            this.comboBoxLayout.Location = new System.Drawing.Point(9, 34);
+            this.comboBoxLayout.Name = "comboBoxLayout";
+            this.comboBoxLayout.Size = new System.Drawing.Size(235, 23);
+            this.comboBoxLayout.TabIndex = 11;
+            this.comboBoxLayout.SelectedIndexChanged += new System.EventHandler(this.comboBoxLayout_SelectedIndexChanged);
             // 
             // config_pagescount
             // 
-            this.config_pagescount.Location = new System.Drawing.Point(16, 182);
+            this.config_pagescount.Location = new System.Drawing.Point(9, 99);
             this.config_pagescount.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -419,6 +417,112 @@
             0,
             0});
             // 
+            // config_lbl_1
+            // 
+            this.config_lbl_1.AutoSize = true;
+            this.config_lbl_1.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.config_lbl_1.Location = new System.Drawing.Point(6, 136);
+            this.config_lbl_1.Name = "config_lbl_1";
+            this.config_lbl_1.Size = new System.Drawing.Size(172, 15);
+            this.config_lbl_1.TabIndex = 2;
+            this.config_lbl_1.Text = "Number of QR Codes per page:";
+            // 
+            // config_lbl_num_qr_per_page
+            // 
+            this.config_lbl_num_qr_per_page.AutoSize = true;
+            this.config_lbl_num_qr_per_page.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.config_lbl_num_qr_per_page.Location = new System.Drawing.Point(185, 136);
+            this.config_lbl_num_qr_per_page.Name = "config_lbl_num_qr_per_page";
+            this.config_lbl_num_qr_per_page.Size = new System.Drawing.Size(59, 15);
+            this.config_lbl_num_qr_per_page.TabIndex = 3;
+            this.config_lbl_num_qr_per_page.Text = "<not set>";
+            // 
+            // config_lbl_2
+            // 
+            this.config_lbl_2.AutoSize = true;
+            this.config_lbl_2.Location = new System.Drawing.Point(6, 79);
+            this.config_lbl_2.Name = "config_lbl_2";
+            this.config_lbl_2.Size = new System.Drawing.Size(215, 15);
+            this.config_lbl_2.TabIndex = 4;
+            this.config_lbl_2.Text = "Number of QR Code pages to generate:";
+            // 
+            // radioButtonGeneratePdf
+            // 
+            this.radioButtonGeneratePdf.AutoSize = true;
+            this.radioButtonGeneratePdf.Checked = true;
+            this.radioButtonGeneratePdf.Location = new System.Drawing.Point(16, 87);
+            this.radioButtonGeneratePdf.Name = "radioButtonGeneratePdf";
+            this.radioButtonGeneratePdf.Size = new System.Drawing.Size(96, 19);
+            this.radioButtonGeneratePdf.TabIndex = 1;
+            this.radioButtonGeneratePdf.TabStop = true;
+            this.radioButtonGeneratePdf.Text = "Generate PDF";
+            this.radioButtonGeneratePdf.UseVisualStyleBackColor = true;
+            this.radioButtonGeneratePdf.CheckedChanged += new System.EventHandler(this.radioButtonGeneratePdf_CheckedChanged);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(267, 311);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Set";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBoxConfigure
+            // 
+            this.textBoxConfigure.Location = new System.Drawing.Point(16, 311);
+            this.textBoxConfigure.Name = "textBoxConfigure";
+            this.textBoxConfigure.Size = new System.Drawing.Size(235, 23);
+            this.textBoxConfigure.TabIndex = 8;
+            this.textBoxConfigure.Text = "x:\\tools.QRGENERATOR\\QR-DB";
+            this.textBoxConfigure.TextChanged += new System.EventHandler(this.textBoxConfigure_TextChanged);
+            // 
+            // config_btn
+            // 
+            this.config_btn.AutoSize = true;
+            this.config_btn.Location = new System.Drawing.Point(16, 337);
+            this.config_btn.Name = "config_btn";
+            this.config_btn.Size = new System.Drawing.Size(166, 25);
+            this.config_btn.TabIndex = 7;
+            this.config_btn.Text = "Select the output directory...";
+            this.config_btn.UseVisualStyleBackColor = true;
+            this.config_btn.Visible = false;
+            this.config_btn.Click += new System.EventHandler(this.config_btn_Click);
+            // 
+            // config_lbl_output_dir
+            // 
+            this.config_lbl_output_dir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.config_lbl_output_dir.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.config_lbl_output_dir.Location = new System.Drawing.Point(118, 375);
+            this.config_lbl_output_dir.Name = "config_lbl_output_dir";
+            this.config_lbl_output_dir.Size = new System.Drawing.Size(461, 26);
+            this.config_lbl_output_dir.TabIndex = 6;
+            this.config_lbl_output_dir.Text = "<no directory>";
+            // 
+            // config_lbl_3
+            // 
+            this.config_lbl_3.AutoSize = true;
+            this.config_lbl_3.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.config_lbl_3.Location = new System.Drawing.Point(13, 375);
+            this.config_lbl_3.Name = "config_lbl_3";
+            this.config_lbl_3.Size = new System.Drawing.Size(98, 15);
+            this.config_lbl_3.TabIndex = 5;
+            this.config_lbl_3.Text = "Output directory:";
+            // 
+            // config_lbl_intro
+            // 
+            this.config_lbl_intro.Dock = System.Windows.Forms.DockStyle.Top;
+            this.config_lbl_intro.Location = new System.Drawing.Point(0, 0);
+            this.config_lbl_intro.Name = "config_lbl_intro";
+            this.config_lbl_intro.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.config_lbl_intro.Size = new System.Drawing.Size(586, 94);
+            this.config_lbl_intro.TabIndex = 1;
+            this.config_lbl_intro.Text = "Specify the number of pages or  QR Codes to generate.\r\n\r\nYou also have to specify" +
+    " the output directory where the generated QR Code PDF documents should be saved." +
+    "";
+            // 
             // page_generate
             // 
             this.page_generate.AllowNext = false;
@@ -431,7 +535,7 @@
             this.page_generate.Controls.Add(this.gen_lbl_2);
             this.page_generate.Controls.Add(this.gen_lbl_1);
             this.page_generate.Name = "page_generate";
-            this.page_generate.Size = new System.Drawing.Size(586, 406);
+            this.page_generate.Size = new System.Drawing.Size(401, 258);
             this.page_generate.TabIndex = 6;
             this.page_generate.Text = "Generate";
             // 
@@ -519,7 +623,7 @@
             this.page_export.Controls.Add(this.panelDoExport);
             this.page_export.Controls.Add(this.export_lbl_intro);
             this.page_export.Name = "page_export";
-            this.page_export.Size = new System.Drawing.Size(586, 406);
+            this.page_export.Size = new System.Drawing.Size(401, 258);
             this.page_export.TabIndex = 7;
             this.page_export.Text = "Export";
             // 
@@ -596,7 +700,7 @@
             this.export_lbl_intro.Location = new System.Drawing.Point(0, 0);
             this.export_lbl_intro.Name = "export_lbl_intro";
             this.export_lbl_intro.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.export_lbl_intro.Size = new System.Drawing.Size(586, 62);
+            this.export_lbl_intro.Size = new System.Drawing.Size(401, 62);
             this.export_lbl_intro.TabIndex = 0;
             this.export_lbl_intro.Text = "You should export the generated QR Codes to a file and keep track of them in orde" +
     "r to avoid name collisions in the future. You should also make this file availab" +
@@ -608,7 +712,7 @@
             this.page_summary.Controls.Add(this.done_tb_msg);
             this.page_summary.IsFinishPage = true;
             this.page_summary.Name = "page_summary";
-            this.page_summary.Size = new System.Drawing.Size(586, 406);
+            this.page_summary.Size = new System.Drawing.Size(586, 405);
             this.page_summary.TabIndex = 3;
             this.page_summary.Text = "Done";
             // 
@@ -632,28 +736,10 @@
             this.done_tb_msg.Multiline = true;
             this.done_tb_msg.Name = "done_tb_msg";
             this.done_tb_msg.ReadOnly = true;
-            this.done_tb_msg.Size = new System.Drawing.Size(530, 400);
+            this.done_tb_msg.Size = new System.Drawing.Size(510, 399);
             this.done_tb_msg.TabIndex = 100;
             this.done_tb_msg.TabStop = false;
             this.done_tb_msg.Text = "QR Code generation complete.";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 99);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(97, 15);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "Select the layout:";
-            // 
-            // comboBoxLayout
-            // 
-            this.comboBoxLayout.FormattingEnabled = true;
-            this.comboBoxLayout.Location = new System.Drawing.Point(16, 117);
-            this.comboBoxLayout.Name = "comboBoxLayout";
-            this.comboBoxLayout.Size = new System.Drawing.Size(235, 23);
-            this.comboBoxLayout.TabIndex = 11;
-            this.comboBoxLayout.SelectedIndexChanged += new System.EventHandler(this.comboBoxLayout_SelectedIndexChanged);
             // 
             // MainForm
             // 
@@ -672,6 +758,11 @@
             this.import_panel_import.PerformLayout();
             this.page_configure.ResumeLayout(false);
             this.page_configure.PerformLayout();
+            this.groupBoxCSVOptions.ResumeLayout(false);
+            this.groupBoxCSVOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.config_qrcount)).EndInit();
+            this.groupBoxPDFOptions.ResumeLayout(false);
+            this.groupBoxPDFOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.config_pagescount)).EndInit();
             this.page_generate.ResumeLayout(false);
             this.page_generate.PerformLayout();
@@ -737,6 +828,12 @@
         private System.Windows.Forms.RadioButton radioButtonDontExport;
         private System.Windows.Forms.ComboBox comboBoxLayout;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBoxCSVOptions;
+        private System.Windows.Forms.RadioButton radioButtonGenerateCSV;
+        private System.Windows.Forms.GroupBox groupBoxPDFOptions;
+        private System.Windows.Forms.RadioButton radioButtonGeneratePdf;
+        private System.Windows.Forms.NumericUpDown config_qrcount;
+        private System.Windows.Forms.Label label2;
     }
 }
 

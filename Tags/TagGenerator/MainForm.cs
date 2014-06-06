@@ -25,6 +25,7 @@ namespace TagGenerator
         string _output_dir;
         string _layout_file;
         int _requested_pages_count = 1;
+        int _requested_qr_count = 0;
         //int _requested_qr_count = _QR_PER_PAGE;
 
         //PseudoRandomCodeGenerator generator = new PseudoRandomCodeGenerator();
@@ -83,6 +84,7 @@ namespace TagGenerator
                 delegate(object sender, AeroWizard.WizardPageConfirmEventArgs e)
                 {
                     _requested_pages_count = Convert.ToInt32(config_pagescount.Value);
+                    _requested_qr_count = Convert.ToInt32(config_qrcount.Value);
                     //_requested_qr_count = _requested_pages_count * _QR_PER_PAGE;
                 };
             
@@ -390,6 +392,93 @@ namespace TagGenerator
             if (null == w)
                 return;
 
+
+            bool generatePdf = radioButtonGeneratePdf.Checked;
+            if (generatePdf)
+                worker_generatePdfPages(w);
+            else
+                worker_generatePdfList(w);
+        }
+
+        void worker_generatePdfList(BackgroundWorker w)
+        {
+            Action<GenerateProgressReport> reportProgressDelegate = new Action<GenerateProgressReport>(ReportProgressForwarder);
+
+            reportProgressDelegate(new GenerateProgressReport()
+            {
+                UpdateProgress = true,
+                Progress = 0,
+                UpdateGeneratedPages = true,
+                GeneratedPages = 1,
+                UpdateGeneratedCodes = true,
+                GeneratedCodes = 0
+            });
+
+            string filename = null;
+            int filename_create_attempts = 1;
+            do
+            {
+                filename = Path.Combine(
+                    _output_dir,
+                    String.Format("pix_qr_list_{0}.csv",
+                    filename_create_attempts.ToString("D5") // if this file exists.
+                    ));
+
+                filename_create_attempts++;
+
+                // hmm.. just to be safe here that there is no bug 
+                if (filename_create_attempts > 1000)
+                {
+                    throw new Exception("Failed to generate a filename for the output file.");
+                }
+            } while (File.Exists(filename));
+
+            using (System.IO.StreamWriter output_file = new System.IO.StreamWriter(filename))
+            {
+                reportProgressDelegate(new GenerateProgressReport()
+                {
+                    UpdateMsg = true,
+                    Msg = String.Format("Creating file {0}", Path.GetFileName(filename))
+                });
+
+                for (int qr_count = 1; qr_count <= _requested_qr_count; ++qr_count)
+                {
+                    List<Tuple<UInt32, int>> tmp_generated_codes = new List<Tuple<UInt32, int>>();
+
+                    try
+                    {
+                        //int qr_code_generating = max_qr_generated + 1; // the value of a qr code being generated
+                        UInt32 qr_code_generating = generator.next();
+                        tmp_generated_codes.Add(new Tuple<UInt32, int>(qr_code_generating, 0));
+
+                        String qrCodeOutput = algorithmVersion.ToString("D2") + qr_code_generating.ToString();
+                        string serial_number = SerialNumber.Generate(qr_code_generating, algorithmVersion);
+                        output_file.WriteLine("{0},{1}", qrCodeOutput, serial_number);
+
+                        w.ReportProgress(0, new GenerateProgressReport()
+                        {
+                            UpdateGeneratedCodes = true,
+                            GeneratedCodes = qr_count,
+                            UpdateProgress = true,
+                            Progress = (int) (100 * ((float) qr_count / (float) _requested_qr_count))
+                        });
+
+                        _generated_codes.Add(new Tuple<UInt32, int>(qr_code_generating, 0));
+                    }
+                    catch (Exception ex)
+                    {
+                        w.ReportProgress(0, new GenerateProgressReport()
+                        {
+                            UpdateMsg = true,
+                            Msg = String.Format("Error during QR generation: {0}", ex.Message)
+                        });
+                    }
+                }
+            }
+        }
+
+        void worker_generatePdfPages(BackgroundWorker w)
+        {
             Action<GenerateProgressReport> reportProgressDelegate = new Action<GenerateProgressReport>(ReportProgressForwarder);
 
             reportProgressDelegate(new GenerateProgressReport()
@@ -849,6 +938,18 @@ namespace TagGenerator
         {
             int selectedIndex = comboBoxLayout.SelectedIndex;
             _layout_file = comboBoxLayout.Items[selectedIndex].ToString() + ".lyt";
+        }
+
+        private void radioButtonGeneratePdf_CheckedChanged(object sender, EventArgs e)
+        {
+            groupBoxPDFOptions.Enabled = true;
+            groupBoxCSVOptions.Enabled = false;
+        }
+
+        private void radioButtonGenerateCSV_CheckedChanged(object sender, EventArgs e)
+        {
+            groupBoxPDFOptions.Enabled = false;
+            groupBoxCSVOptions.Enabled = true;
         }
 
     }
