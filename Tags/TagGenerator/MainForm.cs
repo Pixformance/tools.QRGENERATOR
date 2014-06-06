@@ -14,8 +14,6 @@ namespace TagGenerator
 {
     public partial class MainForm : Form
     {
-        //static readonly int _QR_PER_PAGE = 2*4; // this is tied to the PDF layout so don't change this without touching the layout 
-
         // configured during "import" page
         string _csv_filename;               // set when the user selects a file to import the QR codes
         //UInt32 _max_qr_used;                   // read from the imported CSV file or set to 0 when no file was used
@@ -25,8 +23,8 @@ namespace TagGenerator
         string _output_dir;
         string _layout_file;
         int _requested_pages_count = 1;
+        int _qr_per_page = 0;
         int _requested_qr_count = 0;
-        //int _requested_qr_count = _QR_PER_PAGE;
 
         //PseudoRandomCodeGenerator generator = new PseudoRandomCodeGenerator();
         ModuloCodeGenerator generator = new ModuloCodeGenerator();
@@ -38,13 +36,14 @@ namespace TagGenerator
                                                                                  // content: qr as int and the page number
                                                                                  //          the serial number will be generated
 
-        UInt32 algorithmVersion;
+        UInt32 _algorithmVersion;
+        DocumentLayout _layout;
 
         public MainForm()
         {
             InitializeComponent();
 
-            UInt32.TryParse(Application.ProductVersion.Split('.')[3], out algorithmVersion);
+            UInt32.TryParse(Application.ProductVersion.Split('.')[3], out _algorithmVersion);
 
             //// configure pages of our wizard
 
@@ -71,8 +70,6 @@ namespace TagGenerator
 
             // 3. Configure
 
-            //config_lbl_num_qr_per_page.Text = _QR_PER_PAGE.ToString();
-
             // Look for layout files
             List<string> files = new List<string>(Directory.EnumerateFiles(".", "*.lyt"));
             foreach (string f in files)
@@ -85,7 +82,6 @@ namespace TagGenerator
                 {
                     _requested_pages_count = Convert.ToInt32(config_pagescount.Value);
                     _requested_qr_count = Convert.ToInt32(config_qrcount.Value);
-                    //_requested_qr_count = _requested_pages_count * _QR_PER_PAGE;
                 };
             
             // 4. Generate
@@ -177,6 +173,8 @@ namespace TagGenerator
                 // the file has changed, don't go to the next page yet, first import must happen
                 page_import.AllowNext = false;
                 import_lbl_report.Text = String.Empty;
+
+                textBoxExport.Text = _csv_filename;
             }
         }
 
@@ -373,8 +371,7 @@ namespace TagGenerator
                 gen_lbl_generatedQR.Text = String.Format(
                     "{0} of {1}",
                     report.GeneratedCodes,
-                    "xxx");
-                    //_requested_qr_count);
+                    _requested_qr_count);
             }
 
             if (report.UpdateGeneratedPages)
@@ -395,7 +392,11 @@ namespace TagGenerator
 
             bool generatePdf = radioButtonGeneratePdf.Checked;
             if (generatePdf)
+            {
+                // Update the value of how many qr codes the user requested
+                _requested_qr_count = _requested_pages_count * _qr_per_page;
                 worker_generatePdfPages(w);
+            }
             else
                 worker_generatePdfList(w);
         }
@@ -451,8 +452,8 @@ namespace TagGenerator
                         UInt32 qr_code_generating = generator.next();
                         tmp_generated_codes.Add(new Tuple<UInt32, int>(qr_code_generating, 0));
 
-                        String qrCodeOutput = algorithmVersion.ToString("D2") + qr_code_generating.ToString();
-                        string serial_number = SerialNumber.Generate(qr_code_generating, algorithmVersion);
+                        String qrCodeOutput = _algorithmVersion.ToString("D2") + qr_code_generating.ToString();
+                        string serial_number = SerialNumber.Generate(qr_code_generating, _algorithmVersion);
                         output_file.WriteLine("{0},{1}", qrCodeOutput, serial_number);
 
                         w.ReportProgress(0, new GenerateProgressReport()
@@ -544,14 +545,12 @@ namespace TagGenerator
 
                     //// create the PDF:
 
-                    // Let's get the settings
-                    DocumentLayout layout = new DocumentLayout();
-                    layout.readFromFile(_layout_file);
+                    // The layout should already be loaded in _layout
                     // Store some values that we will use several times
-                    int nColumns = layout.getInt("nColumns");
-                    int nRows = layout.getInt("nRows");
-                    float cardWidth = layout.getFloat("cardWidth");
-                    float cardHeight = layout.getFloat("cardHeight");
+                    int nColumns = _layout.getInt("nColumns");
+                    int nRows = _layout.getInt("nRows");
+                    float cardWidth = _layout.getFloat("cardWidth");
+                    float cardHeight = _layout.getFloat("cardHeight");
 
                     iTextSharp.text.pdf.BaseFont bf = iTextSharp.text.pdf.BaseFont.CreateFont(
                         iTextSharp.text.pdf.BaseFont.HELVETICA,
@@ -579,20 +578,20 @@ namespace TagGenerator
 
                     iTextSharp.text.Font font_sn = new iTextSharp.text.Font(
                                     bf,
-                                    layout.getInt("fontSizeSN"),
+                                    _layout.getInt("fontSizeSN"),
                                     iTextSharp.text.Font.NORMAL,
                                     iTextSharp.text.Color.DARK_GRAY);
 
                     iTextSharp.text.Font font_web = new iTextSharp.text.Font(
                                     bf,
-                                    layout.getInt("fontSizeWeb"),
+                                    _layout.getInt("fontSizeWeb"),
                                     iTextSharp.text.Font.NORMAL,
                                     iTextSharp.text.Color.DARK_GRAY);
 
 
                     iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4,
-                           layout.getFloat("marginLeft"), layout.getFloat("marginRight"),
-                           layout.getFloat("marginTop"), layout.getFloat("marginBottom") 
+                           _layout.getFloat("marginLeft"), _layout.getFloat("marginRight"),
+                           _layout.getFloat("marginTop"), _layout.getFloat("marginBottom") 
                         );
 
 
@@ -631,7 +630,7 @@ namespace TagGenerator
                     int tableColumns = nColumns;
                     float tableWidth = nColumns * cardWidth;
                     int nCells = nColumns * nRows;
-                    float spacingBetweenColumns = layout.getFloat("spacingBetweenColumns");
+                    float spacingBetweenColumns = _layout.getFloat("spacingBetweenColumns");
                     // If we have spacing between the columns, we add empty cells between the cards
                     float[] columnWidths = new float[2 * nColumns - 1];
                     if (spacingBetweenColumns > 0)
@@ -650,7 +649,7 @@ namespace TagGenerator
 
                     iTextSharp.text.pdf.PdfPTable qr_table = new iTextSharp.text.pdf.PdfPTable(tableColumns);
                     qr_table.TotalWidth = tableWidth; 
-                    qr_table.SpacingBefore = layout.getFloat("spacingBefore");
+                    qr_table.SpacingBefore = _layout.getFloat("spacingBefore");
                     qr_table.LockedWidth = true;
                     if (spacingBetweenColumns > 0)
                         qr_table.SetWidths(columnWidths);
@@ -660,9 +659,9 @@ namespace TagGenerator
                     {
                         iTextSharp.text.pdf.PdfPTable oneCard_table = new iTextSharp.text.pdf.PdfPTable(3);
                         oneCard_table.TotalWidth = cardWidth;
-                        float[] cardColumnWidths = new float[] { layout.getFloat("logoCW"), 
-                                                             layout.getFloat("QRCW"),
-                                                             layout.getFloat("urlCW") };
+                        float[] cardColumnWidths = new float[] { _layout.getFloat("logoCW"), 
+                                                             _layout.getFloat("QRCW"),
+                                                             _layout.getFloat("urlCW") };
                         oneCard_table.SetWidths(cardColumnWidths);
                         oneCard_table.LockedWidth = true;
 
@@ -670,19 +669,19 @@ namespace TagGenerator
                         UInt32 qr_code_generating = generator.next();
                         tmp_generated_codes.Add(new Tuple<UInt32, int>(qr_code_generating, page_generating));
 
-                        System.Drawing.Image qr_code = QRProvider.Generate(algorithmVersion.ToString("D2") + qr_code_generating.ToString(), reportProgressDelegate);
+                        System.Drawing.Image qr_code = QRProvider.Generate(_algorithmVersion.ToString("D2") + qr_code_generating.ToString(), reportProgressDelegate);
 
                         if (null == qr_code)
                         {
                             throw new Exception("QR Code generation failed. Page would be incomplete. Aborting this page.");
                         }
 
-                        string serial_number = SerialNumber.Generate(qr_code_generating, algorithmVersion);
+                        string serial_number = SerialNumber.Generate(qr_code_generating, _algorithmVersion);
 
                         iTextSharp.text.Image qr_image = iTextSharp.text.Image.GetInstance(
                             qr_code,
                             iTextSharp.text.Color.WHITE);
-                        float qrScale = layout.getFloat("qrScale");
+                        float qrScale = _layout.getFloat("qrScale");
                         qr_image.ScaleAbsolute(qrScale, qrScale);
 
                         iTextSharp.text.Phrase phrQR = new iTextSharp.text.Phrase();
@@ -693,7 +692,7 @@ namespace TagGenerator
                         iTextSharp.text.Image pixLogo = iTextSharp.text.Image.GetInstance(
                            Path.GetDirectoryName(Application.ExecutablePath) + "\\logosmall.png"
                         );
-                        float pixLogoScale = layout.getFloat("pixLogoScale");
+                        float pixLogoScale = _layout.getFloat("pixLogoScale");
                         pixLogo.ScalePercent(pixLogoScale, pixLogoScale);
                         iTextSharp.text.pdf.PdfPCell cellLogo = new iTextSharp.text.pdf.PdfPCell(pixLogo);
                         cellLogo.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
@@ -725,7 +724,7 @@ namespace TagGenerator
                         cellCard.HorizontalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_CENTER;
                         cellCard.VerticalAlignment = iTextSharp.text.pdf.PdfPCell.ALIGN_MIDDLE;
                         cellCard.MinimumHeight = cardHeight;
-                        cellCard.BorderWidth = layout.getFloat("borderWidth");
+                        cellCard.BorderWidth = _layout.getFloat("borderWidth");
                         qr_table.AddCell(cellCard);
 
                         w.ReportProgress(0, new GenerateProgressReport()
@@ -837,7 +836,7 @@ namespace TagGenerator
                     output_file.WriteLine(
                             String.Format("{0},{1},{2},{3},{4}",
                                 item.Item1,
-                                SerialNumber.Generate(item.Item1, algorithmVersion),
+                                SerialNumber.Generate(item.Item1, _algorithmVersion),
                                 item.Item2,
                                 Application.ProductVersion,
                                 DateTime.Now.ToLocalTime()
@@ -903,6 +902,7 @@ namespace TagGenerator
             page_import.AllowNext = false;
             import_lbl_report.Text = String.Empty;
 
+            textBoxExport.Text = _csv_filename;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -938,6 +938,10 @@ namespace TagGenerator
         {
             int selectedIndex = comboBoxLayout.SelectedIndex;
             _layout_file = comboBoxLayout.Items[selectedIndex].ToString() + ".lyt";
+            _layout = new DocumentLayout();
+            _layout.readFromFile(_layout_file);
+            _qr_per_page = _layout.getInt("nColumns") * _layout.getInt("nRows");
+            config_lbl_num_qr_per_page.Text = _qr_per_page.ToString();
         }
 
         private void radioButtonGeneratePdf_CheckedChanged(object sender, EventArgs e)

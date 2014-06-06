@@ -535,7 +535,7 @@
             this.page_generate.Controls.Add(this.gen_lbl_2);
             this.page_generate.Controls.Add(this.gen_lbl_1);
             this.page_generate.Name = "page_generate";
-            this.page_generate.Size = new System.Drawing.Size(401, 258);
+            this.page_generate.Size = new System.Drawing.Size(586, 406);
             this.page_generate.TabIndex = 6;
             this.page_generate.Text = "Generate";
             // 
@@ -623,7 +623,7 @@
             this.page_export.Controls.Add(this.panelDoExport);
             this.page_export.Controls.Add(this.export_lbl_intro);
             this.page_export.Name = "page_export";
-            this.page_export.Size = new System.Drawing.Size(401, 258);
+            this.page_export.Size = new System.Drawing.Size(586, 406);
             this.page_export.TabIndex = 7;
             this.page_export.Text = "Export";
             // 
@@ -700,7 +700,7 @@
             this.export_lbl_intro.Location = new System.Drawing.Point(0, 0);
             this.export_lbl_intro.Name = "export_lbl_intro";
             this.export_lbl_intro.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.export_lbl_intro.Size = new System.Drawing.Size(401, 62);
+            this.export_lbl_intro.Size = new System.Drawing.Size(586, 62);
             this.export_lbl_intro.TabIndex = 0;
             this.export_lbl_intro.Text = "You should export the generated QR Codes to a file and keep track of them in orde" +
     "r to avoid name collisions in the future. You should also make this file availab" +
@@ -736,7 +736,7 @@
             this.done_tb_msg.Multiline = true;
             this.done_tb_msg.Name = "done_tb_msg";
             this.done_tb_msg.ReadOnly = true;
-            this.done_tb_msg.Size = new System.Drawing.Size(510, 399);
+            this.done_tb_msg.Size = new System.Drawing.Size(500, 399);
             this.done_tb_msg.TabIndex = 100;
             this.done_tb_msg.TabStop = false;
             this.done_tb_msg.Text = "QR Code generation complete.";
