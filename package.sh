@@ -1,7 +1,7 @@
 #!/bin/bash
 
-fname=`dirname $0`/QRGenerator.7z
 cd `dirname $0`/Tags/TagGenerator/bin/Release
+fname=../../../../QRGenerator.7z
 
-echo Creating $fname...
+rm -f $fname
 7z a $fname $sevenZopts
